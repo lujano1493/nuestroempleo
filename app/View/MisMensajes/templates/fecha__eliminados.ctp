@@ -1,0 +1,1 @@
+<span data-order="{{= it.eliminado.val }}">{{= it.eliminado.str }}</span>

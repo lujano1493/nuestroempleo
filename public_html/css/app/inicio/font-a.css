@@ -1,0 +1,26 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url('../font-awesome/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff') format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Open Sans Italic'), local('OpenSans-Italic'), url('../font-awesome/xjAJXh38I15wypJXxuGMBobN6UDyHWBl620a-IRfuBk.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Sans'), local('DroidSans'), url('../font-awesome/s-BiyweUPV0v-yRb-cjciBsxEYwM7FgeyaSgU71cLG0.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Lobster';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lobster'), url('../font-awesome/MWVf-Rwh4GLQVBEwbyI61Q.woff') format('woff');
+}

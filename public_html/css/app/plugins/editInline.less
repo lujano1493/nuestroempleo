@@ -1,0 +1,20 @@
+@import "../variables.less";
+@import "../@{path}/mixins.less";
+
+form[data-component*=inline-editor] {
+  &.uneditable {
+    input[readonly], select {
+      border-color:transparent;
+      background-color: transparent;
+      .box-shadow(none);
+      &:hover {
+        border-color: #09f;
+        cursor: text;
+        text-decoration: underline;
+      }
+    }
+    .submit-container {
+      display: none;
+    }
+  }
+}

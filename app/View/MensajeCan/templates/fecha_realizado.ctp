@@ -1,0 +1,1 @@
+<span data-order="{{= it.fecha_realizado.val }}">{{= it.fecha_realizado.str }}</span>

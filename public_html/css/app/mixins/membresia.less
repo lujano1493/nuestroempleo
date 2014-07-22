@@ -1,0 +1,45 @@
+.membership(@bgColor, @linkColor: #fff) {
+  .navbar {
+    background-color: @bgColor;
+    .navbar-brand {
+      color: @linkColor;
+    }
+    .nav > li {
+      > a {
+        color: @linkColor;
+        text-shadow: 0 1px 0 darken(@bgColor, 15);
+        &:hover {
+          color: @linkColor;
+          background-color: darken(@bgColor, 5);
+        }
+      }
+      > .bg-credit {
+        &:hover {
+          background-color: @bgColorCredit;
+          i {
+            color: @bgTextColorCredit;
+          }
+        }
+        span {
+          background-color: @bgColor;
+        }
+      }
+    }
+  }
+  .dropdown-menu {
+    > li > a {
+      color: inherit; //@bgColor;
+      text-shadow: 0 1px 0 darken(@linkColor, 5%);
+      &:hover {
+        color: @linkColor;
+        text-shadow: 0 1px 0 darken(@bgColor, 15);
+        #gradient > .vertical(@bgColor, darken(@bgColor, 5%));
+      }
+    }
+  }
+  #ntfy-menu {
+    .new-ntfys {
+      color: @bgColor;
+    }
+  }
+}

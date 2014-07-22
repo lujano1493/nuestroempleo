@@ -1,0 +1,19 @@
+.browsehappy {
+  position: fixed;
+  width: 100%;
+  z-index: @alertsZIndex;
+  &.alert {
+    margin: 0;
+    padding: 5px 15px;
+    .close {
+      right:0;
+      top:0;
+    }
+  }
+  & + #wrapper {
+    padding-top: 30px;
+    .navbar-fixed-top {
+      top: 30px;
+    }
+  }
+}

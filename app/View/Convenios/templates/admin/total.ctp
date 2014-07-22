@@ -1,0 +1,1 @@
+<span data-order="{{= it.total.val }}">{{= it.total.text }}</span>

@@ -1,0 +1,379 @@
+@import "variables.less";
+@import "@{path}/mixins.less";
+@import "mixins/membresia.less";
+
+/** DEBUG **/
+@import "common/debug.less";
+
+/* UPDATE */
+//
+// 2014-04-04 16:19:35 UTC
+//
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: @bodyBgColor url(@bodyImage) top left repeat;
+  .box-sizing(border-box);
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  //min-width:1280px;
+  overflow-x: auto;
+  overflow-y: scroll;
+  #wrapper {
+    min-height:100%;
+    height:auto !important;
+    position: relative;
+  }
+  #body-content {
+    background:  @contentBgColor;
+    min-height:100%;
+    height:auto !important;
+    padding: (@navbar-height + 11px) 0 0;
+    &:before {
+      background: inherit;
+      border-left: darken(@contentBgColor, 15) solid thin;
+      border-right: darken(@contentBgColor, 15) solid thin;
+      .box-shadow(0 1px 10px rgba(0,0,0,.1));
+      .box-sizing(content-box);
+      content: "";
+      display: block;
+      position: fixed;
+      bottom: 0;
+      margin-left: -1px;
+      max-width: inherit;
+      top: 0;
+      width: inherit;
+      z-index: -1;
+    }
+    > footer, > .footer {
+      bottom:0;
+      .box-sizing(border-box);
+      height: @footerHeight;
+      left: 0;
+      position: absolute;
+      width:100%;
+      > .container {
+        padding-left: @sidebarMenuWidth + 16px;
+        .border-top {
+          border-top: 1px solid #000;
+          margin: 0;
+        }
+      }
+    }
+  }
+  #main-content {
+    &.no-bg {
+      background: @contentBgColor;
+    }
+    background: @contentBgColor url('/img/assets/fondo_ne.png') top left no-repeat;
+    margin-left: @sidebarMenuWidth + 1px;
+    overflow: hidden;
+    padding: 0 ((@grid-gutter-width / 2) + 10px) @footerHeight + 15px;
+    position: relative;
+  }
+  .magic-container {
+    background-color: #fff;
+    left: 0;
+    height: 100%;
+    padding: 0 20px;
+    position: relative;
+    top:0;
+    width: 100%;
+    &.loading {
+      background: rgba(255, 255, 255, 0.75);
+      position: absolute;
+      .spinner {
+        position: fixed !important;
+      }
+      /*&.fixed {
+        //background: #fff;
+        //border: 1px solid #ccc;
+        bottom: 0;
+        //.box-shadow(0 3px 7px rgba(0,0,0,0.3));
+        height: auto;
+        left: 0;
+        margin:50px 10px 10px 210px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding: 10px 15px;
+        position:fixed;
+        right: 0;
+        top: 0;
+        width: auto;
+        z-index: 10001;
+      }*/
+    }
+  }
+}
+
+.container {
+  max-width: none !important;
+  width: @mainWidth;
+}
+
+.search-title {
+  background: @searchBarColor;;
+  margin-bottom: 0;
+  padding: 10px ((@grid-gutter-width / 2) + 10px);
+}
+
+#search-input {
+  background: @searchBarColor;
+  margin-bottom: 15px;
+  .clearfix {
+    margin: 0 (@grid-gutter-width / 2);
+    padding: 10px (@grid-gutter-width / 2) 0;
+  }
+  .panel-advanced {
+    display: none;
+  }
+  &.avanzada {
+    .panel-search {
+      display: none;
+    }
+    .panel-advanced {
+      display: block;
+    }
+  }
+}
+
+a {
+  color: @sidebarLinkColorHover;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+// .row {
+//   margin-bottom: (@grid-gutter-width / 2);
+// }
+
+//stilo del espera
+//
+//
+.border-radius (@radius) {
+  border-radius: @radius;
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
+  behavior: url(/pie/PIE.htc);
+}
+
+.transparent (@opacity) {
+  @opacity_100: @opacity * 100;
+  /* Required for IE 5, 6, 7 */
+  /* ...or something to trigger hasLayout, like zoom: 1; */
+  /* Theoretically for IE 8 & 9 (more valid) */
+  /* ...but not required as filter works too */
+  /* should come BEFORE filter  (Opacity=@{opacity_100})*/
+  -ms-filter:~"progid:DXImageTransform.Microsoft.Alpha";
+  /* This works in IE 8 & 9 too */
+  /* ... but also 5, 6, 7 */
+  filter:~"alpha( opacity= @{opacity_100})";
+  /* Older than Firefox 0.9 */
+  -moz-opacity:@opacity;
+
+  /* Safari 1.x (pre WebKit!) */
+  -khtml-opacity: @opacity;
+  /* Modern!
+  /* Firefox 0.9+, Safari 2?, Chrome any?
+  /* Opera 9+, IE 9+ */
+  opacity: @opacity;
+}
+
+.highlight {
+  background-color: #FF0;
+}
+
+//--------------------
+
+@import "non-responsive.less";
+
+@import "common/corrections.less";
+@import "common/components.less";
+@import "common/headers.less";
+//@import "common/footers.less";
+//@import "common/alerts.less";
+//@import "common/labels.less";
+@import "common/menu.less";
+@import "common/tables.less";
+@import "common/forms.less";
+@import "common/ui.less";
+@import "common/utils.less";
+
+@import "empresas/membresias.less";
+@import "empresas/perfil.less";
+@import "empresas/carrito.less";
+
+@import "elements/browsehappy.less";
+@import "elements/notificaciones.less";
+@import "elements/paquetes.less";
+@import "elements/cards.less";
+@import "elements/services.less";
+@import "elements/resume.less";
+@import "elements/expire.less";
+@import "elements/contacto.less";
+@import "elements/preview.less";
+@import "elements/historico.less";
+
+.wait-block {
+  position: absolute;
+  .transparent(.20);
+  .border-radius(10);
+  background-color: black;
+  z-index: 9999;
+  color: #5d9cc7;
+  h1{
+    text-align: center;
+  }
+}
+
+#busqueda-candidato{
+  .dataTables_filter{
+    display: none !important;
+  } 
+
+} 
+
+#busqueda-candidato_wrapper{
+  .dataTables_info{
+    display: none;
+  }
+
+}
+// .panel-search{
+//   .row {
+//     margin-bottom: 0px;
+//   }
+// }
+
+// .panel-advanced{
+//   label{
+//     margin-right: 5px;
+//   }
+// }
+.badge-important {
+  background-color: #b94a48;
+}
+.sub-categoria{
+  background: #EFEFEF;
+  margin-left: 10%;
+}
+
+.filtro-select{
+  color: red !important;
+}
+
+.item-filter {
+  font-size: 85%;
+  i, .item, span.badge {
+    float: left;
+  }
+  .item {
+    width: 55%;
+  }
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+  }
+}
+
+.col-xs-3 {
+  .item-filter {
+    .item {
+      width: 70%;
+    }
+  }
+}
+
+// .popover{
+//   z-index: 1031 !important;
+
+//   .ntfy-title{
+//      letter-spacing:1px;
+//       font-size:10px !important;
+//       font-style: bold;
+//       white-space: nowrap;
+//       overflow: hidden;
+//   }
+//   .ntfy-content{
+//       width: 210px;
+//       height: 100px;
+//       letter-spacing:1px;
+//       font-size:10px !important;
+//   }
+
+// }
+// .menu_notificaciones_empresas {
+
+//   padding-top: 30px !important;
+//   text-align:left;
+//   width: 200px;
+//   height:250px;
+//   overflow-y:auto;
+//   overflow-x:inherit;
+//   font-size:10px !important;
+//   color:#fff !important;
+//   background-color:#333 !important;
+//   text-align:left;
+//   letter-spacing:1px;
+
+//   li> {
+//     color:#fff;
+//     padding:0px !important;
+//     text-align:left;
+//   }
+//    li>a {
+//     color:#fff !important ;
+//     text-shadow:none !important;
+//     border-bottom: #666 solid thin;
+//     border-top: #666 solid thin;
+//   }
+
+//   .no-leido{
+//     background-color: #68768E
+
+//   }
+// }
+
+// .alert-ntfy{
+//   .finalizada { color:#c94c41 !important; }
+//   .advertencia { color:#F60 !important;}
+//   .aceptada { color:#60a134 !important;}
+// }
+
+.ntfy-history{
+  border: 1px solid #dddddd;
+  height: auto;
+  margin: 5px 0;
+  padding: 5px 0px;
+  .user-img {
+    float: left;
+    height: auto;
+    margin-right: 10px;
+    width: 60px;
+    & + div {
+      margin-left: 70px;
+      h4 {
+        margin-top: 0;
+      }
+      .text {
+        padding: 0 5px;
+        text-align: justify;
+      }
+    }
+  }
+  .date{
+    font-size: 12px;
+    text-align: right;
+  }
+}
+
+// .select_bus{
+//     width:250px;
+// }

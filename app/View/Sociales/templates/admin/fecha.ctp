@@ -1,0 +1,1 @@
+<span data-order="{{= it.fecha.val }}" >{{= it.fecha.str }}</span>

@@ -1,0 +1,53 @@
+<footer>
+            <div class="contenedor">
+                <div class="row">
+                    <div class="widget span3_2">
+                        <h4>Avisos</h4>
+                       <p><a href="/Info/empresa/politicas" target="_blank"  class="footer a">Pol&iacute;ticas de Calidad</a></p>
+                        <p><a href="/Info/aviso_privacidad" target="_blank"  class="footer a"   >Aviso de Privacidad</a></p>                       
+                    </div>
+                    
+                    <div class="widget span4_2">
+                        <h4 style="padding-left:10px;">MENÚ RÁPIDO</h4>
+                       <div class="span1"> 
+                            <p><a href="/" class="footer a">Candidatos</a></p>
+                            <p><a href="/" class="footer a">Empresas</a></p>
+                            <p><a href="/Info/quienes_somos" target="_blank"  class="footer a">Nosotros</a></p>
+                            <p><a href="/Info/valores" target="_blank"  class="footer a">Misi&oacute;n</a></p> 
+                        </div>
+                        <div class="span2">
+                            <p><a href="/Info/valores" target="_blank"  class="footer a">Visi&oacute;n</a></p>
+                            <p><a href="/Info/valores"  target="_blank" class="footer a">Valores</a></p>
+                            <p><a href="/Info/preguntas_frecuentes_candidato"  target="_blank" class="footer a">Ayuda a candidatos</a></p>
+                            <p><a href="/Info/preguntas_frecuentes_empresas"  target="_blank" class="footer a">Ayuda a empresas</a></p>
+                        </div>
+                    </div>
+                    <div class="widget span3">
+                        <h4>SITIOS RELACIONADOS</h4>
+                        <p><a href="http://www.imss.gob.mx" class="footer a" target="_blank" >IMSS</a></p>
+                        <p><a href="http://www.infonavit.org.mx" class="footer a" target="_blank">INFONAVIT</a></p>
+                        <p><a href="http://www.fonacot.gob.mx" class="footer a" target="_blank">FONACOT</a></p>
+                        <p><a href="http://www.empleo.gob.mx" class="footer a" target="_blank">Sistema Nacional de Empleo</a></p>
+                        <p><a href="http://www.igenter.com" class="footer a" target="_blank">iGenter</a></p>
+                    </div>
+                    <div class="widget span2 pull-right">
+                        <h4></h4>
+                        <p>Para toda la república mexicana</p>
+                        <p class="footer telefono"><i class="icon-phone"></i>01800.849.2487</p>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="lastline span12">
+                            <div class="copyright span4">
+                             <p>D.R. ©; iGenter México S. de R.L. de C.V., Nuevo León No. 202 Piso 5, Colonia Hipódromo Condesa, C.P. 06170, Delegación Cuauhtémoc, México, D.F., 2014.<br/>Prohibida la reproducción total o parcial de esta obra sin la previa autorización de su titular.</p>
+                            </div>
+                    <div class="social span5 pull-right">
+                        <a class="facebook" href="https://www.facebook.com/NuestroEmpleo" target="_blank" ></a>
+                        <a class="linkedin" href="http://mx.linkedin.com/" target="_blank"></a>
+                        <a class="twitter" href="https://twitter.com/NuestroEmpleo" target="_blank"></a>
+                        <a class="googleplus" href="https://plus.google.com/111610607829310871158/posts" target="_blank"></a>
+                         <a class="youtube" href="http://www.youtube.com/user/nuestroempleo"  target="_blank" ></a>
+                    </div>
+                </div>
+        </footer>

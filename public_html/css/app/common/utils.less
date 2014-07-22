@@ -1,0 +1,130 @@
+.absolute-top-right {
+  display: table-cell;
+  position: relative;
+  top: 0;
+  // right: 15px;
+}
+
+.block {
+  display: block !important;
+}
+
+.inline {
+  display: inline-block !important;
+}
+
+.xs {
+	width: 60px;
+}
+.sm {
+  width: 90px;
+  td& {
+    padding: 0 10px !important;
+    .input {
+      margin: 0 !important;
+    }
+  }
+}
+.md {
+  width: 140px;
+}
+
+i.round-icon {
+  background-color: transparent;
+  border-radius: 50%;
+  color: #FFF;
+  display: inline-block;
+  font-size: (@paqueteIconSize / 2);
+  height: @paqueteIconSize;
+  line-height: @paqueteIconSize;
+  vertical-align: middle;
+  width: @paqueteIconSize;
+}
+
+ul {
+  &.span-right {
+    li > span {
+      float: right;
+    }
+  }
+  &.nav > li > span {
+    //min-height: @navbar-height;
+    &.link-icon {
+      padding: 6.5px 10px !important;
+      i {
+        font-size: 1.5em;
+      }
+    }
+    &.bg-credit {
+      background: @bgColorCredit;
+      color: #fff;
+      display: block;
+      line-height: 20px;
+      margin: 0 2px;
+      span {
+        border-radius: 3px;
+        padding: 0 5px;
+      }
+    }
+  }
+}
+
+.no-label {
+  padding-top: 1em;
+}
+
+.one-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.img-circle {
+  &.img-sm {
+    width: @imageSizeSmall;
+    height: @imageSizeSmall;
+  }
+  &.img-md {
+    width: @imageSizeMedium;
+    height: @imageSizeMedium;
+  }
+  &.img-lg {
+    width: @imageSizeLarge;
+    height: @imageSizeLarge;
+  }
+}
+
+.img-oval {
+  border-radius: 50%;
+  height: auto;
+  &.img-sm {
+    width: @imageSizeSmall;
+  }
+  &.img-md {
+    width: @imageSizeMedium;
+  }
+  &.img-lg {
+    width: @imageSizeLarge;
+  }
+}
+
+.icon-credit {
+  &.oferta_publicada:before {
+    content: "\f15c";
+  }
+  &.oferta_recomendada:before {
+    content: "\f005";
+  }
+  &.oferta_distinguida:before {
+    content: "\f164";
+  }
+  &.consulta_cv:before {
+    content: "\f0c0";
+  }
+}
+
+#ui-datepicker-div.no-calendar {
+  .ui-datepicker-calendar {
+    display: none;
+  }
+}

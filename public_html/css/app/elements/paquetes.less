@@ -1,0 +1,108 @@
+.paquete {
+  text-align: left;
+  padding: 0 20px;
+  .border {
+    border: medium solid transparent;
+    margin-top: (@paqueteIconSize / 2);
+    #membresia-publicaciones& {
+      border-color: @publicaciones;
+    }
+    #membresia-liberacion-cvs& {
+      border-color: @liberaciones;
+    }
+    #membresia-silver& {
+      border-color: @silver;
+    }
+    #membresia-golden& {
+      border-color: @golden;
+    }
+    #membresia-diamond& {
+      border-color: @diamond;
+    }
+    #membresia-comercial& {
+      border-color: @comercial;
+      h5 {
+        background: @comercial;
+        color: #fff;
+        margin: 0 0 10px;
+        padding: 10px;
+      }
+    }
+    #membresia-institucional& {
+      border-color: @institucional;
+      h5 {
+        background: @institucional;
+        color: #fff;
+        margin: 0 0 10px;
+        padding: 10px;
+      }
+    }
+  }
+  .heading-icon {
+    margin-top: -1 * (@paqueteIconSize / 2);
+    text-align: center;
+    i {
+      // margin-left: -1 * (@paqueteIconSize / 2);
+      #membresia-publicaciones& {
+        background: @publicaciones;
+      }
+      #membresia-liberacion-cvs& {
+        background: @liberaciones;
+      }
+      #membresia-silver& {
+        background: @silver;
+      }
+      #membresia-golden& {
+        background: @golden;
+      }
+      #membresia-diamond& {
+        background: @diamond;
+      }
+      #membresia-comercial& {
+        background: @comercial;
+      }
+      #membresia-institucional& {
+        background: @institucional;
+      }
+    }
+  }
+  .paquete-body {
+    padding: 0 10px 10px;
+  }
+}
+
+.productos {
+  margin-bottom: 15px;
+  h5 {
+    border-bottom: @gray solid medium;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+  }
+  i.round-icon {
+    background-color:@gray;
+  }
+  &.blue {
+    h5 {
+      border-color: @blue;
+    }
+    i.round-icon {
+    background-color:@blue;
+    }
+  }
+  &.green {
+    h5 {
+      border-color: @green;
+    }
+    i.round-icon {
+    background-color:@green;
+    }
+  }
+  &.purple {
+    h5 {
+      border-color: @purple;
+    }
+    i.round-icon {
+    background-color:@purple;
+    }
+  }
+}

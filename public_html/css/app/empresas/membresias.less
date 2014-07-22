@@ -1,0 +1,20 @@
+body {
+  &.basic-membership {
+    .membership(@navbarColorMBasic);
+  }
+  &.silver-membership {
+    .membership(@navbarColorMSilver);
+  }
+  &.golden-membership {
+    .membership(@navbarColorMGolden);
+  }
+  &.diamond-membership {
+    .membership(@navbarColorMDiamond);
+    &.comercial {
+      .membership(@navbarColorMComercial);
+    }
+    &.institucional {
+      .membership(@navbarColorMInstitucional);
+    }
+  }
+}

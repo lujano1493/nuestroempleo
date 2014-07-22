@@ -1,0 +1,188 @@
+.dataTables_wrapper {
+  margin-bottom: @line-height-computed;
+  background-color: @tableWrapperBgColor;
+  border: 1px solid @table-border-color;
+  border-radius: @panel-border-radius;
+  .box-shadow(0 1px 1px rgba(0,0,0,.05));
+
+  > .table, > .table-responsive {
+    margin-bottom: 0;
+  }
+  /*> .table-header + .table, > .table-header + .table-responsive {
+    border-top: 1px solid @table-border-color;
+  }*/
+  > .table-bordered, > .table-responsive > .table-bordered {
+    border: 0;
+    > thead, > tbody, > tfoot {
+      > tr {
+        > th:first-child, > td:first-child {
+          border-left: 0;
+        }
+        > th:last-child, > td:last-child {
+          border-right: 0;
+        }
+        /*&:last-child > th, &:last-child > td {
+          border-bottom: 0;
+        }*/
+      }
+    }
+  }
+}
+
+table.table {
+  margin: 0 !important;
+  .table-header {
+    background: #fff;
+    th {
+      border-bottom: 0;
+    }
+    .btn-actions {
+      margin: 0;
+    }
+  }
+  tr {
+    &.open-row td {
+      padding: 0;
+      .open-row-container {
+        display: none;
+      }
+    }
+    &.disabled td {
+      background-color: @gray-lighter;
+      color:@gray-light;
+    }
+    // th, td {
+    //   &:first-child {
+    //     text-align: center;
+    //     vertical-align: middle;
+    //     width: @tableSelectInputSize + 12px;
+    //     > [type=checkbox], > [type=radio] {
+    //       cursor: pointer;
+    //       height: @tableSelectInputSize;
+    //       width: @tableSelectInputSize;
+    //     }
+    //   }
+    //   &.bg-blue {
+    //     background-color: @blue;
+    //     color: #fff;
+    //   }
+    //   &.bg-green {
+    //     background-color: @green;
+    //     color: #fff;
+    //   }
+    //   &.bg-red {
+    //     background-color: @red;
+    //     color: #fff;
+    //   }
+    // }
+  }
+  thead {
+    background: @tableHeaderBgColor;
+    // #gradient > .vertical(@tableHeaderBgColor, darken(@tableHeaderBgColor, 5));
+    th {
+      color: darken(@tableHeaderBgColor, 40);
+      text-align: center;
+      vertical-align: middle;
+    }
+    .table-filters > div {
+      display: inline-block;
+      select, input {
+        margin: 0;
+      }
+    }
+  }
+  /*tbody {
+    tr {
+      &:hover {
+        .actions {
+          opacity: 1;
+        }
+      }
+      .actions-container {
+        padding: 4px 4px 0;
+        width: 10px;
+        white-space: nowrap;
+      }
+      .actions {
+        font-size: 14px;
+        list-style: none;
+        margin:0;
+        opacity: 0;
+        float: left;
+        li {
+          display: inline-block;
+          min-width:30px;
+        }
+      }
+    }
+  }*/
+  + .table-footer {
+    text-align: center;
+    //width: 100%;
+  }
+//   &.static-footer + .table-footer {
+//     bottom: 0;
+//     left:0;
+//     padding-left: @sidebarMenuWidth;
+//     position: fixed;
+//     z-index: 200;
+//   }
+
+//   .indentX (@index) when (@index > 0) {
+//     .indent-@{index} {
+//       text-indent: (@index - 1) * @tableIndent;
+//     }
+//     .indentX(@index - 1);
+//   }
+//   .indentX (0) {}
+
+//   .indentX(@tableIndentLevel);
+}
+
+th {
+  &.sorting:after, &.sorting_asc:after, &.sorting_desc:after {
+    font-family:'FontAwesome';
+    content:"\f0dc";
+    font-size: 12px;
+    float:right;
+  }
+  &.sorting_asc:after {
+    color: @tableSortingColor;
+    content:"\f0dd";
+    font-size: 14px;
+  }
+  &.sorting_desc:after {
+    color: @tableSortingColor;
+    content:"\f0de";
+    font-size: 14px;
+  }
+}
+
+.dataTables_paginate {
+  margin: 3px 0 5px;
+  border-radius: @border-radius-base;
+  > a {
+    &:first-child {
+      margin-left: 0;
+      .border-left-radius(@border-radius-base);
+    }
+    &:last-child {
+      .border-right-radius(@border-radius-base);
+    }
+  }
+  > a, > span a {
+    background-color: @pagination-bg;
+    border: 1px solid @pagination-border;
+    cursor: pointer;
+    display: inline-block; // Collapse white-space
+    line-height: @line-height-base;
+    margin-left: -1px;
+    padding: @padding-base-vertical @padding-base-horizontal;
+    position: relative;
+    text-decoration: none;
+  }
+  .paginate_active {
+    color: @pagination-bg;
+    background-color: @sidebarLinkColorHover;
+  }
+}

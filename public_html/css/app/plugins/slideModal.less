@@ -1,0 +1,58 @@
+@import "../bootstrap/variables.less";
+@import "../bootstrap/mixins.less";
+
+.slidemodal {
+  background: #fff;
+  border: 1px solid #ccc;
+  bottom: 0;
+  .box-shadow(0 3px 7px rgba(0,0,0,0.3));
+  display: none;
+  left: 0;
+  margin: 50px 10px 10px 10px;
+  overflow: hidden;
+  padding: 10px 15px;
+  position:fixed;
+  right: 0;
+  top: 0;
+  z-index: 10001;
+  &::before {
+    background: #fff;
+    bottom: 0;
+    content: '';
+    left:0;
+    opacity:0.5;
+    position: fixed;
+    right:0;
+    top: 0;
+    z-index: -1;
+  }
+  .slidemodal-dialog {
+    height: 100%;
+    padding: 50px 0 60px;
+    position: relative;
+    &.only-slidemodal-body {
+      padding: 10px 0;
+    }
+  }
+  .slidemodal-header, .slidemodal-footer {
+    background-color: #fff;
+    left: 0;
+    //padding: 5px 15px;
+    position: absolute;
+    right: 0;
+  }
+  .slidemodal-header {
+    top: 0;
+  }
+  .slidemodal-footer {
+    bottom: 0;
+  }
+  .slidemodal-body {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    &.no-scroll {
+      overflow: hidden;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # RewriteCond %{HTTP_HOST} !nuestroempleo.com.mx$ [NC]
+  # RewriteRule ^(.*)$ http://www.nuestroempleo.com.mx/$1 [L,R=301]
+  # RewriteCond %{HTTP_HOST} !^www
+  # RewriteCond %{HTTP_HOST} ^([^\.]+)\.([^\.]+)\.([^\.]+)$
+  # RewriteCond %{HTTP_HOST} ^([^\.]+)\.nuestro\.empleo$
+  # RewriteRule ^(.*)$ http://nuestro.empleo/?subdomain=%1 [L]
+  RewriteRule ^(blog)($|/) - [L]
+  RewriteRule ^(anuncios)($|/) - [L]
+  RewriteCond %{REQUEST_URI} !^/documentos/(.*)
+  RewriteCond %{REQUEST_URI} !^/temporales/(.*)
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ index.php?/$1 [QSA,L]
+</IfModule>

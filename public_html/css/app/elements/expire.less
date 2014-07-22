@@ -1,0 +1,30 @@
+@expireHeight: 60px;
+@expireWidth: 40px;
+.expire {
+  background: #e4e4e4;
+  display: block;
+  height: @expireHeight;
+  position: relative;
+  i {
+    background: #edbe04;
+    color: #fff;
+    display: inline-block;
+    height: inherit;
+    line-height: @expireHeight;
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    width: @expireWidth;
+  }
+  span {
+    display: block;
+    line-height: (@expireHeight / 2);
+    text-align: center;
+    text-indent: @expireWidth;
+  }
+  .days {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+  }
+}

@@ -1,0 +1,21 @@
+body {
+  background: @bodyColor;
+  .box-sizing(border-box);
+  font-family: @sansFontFamily;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  #wrapper {
+    min-height:100%;
+    height:auto !important;
+    position: relative;
+    > footer, > .footer {
+      bottom:0;
+      height:@footerHeight;
+      position: absolute;
+      width:100%;
+    }
+  }
+  #body-content {
+    padding-bottom: @footerHeight;
+  }
+}

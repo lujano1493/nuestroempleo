@@ -1,0 +1,27 @@
+# /etc/crontab: system-wide crontab
+# Unlike any other crontab you don't have to run the `crontab'
+# command to install the new version when you edit this file
+# and files in /etc/cron.d. These files also have username fields,
+# that none of the other crontabs do.
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:PATH_CAKE
+#NODE_ENV=dev
+
+# m h dom mon dow user	command
+# 17 *	* * *	root    cd / && run-parts --report /etc/cron.hourly
+# 25 6	* * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
+# 47 6	* * 7	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )
+# 52 6	1 * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
+
+#prueba de tareas programdas
+#* * * * *  cake EnvioCorreo enviar_correo
+#envio de boletion: cada semana el dia sabado a las 10 de la mañana
+0 10 * * 6  cake EnvioCorreo enviar_boletin
+#envio de correo actualizacion de cv se envia el 14 y  28 del mes  las 00:00 AM
+0 0 14,28 * *  cake EnvioCorreo enviar_aviso_actualizacv
+#envio de correo de eventos: se envia cada dia primero de cada mes a las 10:00 AM el dia primero
+0 10 1 * *  cake EnvioCorreo enviar_evento 
+#envio de correo de recomendacion de ofertas: se envia los dias 7 y 21 de cada mex a las 8 de la noche
+0 20 7,21 * *  cake EnvioCorreo enviar_ofertas
+

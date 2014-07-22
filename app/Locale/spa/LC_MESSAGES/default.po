@@ -1,0 +1,1169 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2013-11-06 16:31-0600\n"
+"PO-Revision-Date: 2013-11-06 17:29-0600\n"
+"Last-Translator: Juan Manuel Reynoso <jmreynoso@igenter.com>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller/MiEspacioController.php:26
+msgid "Mi Espacio"
+msgstr "Mi Espacio"
+
+#: Controller/MiEspacioController.php:47
+msgid "Mi Espacio Administración"
+msgstr ""
+
+#: Controller/MiEspacioController.php:65;74;95;106
+msgid "Se han cambiado tus datos satisfactoriamente."
+msgstr ""
+
+#: Controller/MiEspacioController.php:68;77;108
+msgid "Ha ocurrido un error al intentar guardar los datos."
+msgstr ""
+
+#: Controller/MiEspacioController.php:87
+msgid "Mi Cuenta"
+msgstr ""
+
+#: Controller/MiEspacioController.php:97
+msgid "Ha ocurrido un error al intentar guardar tus datos."
+msgstr ""
+
+#: Controller/MiEspacioController.php:164
+msgid "Tu contraseña actual es incorrecta."
+msgstr ""
+
+#: Controller/MiEspacioController.php:166
+msgid "Verifica que las contraseñas sean iguales."
+msgstr ""
+
+#: Controller/MiEspacioController.php:172
+msgid "Se ha cambiado tu contraseña con éxito."
+msgstr ""
+
+#: Controller/MisOfertasController.php:77
+#: View/Elements/empresas/stats.ctp:8
+msgid "Mis Ofertas"
+msgstr ""
+
+#: Controller/MisOfertasController.php:100
+msgid "Todas las Ofertas"
+msgstr ""
+
+#: Controller/MisOfertasController.php:121
+msgid "Mis Ofertas compartidas"
+msgstr ""
+
+#: Controller/MisOfertasController.php:132
+msgid "Mis Ofertas en Borrador"
+msgstr ""
+
+#: Controller/MisOfertasController.php:152
+msgid "Mis Ofertas Activas"
+msgstr ""
+
+#: Controller/MisOfertasController.php:179
+msgid "Mis Ofertas Inactivas"
+msgstr ""
+
+#: Controller/MisOfertasController.php:204
+msgid "Mis Ofertas Eliminadas"
+msgstr ""
+
+#: Controller/MisOfertasController.php:225
+msgid "Crear Oferta"
+msgstr ""
+
+#: Controller/MisOfertasController.php:308
+msgid "Vacante publicada"
+msgstr ""
+
+#: Controller/MisOfertasController.php:331
+msgid "Ocurrió un error al generar el link corto."
+msgstr ""
+
+#: Controller/MisOfertasController.php:350
+msgid "Editar Oferta"
+msgstr ""
+
+#: Controller/MisOfertasController.php:406
+msgid "Se ha actualizado la oferta satisfactoriamente"
+msgstr ""
+
+#: Controller/MisOfertasController.php:411
+msgid "Ocurrió un error al guardar la oferta."
+msgstr ""
+
+#: Controller/MisOfertasController.php:416;498;527;557;579;642;689;702
+msgid "No tienes los permisos para esta acción."
+msgstr ""
+
+#: Controller/MisOfertasController.php:426
+msgid "Duplicar Oferta"
+msgstr ""
+
+#: Controller/MisOfertasController.php:433
+msgid "No puedes duplicar una oferta que es un borrador."
+msgstr ""
+
+#: Controller/MisOfertasController.php:486
+msgid "La oferta se ha publicado como distinguida."
+msgstr ""
+
+#: Controller/MisOfertasController.php:492;521;550
+msgid "Ha ocurrido un error al actualizar tus créditos."
+msgstr ""
+
+#: Controller/MisOfertasController.php:495;524;554;573
+msgid "No se ha podido cambiar la oferta de estado."
+msgstr ""
+
+#: Controller/MisOfertasController.php:515
+msgid "La oferta se ha publicado como recomendada."
+msgstr ""
+
+#: Controller/MisOfertasController.php:544
+msgid "La oferta se ha publicado."
+msgstr ""
+
+#: Controller/MisOfertasController.php:576
+msgid "No puedes compartir una oferta que es aún borrador."
+msgstr ""
+
+#: Controller/MisOfertasController.php:645
+msgid "Se ha guardado la oferta satisfactoriamente."
+msgstr ""
+
+#: Controller/MisOfertasController.php:648
+msgid "Se han guardado las ofertas satisfactoriamente."
+msgstr ""
+
+#: Controller/MisOfertasController.php:659
+msgid "Ha ocurrido un error al procesar tu solicitud."
+msgstr ""
+
+#: Controller/MisOfertasController.php:668
+msgid "La oferta ha sido pausada."
+msgstr ""
+
+#: Controller/MisOfertasController.php:670
+msgid "La oferta no se ha podido pausar."
+msgstr ""
+
+#: Controller/MisOfertasController.php:673;731
+msgid "No tienes los permisos para está acción."
+msgstr ""
+
+#: Controller/MisOfertasController.php:684
+msgid "La oferta ha sido reanudada."
+msgstr ""
+
+#: Controller/MisOfertasController.php:686
+msgid "La oferta no se ha podido reanudar."
+msgstr ""
+
+#: Controller/MisOfertasController.php:720
+msgid "No se han podido inactivar las ofertas que seleccionaste."
+msgstr ""
+
+#: Controller/MisOfertasController.php:734
+msgid "La oferta se ha recuperado."
+msgstr ""
+
+#: Controller/MisOfertasController.php:737
+msgid "Las ofertas se han recuperado"
+msgstr ""
+
+#: Controller/MisOfertasController.php:745
+msgid "No se han podido recuperar las ofertas que seleccionaste."
+msgstr ""
+
+#: Model/Datasource/Database/Oracle.php:616
+msgid "Must specify table to operate on constraints"
+msgstr ""
+
+#: Model/Datasource/Database/Oracle.php:674
+msgid "DboOracle::constraint() accepts only enable, disable, or list"
+msgstr ""
+
+#: Model/Datasource/Database/Oracle.php:1682
+#: Model/Datasource/DboSource.php:2960
+msgid "Invalid schema object"
+msgstr ""
+
+#: View/Elements/empresas/stats.ctp:3
+msgid "Resumen rápido"
+msgstr ""
+
+#: View/Elements/empresas/stats.ctp:23
+msgid "Mis Candidatos"
+msgstr ""
+
+#: View/Elements/empresas/subir_logo.ctp:11
+msgid "Actualiza tu logotipo"
+msgstr ""
+
+#: View/Elements/empresas/subir_logo.ctp:31
+msgid "Cancelar"
+msgstr ""
+
+#: View/Elements/empresas/subir_logo.ctp:35
+msgid "Agregar Archivo"
+msgstr ""
+
+#: View/Elements/empresas/subir_logo.ctp:40
+msgid "Eliminar"
+msgstr ""
+
+#: View/Elements/empresas/subir_logo.ctp:44
+msgid "Guardar Fotografía"
+msgstr ""
+
+#: View/Elements/empresas/candidatos/buscar.ctp:3
+msgid "Para una búsqueda rápida de candidatos ingrese las palabras clave en el buscador."
+msgstr ""
+
+#: View/Elements/empresas/candidatos/buscar.ctp:8
+msgid "Ingrese sus palabras clave aquí"
+msgstr ""
+
+#: View/Elements/empresas/candidatos/buscar.ctp:10
+msgid "Buscar"
+msgstr ""
+
+#: View/Elements/empresas/candidatos/buscar.ctp:14
+msgid "Búsqueda avanzada"
+msgstr ""
+
+#: View/Elements/empresas/candidatos/last_updates.ctp:3
+msgid "Últimos CVs Adquiridos"
+msgstr "Últimos CV's Adquiridos"
+
+#: View/Elements/empresas/candidatos/last_updates.ctp:31
+msgid "Ver más detalles"
+msgstr ""
+
+#: View/Helper/SimpleCaptchaHelper.php:120
+msgid "Captcha"
+msgstr ""
+
+#: Model/Anotacion.php:validation
+#: for field anotacion_detalles
+msgid "Ingresa los detalles."
+msgstr ""
+
+#: Model/Anotacion.php:validation
+#: for field anotacion_detalles
+msgid "El máximo de caracteres es 4000."
+msgstr ""
+
+#: Model/Candidato.php:validation
+#: for field candidato_nom
+msgid "Ingresa nombre(s)."
+msgstr ""
+
+#: Model/Candidato.php:validation
+#: for field candidato_pat
+msgid "Ingresa apellido paterno."
+msgstr ""
+
+#: Model/Candidato.php:validation
+#: for field candidato_fecnac
+msgid "Ingresa fecha de nacimiento."
+msgstr ""
+
+#: Model/Candidato.php:validation
+#: for field candidato_fecnac
+msgid "Formato de fecha no válido."
+msgstr ""
+
+#: Model/Candidato.php:validation
+#: for field candidato_perfil
+msgid "Ingresa un título a tu perfil."
+msgstr ""
+
+#: Model/Candidato.php:validation
+#: for field edo_civil
+msgid "Selecciona estado civil."
+msgstr ""
+
+#: Model/Candidato.php:validation
+#: for field candidato_sex
+msgid "Selecciona género."
+msgstr ""
+
+#: Model/CandidatoUsuario.php:validation
+#: for field cc_email
+msgid "Ingresa un correo electrónico."
+msgstr ""
+
+#: Model/CandidatoUsuario.php:validation
+#: for field cc_email
+#: Model/RefCan.php:validation
+#: for field refcan_mail
+msgid "Formato de correo electrónico no válido."
+msgstr ""
+
+#: Model/CandidatoUsuario.php:validation
+#: for field cc_email
+msgid "Ya existe un correo registrado en Nuestro Empleo."
+msgstr ""
+
+#: Model/CandidatoUsuario.php:validation
+#: for field cc_email_confirm
+msgid "Ingresa de nuevo el mismo correo electrónico."
+msgstr ""
+
+#: Model/CandidatoUsuario.php:validation
+#: for field contrasena
+msgid "Ingresa una contraseña."
+msgstr ""
+
+#: Model/CandidatoUsuario.php:validation
+#: for field contrasena
+msgid "Ingresa una contraseña mínimo de 8 caracteres."
+msgstr ""
+
+#: Model/CandidatoUsuario.php:validation
+#: for field contrasena
+msgid "Ingresa una contraseña máximo de 15 caracteres."
+msgstr ""
+
+#: Model/CandidatoUsuario.php:validation
+#: for field contrasena
+msgid "Verifica que tu contraseña esté conformada por letras y números."
+msgstr ""
+
+#: Model/CandidatoUsuario.php:validation
+#: for field contrasena_confirma
+msgid "Ingresa una nueva contraseña."
+msgstr ""
+
+#: Model/CandidatoUsuario.php:validation
+#: for field contrasena_confirma
+msgid "Ingresa de nuevo la contraseña."
+msgstr ""
+
+#: Model/CandidatoUsuario.php:validation
+#: for field cc_password
+msgid "Ingresa contraseña."
+msgstr ""
+
+#: Model/Carpeta.php:validation
+#: for field carpeta_nombre
+msgid "Nombre de carpeta requerida"
+msgstr ""
+
+#: Model/Carpeta.php:validation
+#: for field carpeta_nombre
+msgid "El nombre de la carpeta ya existe."
+msgstr ""
+
+#: Model/CodigoPostal.php:validation
+#: for field cp_asentamiento
+msgid "Selecciona tu colonia, si no se encuentra elige la más cercana a tu domicilio."
+msgstr ""
+
+#: Model/ConoaCan.php:validation
+#: for field conoc_descrip
+msgid "Ingresa una descripción"
+msgstr ""
+
+#: Model/CursoCan.php:validation
+#: for field cursotipo_cve
+msgid "selecciona tipo de curso"
+msgstr ""
+
+#: Model/CursoCan.php:validation
+#: for field curso_institucion
+msgid "ingresa nombre de la institución"
+msgstr ""
+
+#: Model/CursoCan.php:validation
+#: for field curso_nom
+msgid "ingresa el nombre del curso"
+msgstr ""
+
+#: Model/DirCandidato.php:validation
+#: for field cp_cve
+msgid "Ingresa un Código Postal"
+msgstr ""
+
+#: Model/Empresa.php:validation
+#: for field cia_rfc
+msgid "El RFC de la empresa debe contener letras y números."
+msgstr ""
+
+#: Model/Empresa.php:validation
+#: for field cia_rfc
+msgid "Ya existe una empresa registrada con este RFC."
+msgstr ""
+
+#: Model/Empresa.php:validation
+#: for field cia_rfc
+msgid "El RFC debe ser de 13 caracteres."
+msgstr ""
+
+#: Model/Empresa.php:validation
+#: for field cia_nombre
+msgid "Por favor ingresa el nombre de tu empresa."
+msgstr ""
+
+#: Model/Empresa.php:validation
+#: for field cia_nombre
+msgid "Ya existe una empresa registrada con este nombre."
+msgstr ""
+
+#: Model/Empresa.php:validation
+#: for field cia_nombre
+msgid "El nombre de la compañia no debe superar los 100 caracteres."
+msgstr ""
+
+#: Model/EscCan.php:validation
+#: for field ec_actual
+msgid "¿Estudias actualmente?"
+msgstr ""
+
+#: Model/EscCan.php:validation
+#: for field ec_nivel
+msgid "Selecciona máximo nivel de estudios."
+msgstr ""
+
+#: Model/EscCan.php:validation
+#: for field ec_institucion
+msgid "Ingresa el nombre de la institución."
+msgstr ""
+
+#: Model/Evaluacion.php:validation
+#: for field evaluacion_nom
+msgid "Ingresa el nombre de la evaluación."
+msgstr ""
+
+#: Model/Evaluacion.php:validation
+#: for field evaluacion_nom
+msgid "El máximo de caracteres para el nombre de la evaluación es 50."
+msgstr ""
+
+#: Model/Evaluacion.php:validation
+#: for field evaluacion_descrip
+msgid "Ingresa la descripción de la evaluación."
+msgstr ""
+
+#: Model/Evaluacion.php:validation
+#: for field evaluacion_descrip
+msgid "El máximo de caracteres para el nombre de la evaluación es 500."
+msgstr ""
+
+#: Model/Evento.php:validation
+#: for field evento_nombre
+msgid "Ingresa el nombre del evento."
+msgstr ""
+
+#: Model/Evento.php:validation
+#: for field evento_dir
+msgid "Ingresa la dirección del evento."
+msgstr ""
+
+#: Model/Evento.php:validation
+#: for field evento_resena
+msgid "Ingresa la reseña del evento."
+msgstr ""
+
+#: Model/ExpEcoCan.php:validation
+#: for field expeco_tipoe
+msgid "selecciona disponibilidad"
+msgstr ""
+
+#: Model/ExpEcoCan.php:validation
+#: for field explab_sueldoa
+msgid "selecciona sueldo actual"
+msgstr ""
+
+#: Model/ExpEcoCan.php:validation
+#: for field explab_sueldod
+msgid "selecciona sueldo deseado"
+msgstr ""
+
+#: Model/ExpEcoCan.php:validation
+#: for field explab_sueldod
+msgid "el sueldo deseado debe ser mayor que el actual"
+msgstr ""
+
+#: Model/ExpEcoCan.php:validation
+#: for field explab_viajar
+msgid "selecciona si esta dispuesto a viajar o no"
+msgstr ""
+
+#: Model/ExpEcoCan.php:validation
+#: for field explab_reu
+msgid "selecciona si esta dispuesto a reubicarse"
+msgstr ""
+
+#: Model/ExpLabCan.php:validation
+#: for field explab_actual
+msgid "selecciona sí actualmente trabaja"
+msgstr ""
+
+#: Model/ExpLabCan.php:validation
+#: for field explab_empresa
+msgid "ingresa nombre de la empresa"
+msgstr ""
+
+#: Model/ExpLabCan.php:validation
+#: for field giro_cve
+msgid "selecciona un giro de la empresa"
+msgstr ""
+
+#: Model/ExpLabCan.php:validation
+#: for field explab_puesto
+msgid "ingresa un puesto"
+msgstr ""
+
+#: Model/ExpLabCan.php:validation
+#: for field explab_funciones
+msgid "ingresa una descripción de funciones"
+msgstr ""
+
+#: Model/ExpLabCan.php:validation
+#: for field explab_funciones
+msgid "longitud del campo excedido "
+msgstr ""
+
+#: Model/Membresia.php:validation
+#: for field membresia_nom
+msgid "El nombre para la membresía ya existe. Ingresa otro."
+msgstr ""
+
+#: Model/Mensaje.php:validation
+#: for field msj_asunto
+msgid "Asunto del mensaje es requerido"
+msgstr ""
+
+#: Model/Mensaje.php:validation
+#: for field msj_texto
+msgid "No puedes enviar un mensaje vacío."
+msgstr ""
+
+#: Model/Oferta.php:validation
+#: for field puesto_nom
+#: Model/OfertaV.php:validation
+#: Model/Servicio.php:validation
+#: for field servicio_nom
+msgid "Ingresa el nombre del puesto."
+msgstr ""
+
+#: Model/Oferta.php:validation
+#: for field puesto_nom
+#: Model/OfertaV.php:validation
+msgid "El máximo de caracteres para el nombre del puesto es 50."
+msgstr ""
+
+#: Model/Oferta.php:validation
+#: for field oferta_descrip
+#: Model/OfertaV.php:validation
+msgid "Ingresa la descripción del puesto."
+msgstr ""
+
+#: Model/Oferta.php:validation
+#: for field oferta_cvealter
+#: Model/OfertaV.php:validation
+msgid "La clave debe ser única. Ya existe en tu compañia."
+msgstr ""
+
+#: Model/Oferta.php:validation
+#: for field oferta_cvealter
+#: Model/OfertaV.php:validation
+msgid "El máximo de caracteres para la clave de la oferta es 15."
+msgstr ""
+
+#: Model/RefCan.php:validation
+#: for field refcan_nom
+msgid "Ingresa el nombre de la referencia."
+msgstr ""
+
+#: Model/RefCan.php:validation
+#: for field refcan_mail
+msgid "Ingresa correo electrónico."
+msgstr ""
+
+#: Model/RefCan.php:validation
+#: for field refcan_mail
+msgid "Ingresa un correo electrónico distinto"
+msgstr ""
+
+#: Model/RefCan.php:validation
+#: for field refcan_tel
+msgid "Ingresa un número telefónico."
+msgstr ""
+
+#: Model/RefCan.php:validation
+#: for field refcan_tel
+msgid "Verifica el número telefónico."
+msgstr ""
+
+#: Model/RefCan.php:validation
+#: for field refcan_tel
+msgid "Ingresa un número telefónico distinto"
+msgstr ""
+
+#: Model/RefCan.php:validation
+#: for field refrel_cve
+msgid "Selecciona tipo de relación."
+msgstr ""
+
+#: Model/RefCan.php:validation
+#: for field reftiempo_cve
+msgid "Selecciona el tiempo de conocerlo."
+msgstr ""
+
+#: Model/RefCan.php:validation
+#: for field reftipo_cve
+msgid "Selecciona el tipo de relación."
+msgstr ""
+
+#: Model/RefCan.php:validation
+#: for field tipo_movil
+msgid "Seleciona tipo de teléfono"
+msgstr ""
+
+#: Model/UsuarioEmpresa.php:validation
+#: for field cu_sesion
+msgid "Por favor, ingresa un email válido."
+msgstr ""
+
+#: Model/UsuarioEmpresa.php:validation
+#: for field cu_sesion
+msgid "Ya existe un usuario registrado con este email."
+msgstr ""
+
+#: Model/UsuarioEmpresa.php:validation
+#: for field cu_sesion_confirm
+msgid "Debes confirmar tu correo electrónico."
+msgstr ""
+
+#: Model/UsuarioEmpresa.php:validation
+#: for field cu_sesion_confirm
+msgid "Parece que no coinciden ambos correos electrónicos."
+msgstr ""
+
+#: Model/Datasource/DboSource.php:256
+msgid "Selected driver is not enabled"
+msgstr ""
+
+#: Model/Datasource/DboSource.php:1193
+msgid "Error in Model %s"
+msgstr ""
+
+#: Model/Datasource/DboSource.php:3056
+msgid "Column name or type not defined in schema"
+msgstr ""
+
+#: Model/Datasource/DboSource.php:3061
+msgid "Column type %s does not exist"
+msgstr ""
+
+#: View/Layouts/error.ctp:20
+msgid "CakePHP: the rapid development php framework"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:25
+msgid "Release Notes for CakePHP %s."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:27
+msgid "Read the changelog"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:35
+msgid "URL rewriting is not properly configured on your server."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:43
+msgid "Your version of PHP is 5.2.8 or higher."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:47
+msgid "Your version of PHP is too low. You need PHP 5.2.8 or higher to use CakePHP."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:56
+msgid "Your tmp directory is writable."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:60
+msgid "Your tmp directory is NOT writable."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:70
+msgid "The %s is being used for core caching. To change the config edit APP/Config/core.php "
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:74
+msgid "Your cache is NOT working. Please check the settings in APP/Config/core.php"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:84
+msgid "Your database configuration file is present."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:89
+msgid "Your database configuration file is NOT present."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:91
+msgid "Rename APP/Config/database.php.default to APP/Config/database.php"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:116
+msgid "Cake is able to connect to the database."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:120
+msgid "Cake is NOT able to connect to the database."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:132
+msgid "PCRE has not been compiled with Unicode support."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:134
+msgid "Recompile PCRE with Unicode support by adding <code>--enable-unicode-properties</code> when configuring"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:143
+msgid "DebugKit plugin is present"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:147
+msgid "DebugKit is not installed. It will help you inspect and debug different aspects of your application."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:149
+msgid "You can install it from %s"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:155
+msgid "Editing this Page"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:158
+msgid ""
+"To change the content of this page, edit: APP/View/Pages/home.ctp.<br />\n"
+"To change its layout, edit: APP/View/Layouts/default.ctp.<br />\n"
+"You can also add some CSS styles for your pages at: APP/webroot/css."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:164
+msgid "Getting Started"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:168
+msgid "New"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:168
+msgid "CakePHP 2.0 Docs"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:177
+msgid "The 15 min Blog Tutorial"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:184
+msgid "Official Plugins"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:189
+msgid "provides a debugging toolbar and enhanced debugging tools for CakePHP applications."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:193
+msgid "contains various localized validation classes and translations for specific countries"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:198
+msgid "More about Cake"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:200
+msgid "CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:203
+msgid "Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility."
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:207
+msgid "Cake Software Foundation"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:208
+msgid "Promoting development related to CakePHP"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:209
+msgid "CakePHP"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:210
+msgid "The Rapid Development Framework"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:211
+msgid "CakePHP Documentation"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:212
+msgid "Your Rapid Development Cookbook"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:213
+msgid "CakePHP API"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:214
+msgid "Quick Reference"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:215
+msgid "The Bakery"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:216
+msgid "Everything CakePHP"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:217
+msgid "CakePHP plugins repo"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:218
+msgid "A comprehensive list of all CakePHP plugins created by the community"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:219
+msgid "CakePHP Google Group"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:220
+msgid "Community mailing list"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:222
+msgid "Live chat about CakePHP"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:223
+msgid "CakePHP Code"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:224
+msgid "For the Development of CakePHP Git repository, Downloads"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:225
+msgid "CakePHP Lighthouse"
+msgstr ""
+
+#: View/Pages/cakephp.home.ctp:226
+msgid "CakePHP Tickets, Wiki pages, Roadmap"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:41
+msgid "-> Testing :url"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:67
+msgid "Total Requests made: :requests"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:68
+msgid "Total Time elapsed: :duration (seconds)"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:72
+msgid "Requests/Second: :rps req/sec"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:76
+msgid "Average request time: :average-time seconds"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:80
+msgid "Standard deviation of average request time: :std-dev"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:84
+msgid "Longest/shortest request: :longest sec/:shortest sec"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:134
+msgid "Allows you to obtain some rough benchmarking statisticsabout a fully qualified URL."
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:139
+msgid "The URL to request."
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:144
+msgid "Number of iterations to perform."
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:148
+msgid "Maximum total time for all iterations, in seconds.If a single iteration takes more than the tiemout, only one request will be made"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:152
+msgid "Example Use: `cake benchmark --n 10 --t 100 http://localhost/testsite`. <info>Note:</info> this benchmark does not include browser render times."
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:159
+msgid "Component initialization"
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:281
+msgid "Controller action"
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:284
+msgid "Controller action start"
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:304
+msgid "Processing toolbar state"
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:327
+msgid "Processing toolbar data"
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:362
+msgid "Controller render start"
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:446
+msgid "Could not load DebugToolbar panel %s"
+msgstr ""
+
+#: Plugin/DebugKit/Lib/DebugTimer.php:133
+msgid "Core Processing (Derived from $_SERVER[\"REQUEST_TIME\"])"
+msgstr ""
+
+#: Plugin/DebugKit/Lib/FireCake.php:315
+msgid "Headers already sent in %s on line %s. Cannot send log data to FirePHP."
+msgstr ""
+
+#: Plugin/DebugKit/Lib/FireCake.php:336
+msgid "Incorrect parameter count for FireCake::fb()"
+msgstr ""
+
+#: Plugin/DebugKit/Lib/FireCake.php:415
+msgid "Maximum number (99,999) of messages reached!"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/debug_toolbar.ctp:23
+msgid "There are no active panels. You must enable a panel to see its output."
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/environment_panel.ctp:20
+msgid "App Constants"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/environment_panel.ctp:36
+msgid "CakePHP Constants"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/environment_panel.ctp:52
+msgid "PHP Environment"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/environment_panel.ctp:70
+msgid "Hidef Environment"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/history_panel.ctp:19
+msgid "Request History"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/history_panel.ctp:21
+msgid "No previous requests logged."
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/history_panel.ctp:23
+msgid "previous requests available"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/history_panel.ctp:25
+msgid "Restore to current request"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/include_panel.ctp:19
+msgid "Included Files"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/log_panel.ctp:19
+msgid "Logs"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/log_panel.ctp:27
+msgid "Time"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/log_panel.ctp:27
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:42;66
+msgid "Message"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/log_panel.ctp:38
+msgid "There were no log entries made this request"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/request_panel.ctp:19
+msgid "Request"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/request_panel.ctp:27
+msgid "No post data."
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/request_panel.ctp:36
+msgid "No querystring data."
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/request_panel.ctp:49
+msgid "Current Route"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/session_panel.ctp:19
+msgid "Session"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/sql_log_panel.ctp:24
+msgid "Sql Logs"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/sql_log_panel.ctp:38
+msgid "Total Time: %s ms <br />Total Queries: %s queries"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/sql_log_panel.ctp:47
+msgid "Query Explain:"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/sql_log_panel.ctp:50
+msgid "Click an \"Explain\" link above, to see the query explanation."
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/sql_log_panel.ctp:55
+msgid "No active database connections"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:35
+msgid "Memory"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:38
+msgid "Peak Memory Use"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:42
+msgid "Memory use"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:55
+msgid "Timers"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:57
+msgid "%s (ms)"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:58
+msgid "Total Request Time:"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:67
+msgid "Time in ms"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:68
+msgid "Graph"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/variables_panel.ctp:19
+msgid "View Variables"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/DebugTimerHelper.php:45
+msgid "Rendering View"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/DebugTimerHelper.php:60
+msgid "Rendering %s"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/DebugTimerHelper.php:86
+msgid "View render complete"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/HtmlToolbarHelper.php:205
+msgid "Explain"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/SimpleGraphHelper.php:80
+msgid "Starting %sms into the request, taking %sms"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/TidyHelper.php:99
+msgid "No markup errors found"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/ToolbarHelper.php:189
+msgid "maybe slow"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/WhitespaceShell.php:90
+msgid "Absolute path or relative to APP."
+msgstr ""
+
+#: View/Errors/error400.ctp:22
+#: View/Errors/error403.ctp:24
+#: View/Errors/error500.ctp:22
+#: View/Errors/json/error500.ctp:4
+msgid "Error"
+msgstr ""
+
+#: View/Errors/error400.ctp:24
+#: View/Errors/error403.ctp:26
+msgid "The requested address %s was not found on this server."
+msgstr ""
+
+#: View/Errors/error500.ctp:23
+#: View/Errors/json/error500.ctp:5
+msgid "An Internal Error Has Occurred."
+msgstr ""
+
+#: View/Errors/json/error400.ctp:6
+msgid "The requested JSON address %s was not found on this server."
+msgstr ""
+
+#: View/Errors/json/error401.ctp:5
+msgid "No tienes permisos para acceder a esta dirección: %s."
+msgstr ""
+
+#: View/Errors/json/error403.ctp:6
+msgid "Sesión expirada: %s. Vuelve a iniciar sesión."
+msgstr ""
+
+#: View/Errors/json/error404.ctp:5
+msgid "La url %s no existe. Verifica si es correcta."
+msgstr ""
+

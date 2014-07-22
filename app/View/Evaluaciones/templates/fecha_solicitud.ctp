@@ -1,0 +1,1 @@
+<span data-order="{{= it.fecha_solicitud.order }}">{{= it.fecha_solicitud.str }}</span>

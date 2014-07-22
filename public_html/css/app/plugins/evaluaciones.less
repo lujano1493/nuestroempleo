@@ -1,0 +1,82 @@
+#evaluacion {
+  &.no-q-time {
+    .question-time {
+      display:none !important;
+    }
+  }
+  &.no-t-time {
+    .test-time {
+      display:none;
+    }
+  }
+  &.preview {
+    input {
+      background: none;
+      border:none;
+    }
+    .add-answer {
+      display: none;
+    }
+  }
+}
+
+#evaluacion-preguntas {
+  /*.accordion-heading {
+    position:relative;
+    .toolbar {
+      margin: 2px 4px;
+      position:absolute;
+      right: 0;
+      top:0;
+      white-space: nowrap;
+      .inline {
+        display: inline-block;
+        input {
+          width: 50px;
+        }
+      }
+    }
+  }*/
+  /*&.no-correct-answers {
+    .correct-answer, .percent-q {
+      display: none !important;
+    }
+  }*/
+  .question {
+    ul.answers {
+      list-style: upper-latin outside none;
+      margin-left: 0;
+      li {
+        //float: left;
+        margin-left: 25px;
+        position:relative;
+        &:last-child {
+          list-style: none;
+        }
+        &.answer {
+          > .input {
+            margin-right: 210px;
+          }  
+        }
+        .correct-answer {
+          left: 100%;
+          margin-left: -200px;
+          position: absolute;
+          top: 0;
+          .delete-answer {
+            font-size: 1.4em;
+          }
+        }
+      }
+    }
+  }
+}
+
+ol {
+  &.alpha {
+    list-style: upper-latin outside none;
+  }
+  &.decimal {
+    list-style: decimal outside none;
+  }
+}

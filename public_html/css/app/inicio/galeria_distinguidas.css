@@ -1,0 +1,130 @@
+﻿
+        #demo-wrapper
+        {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            
+			padding-bottom:10px;
+        }
+        #demo-left
+        {
+            width: 100%;
+            float: left;
+        }
+       
+        #hWrapperAuto
+        {
+            margin-top: 20px;
+        }
+        #demo-tabs
+        {
+            width: 100%;
+            height:100%;
+           
+            margin: 0;
+            padding: 0;
+        }
+        #demo-tabs div.item
+        {
+            height: 35px;
+            float: left;
+            border-bottom: none;
+            padding: 0;
+            margin: 0;
+            margin-left: 10px;
+            text-align: center;
+            padding: 10px 4px 4px 4px;
+            font-weight: bold;
+        }
+        #contents
+        {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+       
+        #v1, #v2
+        {
+            margin: 20px;
+        }
+        .visible
+        {
+            display: block;
+        }
+        .hidden
+        {
+            display: none;
+        }
+        #oldWrapper
+        {
+            margin-left: 100px;
+        }
+       
+       
+
+
+/*Vertical Orientation CSS Starts*/
+.jscarousal-vertical
+{
+	width: 100%;
+
+	margin: 0;
+	padding: 0;
+	position: relative;
+	overflow: hidden;
+}
+.jscarousal-vertical-back, .jscarousal-vertical-forward
+{
+	width: 100%;
+	height: 30px;
+	
+	position: relative;
+	cursor: pointer;
+	z-index:100;
+}
+
+.jscarousal-contents-vertical
+{
+	overflow: hidden;
+	width: 100%;
+	height: 376px;
+}
+.jscarousal-contents-vertical > div
+{
+	position: absolute;
+	top: 20px;
+	width: 100%;
+	overflow: hidden;
+	height:83%;
+}
+
+.jscarousal-contents-vertical > div > div span
+{
+	display: block;
+	
+	text-align: center;
+}
+
+/*Vertical Orientation CSS Ends*/
+
+/*Common*/
+.hidden
+{
+	display: none;
+}
+.visible
+{
+	display: block;
+}
+
+  @media (min-width: 1040px) and (max-width:1309px){
+.jscarousal-contents-vertical > div
+{
+	position: absolute;
+	top: 20px;
+	width: 100%;
+	overflow: hidden;
+	height:78%;
+}
+    }

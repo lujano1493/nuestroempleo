@@ -1,0 +1,12 @@
+.alert-container {
+  left:50%;
+  margin-top:10px;
+  position: absolute;
+  z-index: @alertsZIndex;
+  .alert.popup {
+    .box-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+    left:-50%;
+    margin-top: 20px;
+    position: relative;
+  }
+}

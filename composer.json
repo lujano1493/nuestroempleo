@@ -1,0 +1,143 @@
+{
+  "name": "nuestroempleo/nuestroempleo",
+  "description": "Nuestro Empleo",
+  "authors": [
+    {
+      "name": "Geraldo Visuet",
+      "email": "gvisuet@igenter.com"
+    },
+    {
+      "name": "Fernando Lujano",
+      "email": "flujano@igenter.com"
+    },
+    {
+      "name": "Juan Manuel Reynoso",
+      "email": "jmreynoso@igenter.com"
+    }
+  ],
+  "require": {
+    "dompdf/dompdf": "dev-master",
+    "cakephp/framework": "2.4.4",
+    "cakephp/debug_kit": "2.2.*@dev",
+    "markstory/asset_compress": "*",
+    "leafo/lessphp": "0.4.*@dev",
+    "natxet/CssMin": "dev-master",
+    "twitter/bootstrap": "v2.3.2",
+    "twbs/bootstrap": "v3.0.0",
+    "jhollingworth/bootstrap-wysihtml5": "0.0.2",
+    "fortawesome/font-awesome": "3.2.1",
+    "browserstate/history.js": "dev-master",
+    "trentrichardson/jQuery-Timepicker-Addon": "v1.4.2",
+    "scottjehl/Respond": "1.4.0",
+    "wisembly/elephant.io":"2.0.3",
+    "webtechnick/cakephp-facebook-plugin":"*",
+    "webtechnick/cakephp-paypal-ipn-plugin": "2.*@dev",
+    "phpoffice/phpexcel": "dev-master"
+  },
+  "minimum-stability" : "dev",
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name" : "cakephp/framework",
+        "version" : "2.4.4",
+        "dist" : {
+          "type" : "zip",
+          "url" : "https://github.com/cakephp/cakephp/archive/2.4.4.zip"
+        },
+        "source" : {
+          "type" : "git",
+          "url" : "git://github.com/cakephp/cakephp.git",
+          "reference" : "2.4.4"
+        }
+      }
+    },
+    {
+      "type":"package",
+      "package": {
+        "name": "jhollingworth/bootstrap-wysihtml5",
+        "version": "0.0.2",
+        "source": {
+          "url": "https://github.com/jhollingworth/bootstrap-wysihtml5.git",
+          "type": "git",
+          "reference":"origin/master"
+        }
+      }
+    },
+    {
+      "type":"package",
+      "package": {
+        "name": "trentrichardson/jQuery-Timepicker-Addon",
+        "version": "v1.4.2",
+        "dist": {
+          "type": "zip",
+          "url": "https://github.com/trentrichardson/jQuery-Timepicker-Addon/archive/v1.4.2.zip"
+        },
+        "source": {
+          "url": "https://github.com/trentrichardson/jQuery-Timepicker-Addon.git",
+          "type": "git",
+          "reference":"v1.4.2"
+        }
+      }
+    },
+    {
+      "type":"package",
+      "package": {
+        "name": "scottjehl/Respond",
+        "version": "1.4.0",
+        "dist": {
+          "type": "zip",
+          "url": "https://github.com/scottjehl/Respond/archive/1.4.0.zip"
+        },
+        "source": {
+          "url": "https://github.com/scottjehl/Respond.git",
+          "type": "git",
+          "reference":"1.4.0"
+        }
+      }
+    },
+    {
+      "type":"package",
+      "package": {
+        "name": "fortawesome/font-awesome",
+        "version": "3.2.1",
+        "source": {
+          "url": "https://github.com/FortAwesome/Font-Awesome.git",
+          "type": "git",
+          "reference":"origin/master"
+        }
+      }
+    },
+    {
+      "type":"package",
+      "package": {
+        "name": "browserstate/history.js",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/browserstate/history.js.git",
+          "type": "git",
+          "reference":"origin/master"
+        }
+      }
+    }
+  ],
+  "extra": {
+    "installer-paths": {
+      "app/Plugin/{$name}": [
+        "cakephp/debug_kit",
+        "markstory/asset_compress",
+        "webtechnick/cakephp-facebook-plugin",
+        "webtechnick/cakephp-paypal-ipn-plugin"
+      ]
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "./scripts/compilar.sh",
+      "./scripts/fix_elephantio.sh"
+    ],
+    "post-update-cmd": [
+      "./scripts/fix_elephantio.sh"
+    ]
+  }
+}

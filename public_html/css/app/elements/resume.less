@@ -1,0 +1,37 @@
+.resume {
+  min-height: 200px !important;
+  border-right: @resumeBorderColor solid thin;
+  i {
+    font-size: 18px;
+    line-height: @resumeIconSize;
+    color: #FFF;
+    text-align: center;
+    margin-right: 10px;
+    background-color: @sidebarLinkColorHover;
+    padding: 2px;
+    border-radius: 50%;
+    display: inline-block;
+    width: @resumeIconSize;
+    height: @resumeIconSize;
+    vertical-align: middle;
+  }
+  ul {
+    list-style: none;
+    li {
+      border-bottom: @resumeBorderColor solid thin;
+      padding: 5px;
+    }
+  }
+  span {
+    &.stat-label {
+      text-transform: capitalize;
+    }
+    &.cant {
+      border-left: @resumeBorderColor solid thin;
+      //padding: 0 10px;
+      float: right;
+      width: 20px;
+      text-align: right;
+    }
+  }
+}

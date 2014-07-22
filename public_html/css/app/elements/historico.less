@@ -1,0 +1,62 @@
+.items-container {
+  .main-pagination li {
+    //display: inline-block;
+    &.active > a {
+      background-color: inherit;
+      color: inherit;
+    }
+  }
+  .main-pagination a {
+    border: 1px solid;
+    display: block;
+    margin: 0 10px 10px 0;
+    padding: 5px 5px 5px 35px;
+    position: relative;
+    // width: 220px;
+    &:before {
+      // background: @diamond;
+      color: white;
+      // content: "\f0c0";
+      display: inline-block;
+      font-family: FontAwesome;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: normal;
+      height: 100%;
+      left: 0;
+      padding-top: 5px;
+      position: absolute;
+      text-align: center;
+      top: 0;
+      width: 30px;
+    }
+    &.basic {
+      border-color: @green;
+      &:before {
+        background: @green;
+        content: "\f044";
+      }
+    }
+    &.silver {
+      border-color: @silver;
+      &:before {
+        background: @silver;
+        content: "\f0a3";
+      }
+    }
+    &.golden {
+      border-color: @golden;
+      &:before {
+        background: @golden;
+        content: "\f0d0";
+      }
+    }
+    &.diamond {
+      border-color: @diamond;
+      &:before {
+        background: @diamond;
+        content: "\f091";
+      }
+    }
+  }
+}

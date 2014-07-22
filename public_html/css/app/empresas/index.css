@@ -1,0 +1,58 @@
+#tab_der {
+  width:10%;
+  height:50%;
+  position:fixed;
+  left:0;
+  top:45px;
+  display:block;
+  cursor:pointer;
+  background: url("/css/images/contact.png") no-repeat center center;
+  background-position: 1px 13px !important;
+  padding: 5px 5px 5px 0;
+  z-index:999;
+}
+#tab_der_interna {
+  border-radius: 5px 0 0 5px;
+  width: 10%;
+  height: 50%;
+
+}
+#tab_der_interna:hover {
+}
+.expandida_der {
+
+}
+.expandida_der:hover {
+  background-position: 11px 13px !important;
+}
+
+#panel_der {
+
+  z-index:999;
+  position:fixed;
+  overflow: auto;
+  left:0px;
+  top:0px;
+  background-color: #ffffff; border:#000 solid medium;
+  height:600px;
+  width: 0;
+  font: 18px Arial;
+  color: #707275;
+  text-align: center;
+  border-radius: 0 0 15px 0;
+
+}
+#panel_der h3 {
+  margin: 0;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+#panel_der .contenido_der {
+  width:450px;  
+  font-size: 12px !important;
+}
+#panel_der  .contenido_der label{
+
+  font-size: 12px !important;
+}

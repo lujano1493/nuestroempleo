@@ -1,0 +1,11 @@
+@font-face {
+		font-family: 'ArialRoundedMTBold';
+		src: url('arialroundedmtbold.eot');
+		src: url('arialroundedmtbold.eot?#iefix') format('embedded-opentype'),
+				 url('arialroundedmtbold.woff') format('woff'),
+				 url('arialroundedmtbold.ttf') format('truetype'),
+				 url('arialroundedmtbold.svg#arialroundedmtbold') format('svg');
+		font-weight: normal;
+		font-style: normal;
+}
+		

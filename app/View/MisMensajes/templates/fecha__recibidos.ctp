@@ -1,0 +1,1 @@
+<span data-order="{{= it.recibido.val }}" class="{{= !it.leido ? 'unread' : '' }}">{{= it.recibido.str }}</span>

@@ -1,0 +1,109 @@
+/**
+ * Botones
+ */
+.btn-aqua {
+  .button-variant(@btn-aqua-color; @btn-aqua-bg; @btn-aqua-border);
+}
+
+.btn-blue {
+  .button-variant(@btn-blue-color; @btn-blue-bg; @btn-blue-border);
+}
+
+.btn-green {
+  .button-variant(@btn-green-color; @btn-green-bg; @btn-green-border);
+}
+
+.btn-orange {
+  .button-variant(@btn-orange-color; @btn-orange-bg; @btn-orange-border);
+}
+
+.btn-purple {
+  .button-variant(@btn-purple-color; @btn-purple-bg; @btn-purple-border);
+}
+
+.btn-yellow {
+  .button-variant(@btn-yellow-color; @btn-yellow-bg; @btn-yellow-border);
+}
+
+.panel-variant-v2 (@panel-color-border; @panel-color-text; @panel-color-heading-bg; @panel-color-heading) {
+  .panel-variant(@panel-color-border; @panel-color-text; @panel-color-heading-bg; @panel-color-heading);
+  .panel-body h5 {
+    color: @panel-color-heading;
+  }
+}
+
+/**
+ * Paneles
+ */
+.panel-blue {
+  .panel-variant-v2(@panel-blue-border; @panel-blue-text; @panel-blue-heading-bg; @panel-blue-border);
+}
+.panel-green {
+  .panel-variant-v2(@panel-green-border; @panel-green-text; @panel-green-heading-bg; @panel-green-border);
+}
+.panel-orange {
+  .panel-variant-v2(@panel-orange-border; @panel-orange-text; @panel-orange-heading-bg; @panel-orange-border);
+}
+.panel-purple {
+  .panel-variant-v2(@panel-purple-border; @panel-purple-text; @panel-purple-heading-bg; @panel-purple-border);
+}
+.panel-yellow {
+  .panel-variant-v2(@panel-yellow-border; @panel-yellow-text; @panel-yellow-heading-bg; @panel-yellow-border);
+}
+
+.panel {
+  position: relative;
+  .panel-heading {
+    h5, h4 {
+      margin: 0;
+    }
+  }
+  .panel-body > .panel-item {
+    border-bottom: 1px solid @gray-lighter;
+    padding-bottom: 10px;
+    &:last-child {
+      border: none;
+    }
+  }
+  .toolbar {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  ul {
+    li {
+      small {
+        font-weight: normal;
+        font-size: 0.9em;
+        line-height: 1;
+        color: @headings-small-color;
+      }
+    }
+  }
+}
+
+.collapsable.panel {
+  .panel-heading {
+    padding: 0;
+    .panel-title a {
+      display: block;
+      padding: 10px 15px;
+    }
+  }
+}
+
+/**
+ * Labels
+ */
+
+.label-blue {
+  .label-variant(@blue);
+}
+
+.label-green {
+  .label-variant(@green);
+}
+
+.label-red {
+  .label-variant(@red);
+}

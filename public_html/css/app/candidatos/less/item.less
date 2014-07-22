@@ -1,0 +1,629 @@
+
+@baseBorderRadius:10px;
+@baseLineHeight:20px;
+@paginationBackground:#FFFFFF;
+@paginationBorder:#5d9cc7;
+@sidebarLinkColorHover:#0088cc;
+/* CSS Document */
+/*colores base*/
+.color1 { color: #ffffff}
+.color2 { color: #e22337}
+.color3 { color: #9b9b9d}
+.color4 { color: #015493}
+
+.flexslider .slides img{
+	height: 90px;
+}
+.color5{color:#80aac9}
+
+.relative{
+	position: relative;
+}
+
+.datepicker-year,.datepicker-month {
+width: 50%;
+}
+.ms-ctn-bootstrap-focus {
+border-bottom: 0px solid #CCC;
+}
+
+.ms-ctn{
+	input[type="text"]{
+		border: 0px solid #cccccc;
+	}
+
+}
+
+
+.lista-restante{
+	font-size: 10px;
+	li {
+		line-height: 0px;
+		margin: 0px 0px 0px 15px;
+		}
+	padding: 0px;
+	margin: 10px 0px 0px 0px;
+
+
+
+}
+
+
+
+.unread-candidato{
+	font-weight: bold;
+	background: #DCECF4;
+}
+
+
+.sub-categoria{
+		background: #FFFFFF;
+		margin-left: 10px;
+
+}
+
+.table-striped tbody tr:nth-child(odd) td,.table-striped tbody tr:nth-child(odd) th{background-color:inherit;}
+
+.asunto{
+		min-width: 250px;
+		display: inline-block;
+}
+
+.remitente
+{
+		min-width: 200px;
+		display: inline-block;
+}
+
+#calendar .popover{
+	min-width: 300px;
+
+	z-index: 9999;
+
+}
+
+
+.span_header{
+	margin-right: 10px;
+	margin-left: 10px;
+	float: left;
+	min-height: 1px;
+
+}
+
+
+
+ form, .without-space{
+		[class*="span"]{
+		    margin-right: 0px;
+			margin-left: 0px;
+		 }
+
+ }
+
+.dataTables_processing{
+	label{
+		color: #FFF;
+		display: block;
+		margin-bottom: 5px;
+	}
+
+}
+
+#actualizar_foto .modal-header{
+	padding:0px;
+}
+#registra_candidato.modal{
+
+	width:800px;
+margin-left:-400px; //aqui centra
+
+
+}
+
+.boxed .modal-body{
+	max-height: 500px;
+	padding: 15px;
+	overflow-y: auto;
+}
+
+.fc-event {
+	border: 1px solid #3a87ad; /* default BORDER color */
+	background-color: #3a87ad; /* default BACKGROUND color */
+	color: #fff;               /* default TEXT color */
+	font-size: .85em;
+	cursor: default;
+}
+
+
+.ms-ctn,.ms-sel-ctn, .ui-datepicker-inline {
+
+	margin: 0em auto;
+}
+
+
+
+.ms-res-ctn {
+	z-index: 999999;
+}
+
+.ui-datepicker{
+	font-size: 12px;
+}
+.date-picker-month-year .ui-datepicker-calendar{
+	display: none;
+}
+
+.table{
+	width:100%;
+}
+
+.dataTable.table thead th{
+	color:#5d9cc7;
+}
+
+.dataTables_filter, .dataTables_length {
+	label {
+		color:#FFF;
+		display: block;
+	    margin-bottom: 5px;
+
+	}
+
+}
+
+#registro-empresas.modal,
+#modal-nuevo-form-candidato01.modal
+{
+	margin: 0% 0% 0% -40%;
+	width: 80%;
+	position: absolute;
+	.modal-body{
+		max-height: none;
+	}
+
+
+}
+
+#registro-empresas.modal,
+#oferta_detalles01,
+#modal-nuevo-form-candidato01.modal.in{
+	top:10%;
+	z-index: 10000;
+}
+
+#oferta_detalles01
+{
+	margin: 0% 0% 0% -40%;
+	width: 80%;
+	height: auto;
+	position: absolute;
+	.modal-body{
+		max-height:80%;
+	}
+
+
+}
+
+.mi_label{
+
+
+
+
+}
+
+
+
+.dataTables_paginate {
+  margin: 3px 0 5px;
+  .border-radius(@baseBorderRadius);
+  > a:first-child {
+    border-left-width: 1px;
+  }
+  a {
+    cursor: pointer;
+    //float: left; // Collapse white-space
+    padding: 4px 12px;
+    line-height: @baseLineHeight;
+    text-decoration: none;
+    background-color: @paginationBackground;
+    border: 1px solid @paginationBorder;
+    border-left-width: 0;
+  }
+  .paginate_active {
+    color: @paginationBackground;
+    background-color: @sidebarLinkColorHover;
+  }
+}
+.dataTables_info{
+	color:#5d9cc7;
+}
+
+
+.dataTables_length{
+	select{
+		width: 80px;
+	}
+}
+
+
+#filters div {
+    display: inline-block;
+}
+
+
+.icon label{
+	display: inline;
+}
+
+
+.free-entity{
+	.ms-res-ctn {
+		display: none;
+	}
+}
+
+.form-actions{
+	padding: 0px;
+}
+
+.jcrop-holder {
+
+	margin: auto;
+
+
+#preview-pane {
+  display: block;
+  position: absolute;
+  z-index: 2000;
+  top: 10px;
+  right: -280px;
+  padding: 6px;
+  border: 1px rgba(0,0,0,.4) solid;
+  background-color: white;
+
+
+
+    .border-radius(6);
+
+  -webkit-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+
+
+
+}
+
+
+
+}
+
+/* The Javascript code will set the aspect ratio of the crop
+   area based on the size of the thumbnail preview,
+   specified here */
+#preview-pane .preview-container {
+  margin: auto;
+  overflow: hidden;
+}
+
+
+
+#actualizar_foto.modal.fade.in{
+	top:10%;
+}
+
+#actualizar_foto.modal-body{
+	max-height:80%;
+}
+
+#actualizar_foto.modal {
+	margin: 0% 0% 0% -40% ;
+	width: 80%;
+	margin-left: -40%;
+    height: 80%;
+
+
+}
+
+.foto-candidato{
+
+}
+
+
+
+
+/*.form_{
+	.sts_background();
+	.sts_form ();
+	border-collapse:collapse;
+	border-style:solid;
+	border-color:#015493;
+	.border-radius(10);
+	label{
+		font-weight:normal;
+	}
+
+
+	div.row-fluid {
+		text-align:left;
+	}
+
+
+
+	select{
+		font-size:10px;
+	}
+
+
+
+
+	.title{
+		font-weight:bold;
+		font-size:@font_size_title;
+		color: @color_label;
+
+	}
+
+	.foto{
+		margin-top: 10%;
+		margin-left: 10%;
+
+		label{
+			font-size: 10px;
+
+		}
+
+
+	}
+
+	.modal-body{
+		padding: 20px;
+		max-height: 100%;
+	}
+
+
+
+	.title1{
+		text-align:center;
+		font-weight:bold;
+		color: @color_label;
+		font-size:13px;
+
+
+
+	}
+
+
+	.info{
+		text-align:left;
+		font-weight:normal;
+		font-size:16px;
+		padding: 10px;
+		color: @color_label;
+
+	}
+
+
+
+
+}*/
+
+
+
+.actualizar{
+		.control{
+		display: none;
+	}
+
+}
+
+
+.margin_{
+	margin-left: 2%;
+
+}
+
+
+
+
+.formulario {
+
+
+
+	.error_info{
+		font-size: 10px;
+		margin-left:5px;
+		margin-top:5px;
+		width:90px;
+		position:absolute;
+		color:red;
+	}
+
+
+	/*mensaje de respuesta*/
+
+
+
+
+
+}
+
+
+.group-radio {
+
+	// label{
+	// 	display: inline;
+	// }
+	// input[type='radio']{
+	// 	margin: 0px;
+	// 	margin-left: 10px;
+	// }
+
+	}
+
+.loading{
+
+	display:none;
+	float: left;
+	margin-top:5px;
+
+}
+
+
+
+.fileinput-button {
+	position: relative;
+	overflow: hidden;
+}
+.fileinput-button input {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	transform: translate(-300px, 0) scale(4);
+	font-size: 23px;
+	direction: ltr;
+	cursor: pointer;
+}
+.fileupload-buttonbar .btn,
+.fileupload-buttonbar .toggle {
+	margin-bottom: 5px;
+}
+.progress-animated .bar {
+	background: url(../img/progressbar.gif) !important;
+	filter: none;
+}
+.fileupload-loading {
+	float: right;
+	width: 32px;
+	height: 32px;
+	background: url(../img/loading.gif) center no-repeat;
+	background-size: contain;
+	display: none;
+}
+.fileupload-processing .fileupload-loading {
+	display: block;
+}
+
+@media (max-width: 767px) {
+	.fileupload-buttonbar .toggle,
+	.files .toggle,
+	.files .btn span {
+		display: none;
+	}
+	.files .name {
+		width: 80px;
+		word-wrap: break-word;
+	}
+}
+
+
+.formulario-style01 {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+
+
+.wait-block{
+ /* background: url(/img/loading.gif) no-repeat center center; */
+  position: absolute;
+  .transparent (.20);
+  .border-radius(10);
+
+  background-color: black;
+  z-index: 9999;
+  color: #5d9cc7;
+
+}
+
+#main-conten-ofertas{
+	.short-height {
+		max-height: 60px;
+	}
+
+	.filtros-select{
+		text-align: left;
+		a{
+			color: #FFFFFF;
+		}
+	}
+
+}
+.candidato_historial{
+	font-weight: bold;
+	background-color: #e7e4e4;
+	border: #CCC solid thin;
+}
+
+
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{
+	background: #5d9cc7;
+	color:#FFFFFF;
+
+}
+
+
+ .ms-input-select-item, .ms-select-select-item{
+  width: auto;
+  margin-left: 10px;
+  margin-top : 3px;
+}
+
+
+.autoajustable{
+	display: inline-block;
+
+}
+
+
+.input{
+
+	.spinner {
+    left: 100% !important;
+    margin-left: -15px !important;
+    position: relative !important;
+    top: 10px !important;
+}
+
+
+	}
+
+
+.examen_descripcion{
+		border-top: #5d9cc7 thin dotted;
+		margin-top: 10px;
+		margin-left: 85px;
+		margin-right: 40px;
+		padding: 20px;
+}
+
+
+.status-time-test{
+		float: right;
+		margin-top: 15px;
+		.info{
+			margin-top: 5px;
+		}
+		label,div{
+			display: inline;
+		}
+		button{
+			margin-top: -5px;
+		}
+		.time-test{
+			border: 1px dashed ;
+			margin-right: 5px;
+			label{
+				 margin-left: 5px
+			}
+
+		}
+
+
+}

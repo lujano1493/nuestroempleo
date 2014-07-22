@@ -1,0 +1,1 @@
+<span data-order="{{= it.fecha_creacion.val }}" class="block text-center">{{= it.fecha_creacion.str }}</span>

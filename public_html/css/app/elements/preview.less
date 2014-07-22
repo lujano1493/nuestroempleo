@@ -1,0 +1,67 @@
+/*#editorcito {
+  position:relative;
+  &.preview {
+    #preview {
+      display: block;
+    }
+  }
+}*/
+
+.preview {
+  position: relative;
+  .close {
+    position: absolute;
+    right: 45px;
+    z-index: 1;
+  }
+  .container {
+    background: #f3f3f3;
+    border: #999 thin solid;
+    border-radius: 15px;
+    box-shadow: 0px 4px 6px #666;
+    padding: 10px;
+  }
+  .preview-content {
+    border-right: @input-border solid thin;
+  }
+  .preview-pane {
+    padding-right: 10px;
+    text-align: left;
+    .preview-title {
+      background-color: #e7e4e4;
+      color: #5d5d5d;
+      font-size: 13px;
+      line-height: 1;
+      margin-top: 10px;
+      padding: 10px;
+      text-transform: uppercase;
+    }
+  }
+  .sidebar {
+    @padding: 10px;
+    background-color: #fff;
+    border: #ccc solid medium;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    .box-sizing(border-box);
+    color: #333;
+    position: relative;
+    padding: @padding;
+    text-align: center;
+    width: 200px;
+    &:after {
+      background: url("/img/assets/back_pennant.png") top center no-repeat;
+      content: '';
+      height: 70px;
+      left: 0;
+      margin-top: @padding;
+      position: absolute;
+      width: 100%;
+    }
+  }
+}
+
+.preguntas-container {
+  margin-top: 20px;
+  padding: 0 20px;
+}

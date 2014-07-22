@@ -1,0 +1,116 @@
+.folio {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+#carritoForm {
+  .ok-item {
+    display: none;
+  }
+  .disabled {
+    .rm-item {
+      display: none;
+    }
+    .ok-item {
+      display: inline;
+    }
+  }
+}
+
+.carrito-panel {
+  strong.money {
+    display: block;
+    font-size: 2em;
+    text-align: center;
+  }
+}
+
+//***
+.carrito-panel (@panel-color-border; @panel-color-text; @panel-color-heading-bg; @panel-color-heading) {
+  .panel-variant-v2(@panel-color-border; @panel-color-text; @panel-color-heading-bg; @panel-color-heading);
+}
+
+
+pbd {
+  .icon-&:before {
+    content: "\f005";
+  }
+  .panel-&{
+    .carrito-panel(@pubDestacadas; #fff; @pubDestacadas; @pubDestacadas);
+    .btn {
+      .button-variant(#fff; @pubDestacadas; @pubDestacadas);
+    }
+    strong.money {
+      color: @pubDestacadas;
+    }
+  }
+}
+pbs {
+  .icon-&:before {
+    content: "\f044";
+  }
+  .panel-&{
+    .carrito-panel(@pubSimples; #fff; @pubSimples; @pubSimples);
+    .btn {
+      .button-variant(#fff; @pubSimples; @pubSimples);
+    }
+    strong.money {
+      color: @pubSimples;
+    }
+  }
+}
+lib {
+  .icon-&:before {
+    content: "\f002";
+  }
+  .panel-&{
+    .carrito-panel(@busquedaLiberacion; #fff; @busquedaLiberacion; @busquedaLiberacion);
+    .btn {
+      .button-variant(#fff; @busquedaLiberacion; @busquedaLiberacion);
+    }
+    strong.money {
+      color: @busquedaLiberacion;
+    }
+  }
+}
+mbs {
+  .icon-&:before {
+    content: "\f055";
+  }
+  .paquete-&{
+    .paquete-body {
+      #membresia-silver& {
+        strong {
+          color: @membresiaSilver;
+        }
+      }
+      #membresia-golden& {
+        strong {
+          color: @membresiaGolden;
+        }
+      }
+      #membresia-diamond& {
+        strong {
+          color: @membresiaDiamond;
+        }
+      }
+    }
+    .paquete-footer {
+      padding: 10px;
+      #membresia-silver& {
+        background-color: @membresiaSilver;
+      }
+      #membresia-golden& {
+        background-color: @membresiaGolden;
+      }
+      #membresia-diamond& {
+        background-color: @membresiaDiamond;
+      }
+      strong.money {
+        color: #fff;
+        font-size: 2em;
+        vertical-align: middle;
+      }
+    }
+  }
+}
