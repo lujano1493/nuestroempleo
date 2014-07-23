@@ -45,13 +45,13 @@
           <center>
 
             {{? !it.privada  && (it.recomendada || it.distinguida  )  }}
-            <img src="{{=it.src}}"  style="width:80%;height:auto"  >
+            <img src="{{=it.src}}"  style="width:175px;height:105px;margin:auto"  >
             {{?}}
 
 
 
             {{? it.privada  && (it.recomendada || it.distinguida  )  }}
-            <img src="/img/oferta/img_oferta_priv.jpg"  style="width:80%;height:auto"  >
+            <img src="/img/oferta/img_oferta_priv.jpg"  style="width:175px;height:105px;margin:auto"  >
             {{?}}
             <p>Publicada:
 

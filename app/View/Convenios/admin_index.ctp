@@ -21,7 +21,7 @@
           <th data-table-prop="">Web</th>
           <th data-table-prop="admin.email">Email</th>
           <th data-table-prop="ejecutivo.nombre">Ejecutivo</th>
-          <th data-table-prop="#tmpl-fecha-alta">Fecha de Registro</th>
+          <th data-table-prop="#tmpl-fecha-alta" data-order="desc">Fecha de Registro</th>
           <th data-table-prop="status.text">Status</th>
         </tr>
       </thead>

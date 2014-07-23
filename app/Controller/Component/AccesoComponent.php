@@ -147,9 +147,15 @@ class AccesoComponent extends Component {
     $this->controller->redirect('/planes');
   }
 
-  public function isDevCompany() {
+  public function isDevCompany($cia = null) {
     $ciaId = $this->Session->read('Auth.User.Empresa.cia_cve');
-    $cias = Configure::read('dev_companies');
+    $companias = Configure::read('dev_companies');
+
+    if ($cia) {
+      $cias = !empty($companias[$cia]) ? (array)$companias[$cia] : array();
+    } else {
+      $cias = array_values($companias);
+    }
 
     return !empty($cias) && in_array($ciaId, $cias);
   }

@@ -46,7 +46,7 @@
       ),
     ),
     'legend' => array(
-      'position' => 'right',
+      'position' => 'bottom',
       'periodValueText' => '[[value.sum]]',
       'data' => Hash::map($data, '{n}', function ($v) use ($color) {
         return array(

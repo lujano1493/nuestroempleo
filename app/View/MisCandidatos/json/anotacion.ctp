@@ -11,6 +11,7 @@
       'id' => (int)$user['cu_cve'],
       'email' => $user['cu_sesion'],
       'nombre' => $user['fullName'],
-    )
+    ),
+    'isCreated' => $isCreated
   );
 ?>

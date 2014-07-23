@@ -343,8 +343,14 @@ class UploadComponent extends Component
             $dst_x = 0 - ($new_width - $max_width) / 2;
             $dst_y = 0 - ($new_height - $max_height) / 2;
             $new_img = @imagecreatetruecolor($max_width, $max_height);
+        }    
+        $ext=strtolower(substr(strrchr($file_name, '.'), 1));
+        if($ext==='gif' || $ext==='png'  ){
+            $transp_=@imagecolorallocate($new_img, 255, 255, 255);
+            imagefill($new_img, 0, 0, $transp_);
+
         }
-        switch (strtolower(substr(strrchr($file_name, '.'), 1))) {
+        switch ($ext ) {
             case 'jpg':
             case 'jpeg':
                 $src_img = @imagecreatefromjpeg($file_path);
@@ -353,15 +359,15 @@ class UploadComponent extends Component
                     $options['jpeg_quality'] : 75;                                   
                 break;
             case 'gif':
-                @imagecolortransparent($new_img, @imagecolorallocate($new_img, 0, 0, 0));
-                $src_img = @imagecreatefromgif($file_path);
+                // @imagecolortransparent($new_img, $transp_ );
+                $src_img = @imagecreatefromgif($file_path);          
                 $write_image = 'imagegif';
                 $image_quality = null;
                 break;
             case 'png':
-                @imagecolortransparent($new_img, @imagecolorallocate($new_img, 0, 0, 0));
-                @imagealphablending($new_img, false);
-                @imagesavealpha($new_img, true);
+                // @imagecolortransparent($new_img, $transp_);
+                // @imagealphablending($new_img, false);
+                // @imagesavealpha($new_img, true);
                 $src_img = @imagecreatefrompng($file_path);
                 $write_image = 'imagepng';
                 $image_quality = isset($options['png_quality']) ?
@@ -370,6 +376,7 @@ class UploadComponent extends Component
             default:
                 $src_img = null;
         }
+
         $success = $src_img && @imagecopyresampled(
             $new_img,
             $src_img,

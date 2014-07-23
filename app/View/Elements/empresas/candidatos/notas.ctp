@@ -51,13 +51,15 @@
             <i class="icon-edit"></i>
             <?php if ($v['Usuario']['id'] === $authUser['cu_cve']) { ?>
               <div class="text-actions inline pull-right">
-                <a href="#">Editar</a>
+                <a href="#" class="edit">Editar</a>
                 <?php
                   echo $this->Html->link('Borrar', array(
                     'controller' => 'mis_candidatos',
                     'action' => 'borrar_nota',
                     'id' => $v['candidato_cve'],
-                    'itemId' => $v['id']
+                    'slug' => Inflector::slug($candidato['CandidatoEmpresa']['candidato_perfil'], '-'),
+                    'itemId' => $v['id'],
+                    'itemSlug' => 'nota',
                   ), array(
                     'class' => 'text-danger',
                     'data-component' => 'ajaxlink'
@@ -75,6 +77,18 @@
               <?php echo $this->Time->dt($v['created']); ?>
             </small>
           </p>
+          <?php
+            echo $this->Form->input('data', array(
+              'class' => 'data',
+              'id' => false,
+              'data' => array(
+                'id' => $v['id'],
+                'texto' => $v['detalles'],
+                'item-id' => $v['candidato_cve']
+              ),
+              'type' => 'hidden'
+            ));
+          ?>
         </li>
       <?php } ?>
     </ul>
@@ -82,3 +96,8 @@
     <p class="empty">No hay anotaciones. Se el primero en agregar una.</p>
   <?php } ?>
 </div>
+<?php
+  echo $this->Template->insert(array(
+    'edit-notas'
+  ), array());
+?>

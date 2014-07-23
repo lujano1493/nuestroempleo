@@ -1,5 +1,9 @@
 <?php
 App::uses('FB', 'Facebook.Lib');
+
+use Facebook\GraphSessionInfo;
+use Facebook\FacebookRequest;
+use Facebook\FacebookSession;
 /**
  * Componente para verificar los permisos, accesos y créditos del Usuario.
  */

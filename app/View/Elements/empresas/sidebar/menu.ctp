@@ -3,6 +3,7 @@
     echo $this->Html->image($this->Session->read('Auth.User.Empresa.logo'), array(
       'alt' => __('Mi Logotipo'),
       'class' => 'logo img-responsive',
+      'style' => 'width:150px;height:100px;margin:auto',
       'id' => 'img-logo'
     ));
     if ($this->Acceso->checkRole('admin')) {

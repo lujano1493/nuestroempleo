@@ -5,6 +5,19 @@ class ConveniosController extends AppController {
 
   public $uses = array('Empresa');
 
+  public function beforeFilter() {
+    parent::beforeFilter();
+
+    if (!empty($this->request->params['id']) && !$this->Empresa->is('convenio', $this->request->params['id'])) {
+      $this
+        ->error(__('La Empresa que buscas no es convenio'))
+        ->redirect(array(
+          'controller' => 'convenios',
+          'action' => 'index'
+        ));
+    }
+  }
+
   public function admin_index() {
     $title_for_layout = __('Convenios');
 
@@ -105,12 +118,12 @@ class ConveniosController extends AppController {
       $data = $this->request->data;
       if ($this->Convenio->finalizar($data['Convenio'])) {
         $this
-          ->success(__('La finalización del convenio fue éxitosa'));
-          // ->redirect(array(
-          //   'admin' => true,
-          //   'controller' => 'convenios',
-          //   'action' => 'index'
-          // ));
+          ->success(__('La finalización del convenio fue éxitosa'))
+          ->redirect(array(
+            'admin' => true,
+            'controller' => 'convenios',
+            'action' => 'index'
+          ));
       } else {
         $this
           ->error(__('Ocurrió un error al intentar finalizar el convenio'));

@@ -25,7 +25,8 @@
   };
 
   folderito.show = function (event) {
-    var foldersCache = $doc.data('folders') || {}
+    var self = this
+      , foldersCache = $doc.data('folders') || {}
       , controller = this.$el.data('controller');
 
     this.clearMenus();
@@ -35,7 +36,13 @@
       $.ajax({
         type    : 'GET',
         dataType: 'json',
-        url     : this.$el.data('source')
+        url     : this.$el.data('source'),
+        beforeSend: function () {
+          self.$el
+            .append('<i class="icon-spinner icon-spin"></i>')
+            .addClass('disabled spinner')
+            .prop('disabled', 'disabled');
+        }
       })
       .done($.proxy(this.onSuccess, this))
       .fail($.proxy(this.onError, this))
@@ -150,7 +157,10 @@
   };
 
   folderito.always = function () {
-
+    this.$el
+      .removeClass('disabled spinner')
+      .prop('disabled', false)
+      .find('.icon-spin').remove();
   };
 
   folderito.linkFolder = function (id, folder) {

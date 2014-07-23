@@ -14,6 +14,7 @@
             <?php
               echo $this->Html->image($this->Session->read('Auth.User.Empresa.logo'), array(
                 'alt' => __('Logotipo de la empresa'),
+                'style' =>'width:150px;height:100px;margin:auto',
                 'class' => 'img-responsive',
               ));
             ?>

@@ -2,9 +2,9 @@
 
 
     {{? !it.privada  }}
-    <img src="{{=it.src}}" class="tabular"   width="175px" height="110px">
+    <img src="{{=it.src}}" class="tabular"   style="width:150px;height:90px;margin:auto" width="175px" height="110px">
    {{??}}
-      <img  src="/img/oferta/img_oferta_priv.jpg"  class="tabular"   width="175px" height="110px">
+      <img  src="/img/oferta/img_oferta_priv.jpg"  class="tabular"  style="width:150px;height:90px;margin:auto"    width="175px" height="110px">
    {{?}}
                      
       <p class="destacadas-principal tabular ellipsis"> 

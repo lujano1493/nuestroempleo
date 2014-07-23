@@ -333,7 +333,7 @@ public function status($idUser=null){
   }
   public function usuariosActivos($idConfig){
     return $this->_formEmail($idConfig,array(
-       //"$this->alias.cc_email" => "lujano14.93@gmail.com"
+              // "$this->alias.cc_email" => "lujano14_93@hotmail.com",
               "$this->alias.cc_status" => 1    
       ));
 

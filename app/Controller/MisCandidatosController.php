@@ -413,11 +413,23 @@ class MisCandidatosController extends BaseEmpresasController {
     $data['Anotacion']['candidato_cve'] = $candidatoId;
 
     $this->loadModel('Anotacion');
+    $isCreated = !isset($data['Anotacion'][$this->Anotacion->primaryKey]);
+
+    if (!$isCreated) {
+      $isOwnedBy = $this->Anotacion->isOwnedBy($this->Auth->user('cu_cve'), $data['Anotacion'][$this->Anotacion->primaryKey]);
+      if (!$isOwnedBy) {
+        $this->error(__('No puedes editar esta nota, sólo el propietario'));
+        $this->render('borrar_nota');
+        return;
+      }
+    }
+
     if ($this->Anotacion->save($data)) {
-      $insertedID = $this->Anotacion->getLastInsertID();
+
+      $insertedID = $isCreated ? $this->Anotacion->getLastInsertID() : $data['Anotacion'][$this->Anotacion->primaryKey];
       $anotacion = $this->Anotacion->get($insertedID); //$data['Anotacion'];
 
-      $this->set(compact('insertedID', 'anotacion'));
+      $this->set(compact('insertedID', 'anotacion', 'isCreated'));
       $this->success(__('Se ha guardado la anotación satisfactoriamente.'));
     } else {
       $this->response->statusCode(400);
@@ -425,7 +437,7 @@ class MisCandidatosController extends BaseEmpresasController {
     }
   }
 
-  public function borrar_nota($candidatoId, $notaId) {
+  public function borrar_nota($candidatoId, $candidatoSlug = null, $notaId = null) {
     $this->loadModel('Anotacion');
     $isOwnedBy = $this->Anotacion->isOwnedBy($this->Auth->user('cu_cve'), $notaId);
 

@@ -44,9 +44,9 @@
 
               <center>
                      {{? !it.privada  }}
-                      <img src="{{=it.src}}" width="210px" height="110px" style="width:80%">
+                      <img src="{{=it.src}}" width="210px" height="110px" style="width:175px;height:105px;margin:auto" >
                      {{??}}
-                        <img  src="/img/oferta/img_oferta_priv.jpg"  width="210px" height="110px" style="width:80%" >
+                        <img  src="/img/oferta/img_oferta_priv.jpg"  width="210px" height="110px" style="width:175px;height:105px;margin:auto"  >
                      {{?}}
                      <p>Publicada:
                             <?=$this->Html->link ("{{=it.fecha}} ",array(

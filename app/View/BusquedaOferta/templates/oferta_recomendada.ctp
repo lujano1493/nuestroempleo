@@ -1,9 +1,9 @@
 <div class="tabla_destacadas span6" >
 	<div class="row">
 		  {{? !it.privada  }}
-          	<img src="{{=it.src}}" class="img-polaroid span1">
+          	<img src="{{=it.src}}" class="img-polaroid span1" style="width:120px;height:90px;margin:auto"   >
          {{??}}
-            <img  src="/img/oferta/img_oferta_priv.jpg"  class="img-polaroid span1" >
+            <img  src="/img/oferta/img_oferta_priv.jpg"  class="img-polaroid span1"  style="width:120px;height:90px;margin:auto"  >
          {{?}}
 		<div class="pull-right"> 
 		 	<p>Publicada:

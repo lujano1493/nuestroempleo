@@ -18,34 +18,52 @@ class EnvioCorreoShell extends AppShell {
       file_put_contents($file, $current);
     }
 
-    public function enviar_correo() {
+      /**
+   * envio de correo masivos
+   * @param  string $to     para quien va dirgido el correo
+   * @param  string $title  titulo del correo
+   * @param  string $layout vista utilizada para el correo
+   * @param  array $data   datos que se agregaran al correo
+   * @param  string $from   de quien lo envi
+   * @return true         un boleano
+   */
+  private  function enviar_email($to,$title='titulo',$layout,$data,$from='aviso'){
     try{
-      $this->idetifica_entorno();
+      Email::sendEmail($to,$title,$layout,$data,$from);                    
+    } catch (Exception $e){
+        sleep(1);
+        try{
+            Email::sendEmail($to,$title,$layout,$data,$from);
+          } catch (Exception $e1){
 
-      $file = getenv("HOME")."/debug_tarea.txt";
+          }      
 
-      $current = file_get_contents($file);
-
-      $current .= "iniciando debug  enviar_correo".date("Y-m-d H:i:s")."   \n";
-
-      Email::sendEmail("lujano14.93@gmail.com",
-                  'Actualización de Currículum',
-                  'actualiza_cv',
-                array(
-                  "data" =>array(
-                        "Usuario" => array("Candidato"=> array("nombre_" =>"desde comando") )
-                    )
-                  ),
-
-              'aviso');
-    }catch (Exception $e){
-      $current.= "OCurrio una excepcion $e";
-      $this->out($e);
     }
 
-
-      // Write the contents back to the file
-    file_put_contents($file, $current);
+  }
+  public function enviar_correo() {
+      // for ($i=0; $i < 1000 ; $i++) { 
+        try{
+          $this->idetifica_entorno();
+          $file = getenv("HOME")."/debug_tarea.txt";
+          $current = file_get_contents($file);
+          $current .= "iniciando debug  enviar_correo".date("Y-m-d H:i:s")."   \n";     
+          $this->enviar_email("lujano14_93@hotmail.com",
+                    'Actualización de Currículum',
+                    'actualiza_cv',
+                  array(
+                    "data" =>array(
+                          "usuario" => array("CandidatoUsuario"=> array("nombre" =>"desde comando","keycode" =>"34154a45e2") )
+                      )
+                    ),
+                'aviso');
+        }catch (Exception $e){
+       $current.= "OCurrio una excepcion $e";
+        $this->out($e);
+      }
+      file_put_contents($file, $current);
+    // }
+    // Write the contents back to the file   
   }
 
 
@@ -79,27 +97,22 @@ class EnvioCorreoShell extends AppShell {
         return ;
       }
     foreach ($candidatos as $v) {
-      try{
-        $idEstado=$v['CandidatoUsuario']['est_cve'];
-        $eventos=$this->Evento->eventosxEstado($idEstado);    
-        if( !empty($eventos)){
-           Email::sendEmail($v['CandidatoUsuario']['correo'],
-                      'Eventos',
-                      'eventos',
-                    array(
-                      "data" =>array(
-                            "Usuario" => $v,
-                            "Eventos" => $eventos
-                        )
-                      ),
+      $idEstado=$v['CandidatoUsuario']['est_cve'];
+      $eventos=$this->Evento->eventosxEstado($idEstado);    
+      if( !empty($eventos)){
+        $this->enviar_email($v['CandidatoUsuario']['correo'],
+                    'Eventos',
+                    'eventos',
+                  array(
+                    "data" =>array(
+                          "Usuario" => $v,
+                          "Eventos" => $eventos
+                      )
+                    ),
 
-                  'evento');
+                'evento');
 
-        }       
-       sleep(3);
-      }catch (Exception $e){
-        $this->out($e);
-      }
+      } 
 
     }
 
@@ -112,8 +125,7 @@ class EnvioCorreoShell extends AppShell {
     }
     // $articulos= $this->WPPost->articulos_liga(null,'Candidatos',$semana);
     foreach ($candidatos as $v) {
-      try{
-        Email::sendEmail($v['CandidatoUsuario']['correo'],
+       $this->enviar_email($v['CandidatoUsuario']['correo'],
                       'Actualización de Currículum',
                       'actualiza_cv',
                     array(
@@ -123,10 +135,7 @@ class EnvioCorreoShell extends AppShell {
                       ),
 
                   'aviso');
-        sleep(3);
-      }catch (Exception $e){
-        $this->out($e);
-      }
+     
 
      }
   }
@@ -149,8 +158,7 @@ class EnvioCorreoShell extends AppShell {
         return ;
       }
         foreach ($candidatos as $v) {
-           try{
-            Email::sendEmail($v['CandidatoUsuario']['correo'],
+            $this->enviar_email($v['CandidatoUsuario']['correo'],
                       'Boletín semanal No. '.$no_boletin,
                       'boletin',
                     array(
@@ -161,12 +169,7 @@ class EnvioCorreoShell extends AppShell {
                       ),
 
                   'boletin');
-                  sleep(3);
-          }catch (Exception $e){
-            $this->out($e);
-          }
         }
-      $this->out("el correo fue enviado con exito");
   }
   public function enviar_ofertas(){    
     $this->idetifica_entorno();
@@ -175,16 +178,15 @@ class EnvioCorreoShell extends AppShell {
         return ;
       }
        foreach ($candidatos as $v) {
-            $ofertas=$this->OfertaB->busqueda_perfil_candidato($v['CandidatoUsuario']['candidato_cve'] ,5);     
+            $ofertas=$this->OfertaB->busqueda_perfil_candidato($v['CandidatoUsuario']['candidato_cve'] ,3);     
             if(empty($ofertas)){
                 continue;
             }    
-              Email::sendEmail($v['CandidatoUsuario']['correo'],
+            $this->enviar_email($v['CandidatoUsuario']['correo'],
                           'Recomendación de Vacantes',
                           'ofertas_perfil',
                            compact("ofertas"),
                       'boletin');
-                      sleep(3);
        }
 
   }

@@ -34,6 +34,7 @@
         ),
         'element' => 'admin/submenus/empresas',
         'icon' => 'briefcase',
+        'active_with' => 'convenios'
       ),
       __('Cuentas') => array(
         'url' => array(

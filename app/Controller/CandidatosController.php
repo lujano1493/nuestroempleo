@@ -21,7 +21,7 @@ class CandidatosController extends BaseEmpresasController {
    */
   public $components = array('Session', 'Notificaciones', 'Candidatos');
 
-  private function filters_settings(){
+  private function filters_settings() {
     $param_query = $this->request->query;
     $options = array(
       'params' => $param_query,
@@ -42,11 +42,11 @@ class CandidatosController extends BaseEmpresasController {
     $this->set(compact('title_for_layout'));
   }
 
-  public function filtros(){
+  public function filtros() {
     $this->filters_settings();
   }
 
-  public function candidatos(){
+  public function candidatos() {
     $conditions = array();
     $this->loadModel('CandidatoB');
     $params = $this->request->query;
@@ -60,24 +60,34 @@ class CandidatosController extends BaseEmpresasController {
     $this->set(compact('data'));
   }
 
-  public function perfil($id=null) {  
-        
-    if($id==null){
-        $this->error(__("No existe acción."));
-        $this->redirect("index");
-        return;
+  public function perfil($id = null) {
+    if ($id == null) {
+      $this
+        ->error(__('No existe acción.'))
+        ->redirect(array(
+          'controller' => 'candidatos',
+          'action' => 'index'
+        ));
+      return;
     }
-    // verificar que no este denunciado con status aceptado      
-    $denuncia_=ClassRegistry::init("Denuncia"); 
-    $denuncia_previa = $denuncia_->verifica_status($id,$this->Auth->user('cu_cve')) ;
-    if($denuncia_previa){
-        $this->error(__("No existe candidato."));
-        $this->redirect("index");
-        return;
-    }    
-    $num=$denuncia_->numeroDenuncias($id);
-    if($num > 0){
-        $this->warning(__("Este candidato fue denunciado."));
+
+    // verificar que no este denunciado con status aceptado
+    $denuncia_ = ClassRegistry::init('Denuncia');
+    $denuncia_previa = $denuncia_->verifica_status($id, $this->Auth->user('cu_cve'));
+
+    if ($denuncia_previa) {
+      $this
+        ->error(__('No existe candidato.'))
+        ->redirect(array(
+          'controller' => 'candidatos',
+          'action' => 'index'
+        ));
+      return;
+    }
+
+    $num = $denuncia_->numeroDenuncias($id);
+    if ($num > 0) {
+      $this->warning(__('Este candidato fue denunciado.'));
     }
 
     $candidato = ClassRegistry::init('CandidatoEmpresa')->get($id, 'perfil', array(
@@ -85,12 +95,17 @@ class CandidatosController extends BaseEmpresasController {
       'fromCia' => $this->Auth->user('Empresa.cia_cve'),
     ));
 
-    if(empty($candidato)){
-     $this->error(__('No existe  candidato.'));
-     $this->redirect("index");
+    if (empty($candidato)) {
+      $this
+        ->error(__('No existe candidato.'))
+        ->redirect(array(
+          'controller' => 'candidatos',
+          'action' => 'index'
+        ));
       return;
-    }  
-    $hasVisited = ClassRegistry::init('VisitaCV')->saveIfNotExists($this->Auth->user('cu_cve'), $id);
+    }
+
+    $hasVisited = !$this->Acceso->isDevCompany('obey') && ClassRegistry::init('VisitaCV')->saveIfNotExists($this->Auth->user('cu_cve'), $id);
     if ($hasVisited === 'saved') {
       // $info = $this->Notificaciones->simple_format(array(
       //   'id' => $id,
@@ -113,7 +128,7 @@ class CandidatosController extends BaseEmpresasController {
       'notas' => ClassRegistry::init('Catalogo')->lista('ANOTACION_TIPO')
     );
 
-    $this->set(compact('title_for_layout','candidato', '_listas','denuncia_previa'));
+    $this->set(compact('title_for_layout', 'candidato', '_listas', 'denuncia_previa'));
   }
 
   public function referencias($id, $slug = null, $evaluacionId = null) {
@@ -153,7 +168,7 @@ class CandidatosController extends BaseEmpresasController {
     }
 
     $this->loadModel('Denuncia');
-    if($this->Denuncia->verifica_status($candidatoId,$this->Auth->user('cu_cve'))   ){
+    if ($this->Denuncia->verifica_status($candidatoId,$this->Auth->user('cu_cve'))) {
       $this->warning(__('Existe una denuncia previa.'));
       return;
     }

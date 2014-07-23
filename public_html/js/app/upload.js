@@ -25,8 +25,8 @@
       }, function () {
         var width_ = jcrop.$img.width()
           , height_ = jcrop.$img.height()
-          , width = 250
-          , height = 150;
+          // , width = 250
+          // , height = 150;
         //, scale = 0.4;
         jcrop.$img.data('Jcrop').setOptions({
           aspectRatio : width/height,

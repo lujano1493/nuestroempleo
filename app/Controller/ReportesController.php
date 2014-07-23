@@ -48,7 +48,36 @@ class ReportesController extends AppController {
     $this->set('_dates', $this->dates);
   }
 
-  public function admin_index() {
+  public function admin_index_internos() {
+    $title_for_layout = 'Reportes';
+    if ($this->request->is('post')) {
+      $data = $this->request->data;
+      if (!empty($data['type'])) {
+        date_default_timezone_set('UTC');
+        // Primer día del mes.
+        $initDate = strtotime(date('m/01/Y 00:00:00', strtotime($data['initDate'])));
+        // Este formato obtiene el último día de mes ('t' se refiere a días del mes).
+        $finalDate = strtotime(date('m/t/Y 23:59:59', strtotime($data['finalDate'])));
+        $this->redirect(array(
+          'admin' =>true,
+          'controller' => 'reportes',
+          'action' => $data['type'],
+          'ext' => 'json',
+          '?' => array(
+            'ini' => $initDate,
+            'end' => $finalDate
+          )
+        ), 'request');
+      } else {
+        $this->error(__('Selecciona al menos una opción a graficar.'));
+      }
+    }
+
+    $this->set(compact('title_for_layout'));
+  }
+
+
+    public function admin_index() {
     $title_for_layout = 'Reportes';
     if ($this->request->is('post')) {
       $data = $this->request->data;

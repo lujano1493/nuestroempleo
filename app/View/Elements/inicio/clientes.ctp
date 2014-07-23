@@ -11,7 +11,7 @@
         ?>
         <div class="work span2">
             <a  href="<?=$this->Html->url(array( "compania" => $value['name'],"controller" => "informacion" , "action" => "index" )) ?> " target="_blank" > 
-              <img id="img" src="<?=$value['src_img'] ?>" alt=" "  style="height:102px" > 
+              <img id="img" src="<?=$value['src_img'] ?>" alt=" "  style="width:170px;height:100px;margin:auto" > 
             </a>
         </div>
     <?php  endfor; ?>

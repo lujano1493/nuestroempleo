@@ -52,8 +52,8 @@
   Configure::write('paypal_allow_id', 'eGhjiYuererZ');
 
   Configure::write('dev_companies', array(
-    54, // Obey
-    55, // Nuestro Empleo
+    'obey' => 54, // Obey
+    'nuestroempleo' => 55, // Nuestro Empleo
   ));
 
   /**

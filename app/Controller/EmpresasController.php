@@ -711,16 +711,18 @@ class EmpresasController extends BaseEmpresasController {
 
       if (!empty($data['membresia'])) {
         if (!$this->Empresa->Facturas->changePromo($facturaId, $data['membresia'])) {
-          $this->error(__('Ocurrió un error al actulizar la factura.'));
+          $this->error(__('Ocurrió un error al actualizar la factura.'));
           return ;
         }
       }
 
       $this->Empresa->id = $empresaId;
       if ($this->Empresa->field('cia_tipo') === 1 /* Es convenio */) {
-        $this->error(__('No puedes activar una factura a una empresa que es convenio.'));
+        $this->error(__('No puedes activar una factura de una empresa que es convenio.'));
       } elseif ($action === 'asignar' && $this->Empresa->Facturas->confirm($facturaId, $empresaId)) {
-        $this->success(__('El factura se asignó correctamente.'));
+        $this
+          ->success(__('El factura se asignó correctamente.'))
+          ->reirect('referer');
       } else {
         $this->error(__('Ocurrió un error al procesar el factura.'));
       }

@@ -86,7 +86,7 @@
             ?>
 
             <?php if($Oferta['oferta_status'] > 1):?>
-               <img id="img" src="<?=$img_tipo_oferta?>"  width="200px" height="70px" >
+               <img id="img" src="<?=$img_tipo_oferta?>"  width="200px" height="70px"  style="width:200px;height:80px;margin:auto">
 
             <?php endif; ?>
 
@@ -105,7 +105,7 @@
             ?>
 
 
-            <img id="img" src="<?=$ruta_img?>"  width="200px" height="70px" >
+            <img id="img" src="<?=$ruta_img?>"  width="200px" height="70px"  style="width:200px;height:80px;margin:auto" >
 
 
         </div>

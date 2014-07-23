@@ -29,10 +29,10 @@
 			$url=Router::fullBaseUrl();
 			$dia=date("d"); $mes=date("m");  $anio=date("Y");
 			$str_mes=Funciones::mes_numero_palabra($mes,'largo');
-			$dias_despues= date("d", strtotime(date("m/d/Y")."+14 day"));		
-			$mes_despues= date("m", strtotime(date("m/d/Y")."+14 day"));	
-			$str_mes_despues=Funciones::mes_numero_palabra($mes_despues,'largo');	
-			$label= $str_mes !== $str_mes_despues ? " $dia de $str_mes al $dias_despues de $str_mes_despues de $anio" : "$dia  al $dias_despues de $str_mes de  $anio" ;
+			$dias_antes= date("d", strtotime(date("m/d/Y")."-14 day"));		
+			$mes_antes= date("m", strtotime(date("m/d/Y")."-14 day"));	
+			$str_mes_antes=Funciones::mes_numero_palabra($mes_antes,'largo');	
+			$label= $str_mes !== $str_mes_antes ? "  $dias_antes de $str_mes_antes  al $dia de $str_mes de $anio" : " $dias_antes al  $dia de $str_mes de  $anio" ;
 			?>
 		Ofertas publicadas del <?=$label?>
 	</p> 
@@ -66,10 +66,10 @@
 		  		<td style="text-align: center;">
 				  	<?php 				  		
 				  		$image=	Funciones::check_image_cia($oferta['cia_cve'] );
-				  		$image= $oferta['oferta_privada'] == 1 ? '/img/img_oferta_priv.jpg' : $image;
+				  		$image= $oferta['oferta_privada'] == 1 ? '/img/oferta/img_oferta_priv.jpg' : $image;
 				  	?>	
 				  	<div style="">
-				  		<?=$this->Html->link("<img src='{$url}{$image}' width='200' height='65' style='max-width:95%;border:3px solid #B6B6B6;background-color:#FFF'> ",$dir,array(
+				  		<?=$this->Html->link("<img src='{$url}{$image}' width='200' height='65' style='width:175px;height:105px;margin:auto;border:3px solid #B6B6B6;background-color:#FFF'> ",$dir,array(
 				  			'escape' => false
 				  	))?>
 				  	</div>

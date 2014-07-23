@@ -81,7 +81,7 @@
   };
 
   $.fn.chartsito = function (opts) {
-    var options = 'object' === typeof opts && $.extend({}, Chartsito.defaults, opts)
+    var options = $.extend({}, Chartsito.defaults, 'object' === typeof opts ? opts : {})
       , args = Array.prototype.slice.call(arguments, 1);
 
     return this.each(function () {

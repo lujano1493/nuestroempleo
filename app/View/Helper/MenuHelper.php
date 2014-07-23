@@ -51,7 +51,7 @@ class MenuHelper extends AppHelper {
       $item['title'] = $title;
     }
 
-    $li = '<li class="' . $this->_isActive($item['url']) . '">' . $this->_link($item)
+    $li = '<li class="' . $this->_isActive($item) . '">' . $this->_link($item)
       . (isset($item['element']) ? $this->element($item['element']) : '')
       . '</li>';
 
@@ -72,14 +72,19 @@ class MenuHelper extends AppHelper {
       $options['class'] .= 'active';
     }
 
-
     return $this->Html->link($title, $url, $options, $confirmMessage);
   }
 
-  private function _isActive($url) {
-    if ($url['controller'] === $this->request->params['controller']
-      || strpos($this->request->params['controller'], $url['controller'])
-      || strpos($url['controller'], $this->request->params['controller'])) {
+  private function _isActive($item) {
+    $controller = $this->request->params['controller'];
+    $url = $item['url'];
+
+    $isActive = $url['controller'] === $controller
+      || strpos($controller, $url['controller'])
+      || strpos($url['controller'], $controller)
+      || (!empty($item['active_with']) && $item['active_with'] === $controller);
+
+    if ($isActive) {
       return 'active open';
     }
     return '';
