@@ -11,6 +11,7 @@
         content_type=this.content_type=$div.data("content-type") || 'html',
         template_id=this.template_id=$div.data("template-id")|| "#",
         direction=this.direction=$div.data("direction")||'horizontal',
+        loop=this.loop=$div.data("loop") || false,
         type=this.type=$div.data("type") || "flexslider",
         num_item_display=this.num_item_display=$div.data("num-item-display")|| 2,
         disabled_direction_nav=this.disabled_direction_nav=$div.data("disabled-direction-nav")|| false,   
@@ -123,7 +124,7 @@
             direction:  self.direction, 
             controlNav: false,       
             slideshow: false,
-            animationLoop: false,
+            animationLoop: self.loop,
             directionNav: !self.disabled_direction_nav,
             start: function(slider){       
                 $div.spin(false);   

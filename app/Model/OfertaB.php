@@ -1,7 +1,6 @@
 <?php
 
 App::import('Utility','Utilities');
-App::import('Utility','Utilities');
 
 class OfertaB extends AppModel {
   public $name = 'OfertaB';

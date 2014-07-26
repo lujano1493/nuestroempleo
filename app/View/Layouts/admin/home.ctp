@@ -56,6 +56,7 @@
       }
 
       echo $this->AssetCompress->includeJs();
+      echo $this->Html->script("plugin.redes.sociales");
       // echo $this->AssetCompress->script('admin.js');
     ?>
   </body>

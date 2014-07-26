@@ -40,6 +40,11 @@ class Funciones {
 		return $string;
 	}
 
+	public static function include_all_php($folder){
+    	foreach (glob("{$folder}/*.php") as $filename){
+        	include_once $filename;
+    	}
+	}
 
 
 	public static function hash($sString, $sPsw = null) {

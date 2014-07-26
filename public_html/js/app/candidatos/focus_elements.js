@@ -5,10 +5,12 @@
 $(document).ready(function (){
       $(function (){
           var process_=  function ($element){
+            var focus= $element.data("focus")===false ? true:false ;        
+
             focus_scroll($element,function (){
                                                 $element.trigger("click");
 
-              });
+              },!focus);
 
           }   
           var    ref= window.top.location.href, info= ref.split("#")  ;
@@ -40,16 +42,19 @@ $(document).ready(function (){
 
 });
 
-function focus_scroll($element,callback){
-
+function focus_scroll($element,callback,focus){
+      focus= focus===false ? false :true;
       if($element.length==0){
         return false;
       }
       callback= $.isFunction(callback) ? callback : function (){};
-     $('html, body').animate({
+      if(focus){
+          $('html, body').animate({
                             'scrollTop': $element.offset().top - 80
-                          },callback);
-
-
+                          },callback);      
+      }
+      else{
+          callback();
+      }
 }
 

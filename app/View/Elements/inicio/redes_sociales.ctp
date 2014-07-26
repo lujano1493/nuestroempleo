@@ -17,18 +17,18 @@
     <?php if (empty($micrositio)) :?>            
       <?php if ($this->params['controller'] !== 'empresas') { ?>
         <a class=" btn-warning btn-medium registrate-candidato pull-left margin_left_5" 
-        data-component="triggerelement" data-target=".option-registrate-candidato"  href="/">
+        data-component="triggerelement" data-target=".option-registrate-candidato"  href="/"   id="registrato-candidato01"  data-focus="false" >
           <i class="icon-user"></i> 
           Regístrate
         </a>     
       <?php } else { ?>
 
-            <a class=" btn-warning btn-medium pull-left margin_left_5" href="#registro-empresas" data-toggle="modal"  >
+            <a class=" btn-warning btn-medium pull-left margin_left_5" href="#registro-empresas" data-toggle="modal"  id="registrato-empresas02" >
                 <i class="icon-briefcase"></i> 
                 Regístrate
               </a>
       <?php } ?>
-        <a class=" btn-success btn-medium pull-left margin_left_5" href="#registro-empresas"  data-toggle="modal">
+        <a class=" btn-success btn-medium pull-left margin_left_5" href="#registro-empresas"  data-toggle="modal" id="registrato-empresas01">
           <i class="icon-edit-sign"></i> 
           Publicar Oferta
         </a>

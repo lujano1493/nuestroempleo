@@ -2,6 +2,7 @@
 
 App::uses('AppModel', 'Model');
 App::uses('Acceso','Utility');
+App::uses('Usuario','Utility');
 
 class Oferta extends AppModel {
 
@@ -601,6 +602,16 @@ class Oferta extends AppModel {
                       ),
                       'type' =>'LEFT'
               ),
+
+                array(
+                'alias' => 'Sueldo',
+                'fields' => array("Sueldo.elsueldo_ini  {$this->alias}__sueldo"),
+                'conditions' => array(
+                  'Sueldo.elsueldo_cve = '.$this->alias.'.sueldo_cve '
+                ),
+                'table' => 'texplabsueldos',
+                'type' => 'LEFT'
+            ),
               $this->joins['ciudad'],
               $this->joins['estado']
         );
@@ -1333,12 +1344,13 @@ class Oferta extends AppModel {
     $of= $oferta[$this->alias];
     $dir=$oferta['Direccion'];
 
+    $imgPath= Usuario::getPhotoPath($of['cia_cve'],'empresa');
     return    $network_s ==='facebook' ?array(
         'name' => $of['puesto_nom'],
-        'description' => "$of[puesto_nom] $dir[ciudad] $dir[estado]  $of[oferta_link] " ,
-        'picture' => 'https://www.nuestroempleo.com.mx/img/logo.png',
-        'message' => 'mensaje generico',
-        'link' => 'http://www.nuestroempleo.com'
+        'description' => "$of[puesto_nom], $of[sueldo], $dir[ciudad] $dir[estado],  $of[oferta_link] " ,
+        'picture' => "http://www.nuestroempleo.com.mx/$imgPath",
+        'message' => $of['oferta_resumen'],
+        'link' => $of['oferta_link']
         ):array(); 
 
   }

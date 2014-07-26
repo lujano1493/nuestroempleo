@@ -32,7 +32,8 @@
     "wisembly/elephant.io":"2.0.3",
     "webtechnick/cakephp-facebook-plugin":"*",
     "webtechnick/cakephp-paypal-ipn-plugin": "2.*@dev",
-    "phpoffice/phpexcel": "dev-master"
+    "phpoffice/phpexcel": "dev-master",
+    "facebook/php-sdk-v4" : "4.0.*"
   },
   "minimum-stability" : "dev",
   "repositories": [

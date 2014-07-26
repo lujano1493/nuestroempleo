@@ -4,7 +4,7 @@
  window.fbAsyncInit = function() {
     FB.init({
       appId      : window.api_facebook_id, // App ID
-
+      version    : 'v2.0',
       channelURL : '../../Vendor/channel.php', // Channel File
       status     : true, // check login status
       cookie     : true, // enable cookies to allow the server to access the session
@@ -110,7 +110,7 @@
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
         js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/"+window.api_facebook_locate+"/all.js#xfbml=1&appId="+window.api_facebook_id;
+        js.src = "//connect.facebook.net/"+window.api_facebook_locate+"/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
 
@@ -123,6 +123,7 @@
   // This testAPI() function is only called in those cases. 
   function testAPI() {   
     FB.api('/me', function(data) {
+      console.log(data);
     });
   }  
 })(window, jQuery);

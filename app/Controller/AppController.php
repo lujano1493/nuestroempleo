@@ -69,8 +69,7 @@ class AppController extends Controller {
         'json' => 'AppJsonView'
       )
     ),
-    'Session',
-    'Facebook'
+    'Session'
   );
 
   /**

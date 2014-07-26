@@ -1,9 +1,5 @@
 <?php
 App::uses('FB', 'Facebook.Lib');
-
-use Facebook\GraphSessionInfo;
-use Facebook\FacebookRequest;
-use Facebook\FacebookSession;
 /**
  * Componente para verificar los permisos, accesos y créditos del Usuario.
  */
@@ -36,7 +32,7 @@ class FacebookComponent extends Component {
   public  function login($options=array()){
       $options_=array(
         'scope' => 'email,user_likes,publish_actions',
-        'redirect_uri' => '/',
+        'redirect_uri' =>  Router::fullBaseUrl(),
         'display'=> 'page'
       );  
       $options=array_merge($options_,$options);
@@ -46,12 +42,17 @@ class FacebookComponent extends Component {
 
   public  function logout($options=array()){
     $options_=array(
-      'next'=>'/'
+      'next'=> Router::fullBaseUrl()
       );
     $options=array_merge($options_,$options);
     return $this->facebook->getLogoutUrl($options);
 
   }
+
+ public function delete(){
+      $this->facebook->destroySession();
+
+ }
 
   public  function getUserId(){  
       return $this->facebook->getUser();

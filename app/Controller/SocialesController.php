@@ -12,11 +12,21 @@ class SocialesController extends BaseEmpresasController {
     */
   public $name = 'Sociales';
 
+  public $components=array(
+    'Facebook'
+  );
+
 
   /**
     * Indica qué modelos se usarán. Un array vacío, indica que no usará algún modelo.
     */
   public $uses = array();
+
+
+  public function admin_logout_network(){
+    $this->Facebook->delete();
+    $this->redirect('/admin/sociales/ofertas');
+  }
 
 
   public function admin_ofertas(){
@@ -29,6 +39,20 @@ class SocialesController extends BaseEmpresasController {
         )
       );
       $this->set(compact("ofertas"));
+    }else{
+
+          $login_fc= $this->Facebook->login(array(
+              'redirect_uri' =>Router::fullBaseUrl()."/admin/sociales/ofertas"
+            ));
+          $logout_fc=$this->Facebook->logout(array(
+              'next' => Router::fullBaseUrl()."/admin/sociales/logout_network"
+              )
+            );
+
+          $userFacebok = $this->Facebook->getUserId();
+          $pefilFacebook=$this->Facebook->perfil();             
+          $this->set(compact("userFacebok","pefilFacebook","login_fc","logout_fc"));
+
     }
 
 
@@ -96,10 +120,6 @@ class SocialesController extends BaseEmpresasController {
      * verificamos que este loggeado en facebook para compartir 
      * @var [type]
      */    
-    $userFacebok = $this->Facebook->getUserId();
-    $pefilFacebook=$this->Facebook->perfil();    
-   
-    $this->set(compact("userFacebok","pefilFacebook"));
   }
 
  
