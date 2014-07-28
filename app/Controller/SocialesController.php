@@ -1,20 +1,20 @@
 <?php
 
-App::uses('BaseEmpresasController', 'Controller');
+App::uses('AppController', 'Controller');
 App::uses('Funciones','vendor');
+App::uses('Facebook','Utility');
+App::uses('Twitter','Utility');
 /**
  * Controlador general de la aplicación.
  */
-class SocialesController extends BaseEmpresasController {
+class SocialesController extends AppController {
 
   /**
     * Nombre del controlador.
     */
   public $name = 'Sociales';
 
-  public $components=array(
-    'Facebook'
-  );
+ 
 
 
   /**
@@ -24,8 +24,11 @@ class SocialesController extends BaseEmpresasController {
 
 
   public function admin_logout_network(){
-    $this->Facebook->delete();
-    $this->redirect('/admin/sociales/ofertas');
+    $this->Session->delete('fb_token');
+    $this->Session->delete('tw_token');
+    $url=$this->Session->read("redirect_network_logout");
+    $this->Session->delete("redirect_network_logout");
+    $this->redirect($url);
   }
 
 
@@ -40,62 +43,81 @@ class SocialesController extends BaseEmpresasController {
       );
       $this->set(compact("ofertas"));
     }else{
-
-          $login_fc= $this->Facebook->login(array(
-              'redirect_uri' =>Router::fullBaseUrl()."/admin/sociales/ofertas"
-            ));
-          $logout_fc=$this->Facebook->logout(array(
-              'next' => Router::fullBaseUrl()."/admin/sociales/logout_network"
-              )
-            );
-
-          $userFacebok = $this->Facebook->getUserId();
-          $pefilFacebook=$this->Facebook->perfil();             
-          $this->set(compact("userFacebok","pefilFacebook","login_fc","logout_fc"));
-
+          $this->facebook_();
+          $this->twitter_();
     }
+  }
 
+
+  private function  twitter_(){
+    $url_redirect= Router::fullBaseUrl()."/admin/sociales/ofertas" ;
+    $twitter= new Twitter($url_redirect);
+    $status_tw=$twitter->getStatus();
+    $login_tw=$twitter->login();
+    $logout_tw="/admin/sociales/logout_network";
+    $this->Session->write("redirect_network_logout",$url_redirect);
+
+
+     $this->set(compact("status_tw","login_tw","logout_tw"));
 
   }
 
+  private function facebook_(){
+      $url_redirect=Router::fullBaseUrl()."/admin/sociales/ofertas";
+      $facebook= new Facebook( $url_redirect );
+      $login_fc= $facebook->login();
+      $logout_fc=$facebook->logout(Router::fullBaseUrl()."/admin/sociales/logout_network");
+      $userFacebok = $facebook->getIdUser();
+      $pefilFacebook=$facebook->getPerfil();             
+      $this->Session->write("redirect_network_logout",$url_redirect);
+      $this->set(compact("userFacebok","pefilFacebook","login_fc","logout_fc"));
+  }
   public function admin_compartir($red=null,$tipo=null,$id=null){
     if( $red==null || $tipo==null || $tipo ==null ){
       $this->error(__("Error no se ha enviado ningun parametro."));
       return ;
     }
     $model=ClassRegistry::init($tipo == 'oferta' ? 'Oferta': 'Evento');  
+    $_label= $tipo==='oferta' ? __(" la oferta ") : __(" el evento ") ;
     $this->loadModel("Compartir");
     $this->Compartir->begin(); 
-    if(! $this->Compartir->compartir($id,$tipo,$red) ){
-      $this->error(__("No fue posible guardar la/el $tipo."));
+    if( !$this->Compartir->compartir($id,$tipo,$red) ){
+      $this->error(  __("No fue posible guardar $_label.") );
       $this->Compartir->rollback();
       return;
-    }    
-      $compartir=$model->find("sociales",array(
+    } 
+    $compartir=$model->find("sociales",array(
         "id" =>$id,
         "idUser" => $this->user['cu_cve']
         )
       );      
       $params=$model->format_to_share($red,$compartir[0]);
- 
-      if(!$this->compartir_red_social($red, $params) ){
-        $this->error(__("No fue posible compartir en  $red  la/el $evento"));
+      $sts_rs=$this->compartir_red_social($red, $params);
+      if( $sts_rs===false || $sts_rs===null || $sts_rs===-1 ){
+        $label_error= $sts_rs===false ?  __("No fue posible compartir en  $red   $_label") :
+          ( $sts_rs===null ? __("Ocurrio un error al tratar de compartir $_label, intentalo más tarde"):
+          __("Debes iniciar sessión en $red.")    )  ;
+        $this->error( $label_error );
         $this->Compartir->rollback();
         return;
-      }
-
-      $this->set(compact("compartir","tipo"));
-     $this->callback($this->request->data['after']);
-     $this->Compartir->commit();
-
-
-
+      } 
+    $this->set(compact("compartir","tipo"));
+    $this->callback($this->request->data['after']);
+    $this->Compartir->commit();
+    $this->success(__("$_label fue compartida en $red") );
   }
 
 
   private function compartir_red_social($red='facebook',$params=array()){
-      if($red==='facebook'){      
-         return $this->Facebook->post($params);
+      if($red==='facebook'){
+        $f=new Facebook(Router::fullBaseUrl()."/admin/sociales/ofertas");
+        $sts=$f->postLink($params);       
+        return $sts;
+      }
+      else if ($red==='twitter'){
+        $tw= new Twitter();
+        $sts= $tw->tweet($params);
+        return  $sts;
       }
 
       return false;

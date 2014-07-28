@@ -33,7 +33,8 @@
     "webtechnick/cakephp-facebook-plugin":"*",
     "webtechnick/cakephp-paypal-ipn-plugin": "2.*@dev",
     "phpoffice/phpexcel": "dev-master",
-    "facebook/php-sdk-v4" : "4.0.*"
+    "facebook/php-sdk-v4" : "4.0.*",
+    "abraham/twitteroauth": "*"
   },
   "minimum-stability" : "dev",
   "repositories": [

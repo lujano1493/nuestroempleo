@@ -45,23 +45,17 @@ use Facebook\GraphSessionInfo;
 
 		private $helper=null;
 		private $session=null;
-
-		public $loginUrl=null;
-		public $logoutUrl=null;
-
-
-		public function __construct($url= '' ){
-			$this->urlredirect=Router::fullBaseUrl()."/admin/sociales/ofertas" ;
-			$this->__getSession();
+		private $exception=null;
+		public function __construct($url=null){
+			$this->__getSession($url);
 		}
-
-
-		public  function __getSession(){
+		public  function __getSession($redirect=null){
+			$redirect= !$redirect ? Router::fullBaseUrl(): $redirect;
 			Configure::load('facebook');
 			$facebook_config=   Configure::read('Facebook');
 			FacebookSession::setDefaultApplication($facebook_config['appId'], $facebook_config['secret']);
 				 // login helper with redirect_uri
-			$helper = new FacebookRedirectLoginHelper( $this->urlredirect );
+			$helper = new FacebookRedirectLoginHelper( $redirect);
 			$session=null;
 			// see if a existing session exists
 			if ( isset( $_SESSION ) && isset( $_SESSION['fb_token'] ) ) {
@@ -88,11 +82,11 @@ use Facebook\GraphSessionInfo;
 			  } catch( FacebookRequestException $ex ) {
 			    // When Facebook returns an error
 			    // handle this better in production code
-			    debug( $ex );
+			  	$this->exception=$ex;
 			  } catch( Exception $ex ) {
 			    // When validation fails or other local issues
 			    // handle this better in production code
-			    debug( $ex );
+			   	$this->exception=$ex;
 			  }
 			  
 			}
@@ -102,23 +96,26 @@ use Facebook\GraphSessionInfo;
 			  $_SESSION['fb_token'] = $session->getToken();
 			  // create a session using saved token or the new one we generated at login
 			  $session = new FacebookSession( $session->getToken() );			  						  			 
-			 	 $this->logoutUrl=$helper->getLogoutUrl( $session, Router::fullBaseUrl()."/admin/sociales/logout_network");
-			} 			
-			else{
-				 $this->loginUrl=$helper->getLoginUrl( array( 'email', 'user_friends' ) );
-			}
+			 	
+			} 	
 			$this->session=$session;	
-			$this->helper=$helper;
-
-				
+			$this->helper=$helper;		
 		}
-
-		public function  login(){		
-			return   $this->loginUrl;
+		public function  login($options=array()){
+			$options_=array(
+				"email",
+				"user_friends",
+				"publish_actions"
+			);
+			$options=array_merge($options_,$options);
+			return   $this->helper->getLoginUrl( $options );;
 		}
 		public function logout($redirect=null){		
-			// $helper = new FacebookRedirectLoginHelper( $redirect );
-			 return  $this->logoutUrl; 
+			$redirect= !$redirect  ?  Router::fullBaseUrl()."/admin/sociales/logout_network" : $redirect;
+			if( empty($this->session)  ||!$this->session  instanceof FacebookSession ){
+				return false;
+			} 
+			return $this->helper->getLogoutUrl( $this->session, $redirect) ; 
 		}
 	 public function  getIdUser(){	 
 	 	$graphObject=$this->getPerfil();
@@ -136,12 +133,19 @@ use Facebook\GraphSessionInfo;
 		return $graphObject;
 	 }
 	 public function postLink($options=array(),$to='me'){
+	 	 $options_=array(
+        'name' => "Nuestro Empleo Desarrollo",
+        'description' => 'desarrollo de en nuestro empleo para redes sociales',
+        'picture' => 'https://www.nuestroempleo.com.mx/img/logo.png',
+        'message' => 'mensaje generico',
+        'link' => 'http://www.nuestroempleo.com'
+        );
+	 	 $options=array_merge($options_,$options);
 	 		if($this->session) {
 				  try {
-
 				    $response = (new FacebookRequest(
-				      $this->session, 'POST', '/'+$to+'/feed', $options
-				    ))->execute()->getGraphObject();
+				      $this->session, 'POST', '/'.$to.'/feed', $options
+				       ))->execute()->getGraphObject();
 
 				   return $response->getProperty('id');
 
@@ -155,7 +159,9 @@ use Facebook\GraphSessionInfo;
 	 }
 
 
-
+	 public function getException(){
+	 	return $this->exception;
+	 }
 
 		public static function _init(){
 			// start session

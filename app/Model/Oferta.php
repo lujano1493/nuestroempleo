@@ -1345,13 +1345,21 @@ class Oferta extends AppModel {
     $dir=$oferta['Direccion'];
 
     $imgPath= Usuario::getPhotoPath($of['cia_cve'],'empresa');
+    if($network_s==='twitter'){
+      $file_name= WWW_ROOT. substr($imgPath,1);
+      $name=basename($file_name);     
+    }
+ 
     return    $network_s ==='facebook' ?array(
         'name' => $of['puesto_nom'],
         'description' => "$of[puesto_nom], $of[sueldo], $dir[ciudad] $dir[estado],  $of[oferta_link] " ,
         'picture' => "http://www.nuestroempleo.com.mx/$imgPath",
         'message' => $of['oferta_resumen'],
         'link' => $of['oferta_link']
-        ):array(); 
+        ): (  $network_s==='twitter' ?  array(
+          'status' => "$of[puesto_nom], $of[sueldo], $dir[ciudad] $dir[estado],  $of[oferta_link] ",
+          'media[]'=> "@{$file_name};type=image/jpeg;filename={$name}"
+          )   :array() ) ; 
 
   }
 

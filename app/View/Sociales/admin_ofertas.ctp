@@ -25,6 +25,21 @@
 
                 }
 
+                  if( !$status_tw ){
+                    echo $this->Html->link(__('Ingreso Twitter'), $login_tw , array(
+                      'class' => 'btn btn-sm btn-blue',
+                      'icon' => 'key',
+                    ));
+                }  
+                else   {
+                       echo $this->Html->link(__('Cerrar Twitter'), $logout_tw , array(
+                      'class' => 'btn btn-sm btn-danger',
+                      'icon' => 'close',
+                    ));
+
+
+                }
+
               ?>
                 </div>
       
