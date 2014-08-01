@@ -1,5 +1,6 @@
 /* jshint unused: false */
 /* jshint sub: true */
+/* jshint camelcase: false */
 (function ($, undefined) {
   'use strict';
 
@@ -52,25 +53,24 @@
     return $div;
   };
 
-  $('.checkboxinput input[type=checkbox]').on('change', function () {
+  $(document).on('ready', function () {
+    $('#membresiaDetalles').suggestito({
+      renderer: inputs
+    });
+  }).on('change', '.checkboxinput input[type=checkbox]', function () {
     var $this = $(this)
       , $parent = $this.closest('.checkboxinput')
       , $text = $parent.find('input[type=text]');
 
     $text.prop('disabled', !$this.is(':checked'));
-  });
-
-  $(document).on('ready', function () {
-    $('#membresiaDetalles').suggestito({
-      renderer: inputs
-    });
   }).on('success.ajaxform', '#anotaciones form', function (e, data) {
-    this.reset();
-    if(data.results.is_created){
-      var $form = $(this)
-        , $container = $form.parent()
-        , $anotaciones = $container.find('#lista-anotaciones');
+    var $form = $(this)
+      , $container = $form.parent()
+      , $anotaciones = $container.find('#lista-anotaciones');
 
+    this.reset();
+
+    if (data.results.is_created) {
       if ($anotaciones.size() === 0) {
         $container.find('.empty').remove();
         $anotaciones = $('<ul></ul>', {
@@ -80,24 +80,28 @@
       }
 
       $anotaciones.prepend($.template('#tmpl-notas', data.results));
+    } else {
+      $form.replaceWith($.template('#tmpl-notas', data.results));
     }
-      else{
-            $(this).replaceWith($.template('#tmpl-notas',data.results));
-
-      }
-    
   }).on('success.ajaxlink', '#lista-anotaciones .nota', function () {
     $(this).remove();
-  }).on('click','#anotaciones .edit',function(event){
-      event.preventDefault();
-      var $container= $(this).closest('.nota'),data=$container.find(".data").data(),
-       replace= $.parseHTML( $.template("#tmpl-form-notas",data) ) ;     
-        $container.replaceWith(replace);
-        $(replace).find(".cancel-edit").data("container",$container);
-  }).on('click',"#anotaciones .cancel-edit",function (event){
-      event.preventDefault();
-      var $this=$(this),$container=$this.closest('.nota');
-      $container.replaceWith($this.data("container"));
+  }).on('click','#anotaciones .edit', function (event) {
+    var $container = $(this).closest('.nota')
+      , data = $container.find('.data').data()
+      , replace = $.parseHTML($.template('#tmpl-form-notas', data));
 
-  }) ;
+    $container.replaceWith(replace);
+    $(replace).find('.cancel-edit').data('container', $container);
+
+    event.preventDefault();
+    return false;
+  }).on('click', '#anotaciones .cancel-edit', function (event) {
+    var $this = $(this)
+      , $container = $this.closest('.nota');
+
+    $container.replaceWith($this.data('container'));
+
+    event.preventDefault();
+    return false;
+  });
 })(jQuery);

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante LugarExpedicion="CUAUHTEMOC" metodoDePago="DEPOSITO DE CUENTA" tipoDeComprobante="egreso" total="-786.93" Moneda="MXN" TipoCambio="1.0" subTotal="2003.77" certificado="MIIE8zCCA9ugAwIBAgIUMDAwMDEwMDAwMDAyMDI2MDU5NjkwDQYJKoZIhvcNAQEFBQAwggGVMTgwNgYDVQQDDC9BLkMuIGRlbCBTZXJ2aWNpbyBkZSBBZG1pbmlzdHJhY2nDs24gVHJpYnV0YXJpYTEvMC0GA1UECgwmU2VydmljaW8gZGUgQWRtaW5pc3RyYWNpw7NuIFRyaWJ1dGFyaWExODA2BgNVBAsML0FkbWluaXN0cmFjacOzbiBkZSBTZWd1cmlkYWQgZGUgbGEgSW5mb3JtYWNpw7NuMSEwHwYJKoZIhvcNAQkBFhJhc2lzbmV0QHNhdC5nb2IubXgxJjAkBgNVBAkMHUF2LiBIaWRhbGdvIDc3LCBDb2wuIEd1ZXJyZXJvMQ4wDAYDVQQRDAUwNjMwMDELMAkGA1UEBhMCTVgxGTAXBgNVBAgMEERpc3RyaXRvIEZlZGVyYWwxFDASBgNVBAcMC0N1YXVodMOpbW9jMRUwEwYDVQQtEwxTQVQ5NzA3MDFOTjMxPjA8BgkqhkiG9w0BCQIML1Jlc3BvbnNhYmxlOiBDZWNpbGlhIEd1aWxsZXJtaW5hIEdhcmPDrWEgR3VlcnJhMB4XDTEyMTIxNDAwMjExN1oXDTE2MTIxNDAwMjExN1owggEzMUcwRQYDVQQDEz5TRVJWSUNJT1MgREUgUFJPTU9DSU9OIFkgQ09NRVJDSUFMSVpBQ0lPTiBERSBNRVhJQ0FMSSBTQSBERSBDVjFHMEUGA1UEKRM+U0VSVklDSU9TIERFIFBST01PQ0lPTiBZIENPTUVSQ0lBTElaQUNJT04gREUgTUVYSUNBTEkgU0EgREUgQ1YxRzBFBgNVBAoTPlNFUlZJQ0lPUyBERSBQUk9NT0NJT04gWSBDT01FUkNJQUxJWkFDSU9OIERFIE1FWElDQUxJIFNBIERFIENWMSUwIwYDVQQtExxTUEMwNTEwMjU5QTUgLyBSQUhSNDYwNDE1STE0MR4wHAYDVQQFExUgLyBSQUhSNDYwNDE1SERGTVJEMDMxDzANBgNVBAsTBk1hdHJpejCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAqa+kmynJM/nhCBcKJVXQuQRQtjjfQAuoS9zxFbCk0W7ohqMmKjk6ts7D4zi2YnoCKiWIEzxqbJYPJewmhx0BzQKpBR2lohBgBLMEOdv+GeAS9L4VU9n49+WLRHPUaIZX5vSMEVChPxqKvVtV6VtXXLSvWs0/+HWKTfG8k5H71D8CAwEAAaMdMBswDAYDVR0TAQH/BAIwADALBgNVHQ8EBAMCBsAwDQYJKoZIhvcNAQEFBQADggEBAKtH+WWPGzz8Ob+a76OOuuZw65PA0XmGaev+SV6enOSKq3Zd+EBENw8uPlphpnyOBvHtwA/vhe7uGrp8cBHwr8sqsYSxrDRsEQqk9I5Skv97EKdPDPVCwnqAT7MnE9mj5h38ZwDrhTaqMO+Zg+EbwJLtvAD7JUsh84bBSPqE4d3keLxHbv7yEtrnAI4yB6Glp3PEuwHv78vPb3Cn+QIF2J11f2N+EMzAEA+EKn0THdNozUDgfjsMCjUeN8d7ehoWrHSRpjW69VYbFtGVW1KW94afjauZdeb/t28vYhevJ7fXseQarY/Sq2Rlq8KpRLnj1Fh3JTGwxaGeSnv/XQ07adM=" noCertificado="00001000000202605969" formaDePago="UNA SOLA EXHIBICION" sello="VWPLOv8YA1ClDpcscGBYU4XQkv1FVg8JU1Az4v/BlvS6mbWS8sqV88u8LT8i2v5Jl1F/7jd8rSKlbnhbufb5ZX1YmJCpAALBlcQ9r8+CZndArpPCrdcE1711/7lby5XCVcGPiq9aru7YASV1ubc2XJN+SZaBT2068Xu4pVLCzY8=" fecha="2014-07-24T10:50:17" folio="1" version="3.2" xsi:schemaLocation="http://www.sat.gob.mx/cfd/3  http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd" xmlns:nomina="http://www.sat.gob.mx/nomina" xmlns:cfdi="http://www.sat.gob.mx/cfd/3" xmlns:n2="http://www.sat.gob.mx/TimbreFiscalDigital" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <cfdi:Emisor nombre="SERVICIOS DE PROMOCION Y COMERCIALIZACION DE MEXICALI, S.A. DE C.V." rfc="IPB050810VC3">
+        <cfdi:DomicilioFiscal codigoPostal="06170" pais="MEXICO" estado="DISTRITO FEDERAL" municipio="CUAUHTEMOC" colonia="HIPODROMO DE LA CONDESA" calle="AV NUEVO LEON 202"/>
+        <cfdi:RegimenFiscal Regimen="Regimen 01"/>
+    </cfdi:Emisor>
+    <cfdi:Receptor nombre="YESSICA JULIANA BURROLA RODRIGUEZ" rfc="BURY870109638">
+        <cfdi:Domicilio pais="MEXICO"/>
+    </cfdi:Receptor>
+    <cfdi:Conceptos>
+        <cfdi:Concepto importe="-786.93" valorUnitario="-786.93" descripcion="PAGO DE NOMINA" unidad="SERVICIO" cantidad="1"/>
+    </cfdi:Conceptos>
+    <cfdi:Impuestos totalImpuestosRetenidos="0.00"/>
+    <cfdi:Complemento>
+        <nomina:Nomina SalarioDiarioIntegrado="150.82" SalarioBaseCotApor="150.82" PeriodicidadPago="NOMINA QUINCENAL" Puesto="MOZO DE AREAS PUBLICAS" Antiguedad="3" FechaInicioRelLaboral="2011-01-13" Departamento="CONTABILIDAD NOGALES" NumDiasPagados="15" FechaFinalPago="2013-03-15" FechaInicialPago="2013-03-01" FechaPago="2013-03-15" NumSeguridadSocial="24058729336" TipoRegimen="2" CURP="BURY870109MSRRDS01" NumEmpleado="N:357, E:9" Version="1.1">
+            <nomina:Percepciones TotalExento="78.77" TotalGravado="1925.00">
+                <nomina:Percepcion ImporteExento="0.00" ImporteGravado="1925.00" Concepto="1 - SUELDOS" Clave="001" TipoPercepcion="001"/>
+                <nomina:Percepcion ImporteExento="-0.37" ImporteGravado="0.00" Concepto="43 - REDONDEO A PESOS" Clave="043" TipoPercepcion="016"/>
+                <nomina:Percepcion ImporteExento="79.14" ImporteGravado="0.00" Concepto="212 - SUBSIDIO PARA EL EMPLEO" Clave="212" TipoPercepcion="017"/>
+            </nomina:Percepciones>
+            <nomina:Deducciones TotalExento="2790.70" TotalGravado="0.00">
+                <nomina:Deduccion ImporteExento="-0.48" ImporteGravado="0.00" Concepto="118 - AJUSTE REDONDEO A PESOS" Clave="118" TipoDeduccion="004"/>
+                <nomina:Deduccion ImporteExento="2594.93" ImporteGravado="0.00" Concepto="350 - CREDITO INFONAVIT" Clave="350" TipoDeduccion="005"/>
+                <nomina:Deduccion ImporteExento="3.75" ImporteGravado="0.00" Concepto="352 - 1% MANTENIMIENTO  INFONAVIT" Clave="352" TipoDeduccion="010"/>
+                <nomina:Deduccion ImporteExento="192.50" ImporteGravado="0.00" Concepto="402 - APORT. FONDO DE AHORRO EMPLEAD" Clave="402" TipoDeduccion="004"/>
+            </nomina:Deducciones>
+        </nomina:Nomina>
+    </cfdi:Complemento>
+</cfdi:Comprobante>

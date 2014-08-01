@@ -34,7 +34,7 @@
           'alt' => __('Logotipo de %s', $e['cia_nombre']),
           'class' => 'logo img-responsive',
           'id' => 'img-logo-' . $e['cia_cve'],
-          'style' => 'float:right; width:220px;'
+          'style' => 'float:right; height:100px; width:150px;'
         ));
       ?>
     </div>

@@ -58,6 +58,7 @@
           'action' => 'index',
           'admin' => $isAdmin
         ),
+        'element' => 'admin/submenus/reporte_internos',
         'icon' => 'bar-chart'
       ),
       __('Denuncias') => array(
@@ -67,6 +68,14 @@
           'admin' => $isAdmin
         ),
         'icon' => 'warning-sign'
+      ),
+       __('Redes Sociales') => array(
+        'url' => array(
+          'controller' => 'sociales',
+          'action' => 'ofertas',
+          'admin' => $isAdmin
+        ),
+        'icon' => 'fa fa-facebook'
       )
     ), array(
       'ul' => 'nav nav-list'

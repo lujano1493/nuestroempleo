@@ -424,6 +424,7 @@ class Oferta extends AppModel {
           "UsuarioEmpresa.cu_sesion Denunciado__correo",
           ""
         );
+      $query['conditions'][]="$this->alias.oferta_fecfin >= CURRENT_DATE " ;
       return $query;
     }
     if(!empty($results)){
@@ -670,7 +671,8 @@ class Oferta extends AppModel {
           )
       );      
       $query['conditions']= array(
-        "$this->alias.oferta_cve" => $query['idOferta']                     
+        "$this->alias.oferta_cve" => $query['idOferta'],
+        "$this->alias.oferta_fecfin >= CURRENT_DATE "             
       ); 
       if( Acceso::is()!=='admin' ){
         $query['conditions']["$this->alias.oferta_inactiva"] =0;

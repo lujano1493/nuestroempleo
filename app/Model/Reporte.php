@@ -17,6 +17,7 @@ class Reporte extends AppModel {
     parent::__construct($id, $table, $ds);
 
     $this->ds = $this->getDataSource();
+    $this->UserAlias=$this->alias;
   }
 
   /**
@@ -45,7 +46,7 @@ class Reporte extends AppModel {
       $this->UsuarioEmpresa
     );
 
-    $subQuery = $this->alias . '.cu_cve IN (' . $subQuery . ') ';
+    $subQuery = $this->UserAlias . '.cu_cve IN (' . $subQuery . ') ';
     return $ds->expression($subQuery);
   }
 

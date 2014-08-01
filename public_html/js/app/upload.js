@@ -23,16 +23,16 @@
         },
         aspectRatio: 0
       }, function () {
-        var width_ = jcrop.$img.width()
-          , height_ = jcrop.$img.height()
+        // var width_ = jcrop.$img.width()
+        //   , height_ = jcrop.$img.height()
           // , width = 250
           // , height = 150;
         //, scale = 0.4;
         jcrop.$img.data('Jcrop').setOptions({
-          aspectRatio : width/height,
-          maxSize     : [width_, height_],
-          minSize     : [width, height],
-          setSelect   : [0, 0, width, height]
+          // aspectRatio : width/height,
+          // maxSize     : [width_, height_],
+          // minSize     : [width, height],
+          // setSelect   : [0, 0, width, height]
         });
       });
     },

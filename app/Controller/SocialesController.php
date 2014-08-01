@@ -35,13 +35,27 @@ class SocialesController extends AppController {
   public function admin_ofertas(){
 
     $this->loadModel("Oferta");
-
     if($this->isAjax){
-      $ofertas=$this->Oferta->find("sociales",array(
+      $compartirse=$this->Oferta->find("sociales",array(
           "idUser" =>$this->Auth->user('cu_cve')
         )
       );
-      $this->set(compact("ofertas"));
+      $this->set(compact("compartirse"));
+    }else{
+          $this->facebook_();
+          $this->twitter_();
+    }
+  }
+
+
+    public function admin_eventos(){
+    $this->loadModel("Evento");
+    if($this->isAjax){
+      $compartirse=$this->Oferta->find("sociales",array(
+          "idUser" =>$this->Auth->user('cu_cve')
+        )
+      );
+      $this->set(compact("compartirse"));
     }else{
           $this->facebook_();
           $this->twitter_();

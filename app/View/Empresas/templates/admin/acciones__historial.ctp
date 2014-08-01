@@ -1,6 +1,6 @@
 <div class="btn-actions" data-item-id='{{= it.id }}'>
   {{? it.status.value < 2}}
-  <a href='/admin/empresas/{{= it.empresa.slug }}/facturas/{{= it.folio }}' class="btn btn-sm btn-success">
+  <a href='/admin/empresas/{{= it.empresa.slug }}/facturas/{{= it.folio }}' class="btn btn-sm btn-success" target="_blank">
     <i class="icon-ok"></i><?php echo __('Activar Servicios'); ?>
   </a>
   {{? }}

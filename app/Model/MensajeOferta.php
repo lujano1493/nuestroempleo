@@ -125,11 +125,10 @@ public $option_join=array(
     $msjxoferta_public= $data['is_public'] ? 'S':'N';
     $emisor_cve=$data['idUser'];
     $emisor_tipo=$data['typeUser'];
-    $msj_texto=$data['mensaje'];
     $msj_status=0;
     $tipo=1;
     $oferta=$this->Oferta->find("first",array(
-                                    "fields" => array("cu_cve"),
+                                    "fields" => array("cu_cve","puesto_nom","oferta_link","cia_cve","oferta_privada"),
                                     'contain'=> false,
                                     "conditions" => compact("oferta_cve") ));
 
@@ -140,9 +139,12 @@ public $option_join=array(
     }
 
     $receptor_cve=$oferta['Oferta']['cu_cve'];
+    $nombre_oferta=$oferta['Oferta']['puesto_nom'];
+    $link=$oferta['Oferta']['oferta_link'];
     $receptor_tipo=0;
     $msj_leido=0;
     $msj_asunto="Pregunta de Oferta";
+    $msj_texto=  "pregunta de la oferta  <a href='$link' target='_blank'> $nombre_oferta </a>  <br/>". $data['mensaje'];
     $msj_importante=0;
     $this->Mensaje->recursive=-1;
     $this->Mensaje->create();
@@ -170,6 +172,13 @@ public $option_join=array(
                 )
       );
     return $this->find("first",array(
+      "contain" => array(
+          "Oferta"=>array(
+              "fields" => array(
+                  "oferta_cve","oferta_privada","cia_cve","oferta_link"
+                )
+            )
+        ),
       "conditions" => array(
         "$this->alias.msj_cve" => $msj_cve
       )));

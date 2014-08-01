@@ -162,10 +162,34 @@
         $finalDate.val($.datepicker.formatDate('yy-mm-dd', date));
       }
     });
+
+    /**
+     * control de input dependiendo de la seleccion de reporte
+     * @type {[type]}
+     */
+    var group_radios= $chartsitoForm.data("radios-group");
+    if(!group_radios){
+      return false;
+    }
+    group_radios=$(group_radios);
+    var options= group_radios.data();
+    group_radios.find(":radio").click(function(event) {
+      var $check=group_radios.find(":radio:checked");
+      if($check.val()===options.option){
+          $(options.elementName).show(100);
+        }
+      else{
+          $(options.elementName).hide(100);
+      }
+
+
+    });
+
   });
 
   function addExcelLink() {
     var $ul = $chartsito.find('ul > li > ul')
+      , name_group= $chartsitoForm.data("radios-group")||''
       , $li = $('<li />')
       , $link = $('<a />', {
         href: '#',
@@ -174,17 +198,31 @@
       }).appendTo($li.appendTo($ul))
       , _location = [
           ( $chartsitoForm.data('controller') || '/mis_reportes/'),
-        $chartsitoForm.find(':radio:checked').val(),
+        $chartsitoForm.find( name_group+' :radio:checked').val(),
         '.xls',
         '?finalDate=' + $chartsitoForm.find('#finalDate').val(),
         '&initDate=' + $chartsitoForm.find('#initDate').val()
       ];
+      /**
+       *  parametros para reportes de internos administración
+       */
+             
+      if( $chartsitoForm.find(".tipo :checked")){
+        _location.push("&tipo="+$chartsitoForm.find(".tipo :checked").val());
+      }
+      if( name_group.length >0){
+          var group=$(name_group),options=group.data(),$f=$(options.elementName);          
+          if($f.is(":visible")){
+            var val=  $f.find("select").val();
+          _location.push("&usuario="+val);  
+          }    
+      }
 
-    $link.on('click', function () {
-      window.location = _location.join('');
+      $link.on('click', function () {
+        window.location = _location.join('');
 
-      return false;
-    });
+        return false;
+      });
   }
 
   $chartsitoForm.on('success.ajaxform', function (event, data) {

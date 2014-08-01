@@ -67,12 +67,12 @@ class PaypalIpnConfig {
       'cert_id'       => '9FNZRQ65WV34Y',
       // Ruta absoluta a la llave privada.
       // ----> openssl genrsa -out my-prvkey.pem 1024
-      'key_file'      => ROOT . DS . 'paypal_cert' . DS . 'prod' . DS . 'my-prvkey.pem',
+      'key_file'      => ROOT . DS . 'certificados' . DS . 'paypal' . DS . 'prod' . DS . 'my-prvkey.pem',
       // Ruta absoluta a la llave pública
       // ----> openssl req -new -key my-prvkey.pem -x509 -days 365 -out my-pubcert.pem
-      'cert_file'     => ROOT . DS . 'paypal_cert' . DS . 'prod' . DS .'my-pubcert.pem',
+      'cert_file'     => ROOT . DS . 'certificados' . DS . 'paypal' . DS . 'prod' . DS .'my-pubcert.pem',
       // Ruta absoluta al certificado de Paypal
-      'paypal_cert_file' => ROOT . DS . 'paypal_cert' . DS . 'prod' . DS .'paypal_cert_pem.txt',
+      'paypal_cert_file' => ROOT . DS . 'certificados' . DS . 'paypal' . DS . 'prod' . DS .'paypal_cert_pem.txt',
       // OpenSSL
       'openssl'       => '/usr/bin/openssl',
       // Anotación de compilación
@@ -90,12 +90,12 @@ class PaypalIpnConfig {
       'cert_id'       => '7DEGYJWGJ8MDE',
       // Ruta absoluta a la llave privada.
       // ----> openssl genrsa -out my-prvkey.pem 1024
-      'key_file'      => ROOT . DS . 'paypal_cert' . DS . 'test' . DS . 'my-prvkey.pem',
+      'key_file'      => ROOT . DS . 'certificados' . DS . 'paypal' . DS . 'test' . DS . 'my-prvkey.pem',
       // Ruta absoluta a la llave pública
       // ----> openssl req -new -key my-prvkey.pem -x509 -days 365 -out my-pubcert.pem
-      'cert_file'     => ROOT . DS . 'paypal_cert' . DS . 'test' . DS .'my-pubcert.pem',
+      'cert_file'     => ROOT . DS . 'certificados' . DS . 'paypal' . DS . 'test' . DS .'my-pubcert.pem',
       // Ruta absoluta al certificado de Paypal
-      'paypal_cert_file' => ROOT . DS . 'paypal_cert' . DS . 'test' . DS .'paypal_cert_pem.txt',
+      'paypal_cert_file' => ROOT . DS . 'certificados' . DS . 'paypal' . DS . 'test' . DS .'paypal_cert_pem.txt',
       // OpenSSL
       'openssl'       => '/usr/bin/openssl',
       // Anotación de compilación

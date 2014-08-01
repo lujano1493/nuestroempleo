@@ -15,7 +15,7 @@ class FacturasController extends BaseEmpresasController {
     * Componentes necesarios que utiliza el Controlador.
     * @var Array
     */
-  public $components = array('Session', 'Upload');
+  public $components = array('Session', 'Upload', 'Timbrado');
 
   /**
     * Método que se ejecuta antes de cualquier acción.
@@ -98,6 +98,12 @@ class FacturasController extends BaseEmpresasController {
       'name' => $file->name
     ));
     return $this->response;
+  }
+
+  public function admin_timbrar() {
+    debug($this->Timbrado->timbrar());
+
+    die;
   }
 
   public function admin_comprobante($folio = null, $name = null) {

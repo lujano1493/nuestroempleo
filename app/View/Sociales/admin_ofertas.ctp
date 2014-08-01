@@ -63,7 +63,7 @@
             <th data-table-prop="vigencia"   width="5%"><?php echo __('Vigencia'); ?></th>
             <th data-table-prop="empresa"   width="20%"><?php echo __('Compañia'); ?></th>                    
             <th data-table-prop="#tmpl-link"  width="10%"><?php echo __('Link'); ?></th>       
-            <th data-table-prop="#tmpl-sociales-compartir" width="15%"><?php echo __('Compartir'); ?></th>
+            <th data-table-prop="#tmpl-compartir-sociales" width="15%"><?php echo __('Compartir'); ?></th>
           </tr>
         </thead>
         <tbody>
@@ -77,7 +77,7 @@
 <?php
   echo $this->Template->insert(array(    
     'acciones__oferta' => 'acciones-ofertas-sociales',
-    'compartir__oferta' => 'sociales-compartir',
+    'compartir__sociales' => 'compartir-sociales',
     'fecha',
     'nombre',
     'link'

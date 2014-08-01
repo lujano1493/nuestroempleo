@@ -31,7 +31,7 @@
         {{ } }}
       </ul>
     </div>
-    <a href='/admin/convenios/{{= it.slug }}/condiciones' class="btn btn-sm btn-purple">
+    <a href='/admin/convenios/{{= it.slug }}/condiciones' class="btn btn-sm btn-purple" target="_blank">
       <i class="icon-list"></i><?php echo __('Condiciones'); ?>
     </a>
   {{?? }}

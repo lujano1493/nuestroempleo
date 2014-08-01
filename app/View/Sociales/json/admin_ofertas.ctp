@@ -4,7 +4,7 @@
   $results=array();
 
 
-  foreach ($ofertas as $k) {
+  foreach ($compartirse as $k) {
     $oferta=$k['Oferta'];
     $usuario=$k['UsuarioEmpresa'];
     $empresa=$k['Empresa'];

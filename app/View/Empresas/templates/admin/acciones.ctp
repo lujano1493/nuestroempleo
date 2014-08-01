@@ -7,7 +7,7 @@
       <i class="icon-list"></i>Historial
     </a>
   {{?? }}
-    <a href='/admin/convenios/{{= it.slug }}/condiciones' class="btn btn-sm btn-success">
+    <a href='/admin/convenios/{{= it.slug }}/condiciones' class="btn btn-sm btn-success" target="_blank">
       <i class="icon-list"></i><?php echo __('Condiciones'); ?>
     </a>
     {{? it.status.value === 2 }}

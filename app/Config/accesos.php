@@ -25,6 +25,12 @@ class AccesoConfig {
     'reclutador'
   );
 
+  public static $admin_roles = array(
+    'superadmin',
+    'admin',
+    'ventas'
+  );
+
   /**
    * Reglas de acceso.
    * @var array
@@ -58,16 +64,26 @@ class AccesoConfig {
       'diamond' => '*'
     ),
     'mis_cuentas' => array(
-      'golden'  => array('admin', 'coordinador'),
-      'diamond' => array('admin', 'coordinador')
+      'golden'  => 'admin coordinador',
+      'diamond' => 'admin coordinador'
     ),
     'mis_productos' => array(
       '*'  => 'admin',
     ),
     'mis_reportes' => array(
       'silver'  => 'admin',
-      'golden'  => array('admin', 'coordinador'),
-      'diamond' => array('admin', 'coordinador'),
+      'golden'  => 'admin coordinador',
+      'diamond' => 'admin coordinador',
+    )
+  );
+
+  public static $admin_rules = array(
+    'empresas' => array(
+      'admin_index' => '*',
+      'admin_convenios' => '*'
+    ),
+    'reportes' => array(
+      '*' => 'superadmin admin'
     )
   );
 }

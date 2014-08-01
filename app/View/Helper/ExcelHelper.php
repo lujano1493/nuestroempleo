@@ -221,8 +221,27 @@ class ExcelHelper extends AppHelper {
     // Agrega los datos a la tabla.
     foreach ($data as $d) {
       $this->addTableRow($d);
-    }
+    }      
+    $range=array();
+    $label_axisX=array();
 
+    foreach ($tableHeader as $j=> $th) {
+        if(isset($th['data_graph'])  && $th['data_graph']===true ){
+            $range[]=$j;
+        }
+    }
+    foreach ($tableHeader as $j=> $th) {
+        if(isset($th['label_axisX'])  && $th['label_axisX']===true ){
+            $label_axisX[$j]=array($initRow + 1, $initRow + $rowsCount + 1);
+            break;
+        }
+    }
+    if(empty($range)){
+      $range=range($initColumn + 1, $columnsCount - 1);
+    }
+    if(empty($label_axisX)){
+      $label_axisX[]=array($initRow + 1, $initRow + $rowsCount + 1);
+    }
     // Genera el gráfico en base a los datos.
     $this->createChart(
       /**
@@ -230,22 +249,23 @@ class ExcelHelper extends AppHelper {
        * de cada gráfica comienzan a partir de la siguiente columna hasta el número total de
        * columnas menos 1; $initRow siempre será la fila del encabezado.
        */
-      $this->getSeriesLabels(array($initColumn + 1, $columnsCount - 1), $initRow),
+      $this->getSeriesLabels( $range, $initRow),
 
       /**
        * Los valores del eje X son la primer columna; las filas comienzan a partir de la fila
        * inicial más uno (enseguida del encabezado) hasta el total de filas deplazadas por la fila inicial.
        */
-      $this->getXAxisValues(array(
-        array($initRow + 1, $initRow + $rowsCount + 1)
-      )),
+      
+       $this->getXAxisValues($label_axisX),
 
       /**
        * Los valores de las gráficas (se dibujará un tipo de barra por cada columna).
        * Columna inicial hasta el total de columnas.
        * Fila inicial más uno (enseguida del encabezado) hasta el total de filas deplazadas por la fila inicial.
+       *
+       * array($initColumn + 1, $columnsCount - 1)
        */
-      $this->getValues(array($initColumn + 1, $columnsCount - 1), array($initRow + 1, $initRow + $rowsCount + 1)),
+      $this->getValues($range, array($initRow + 1, $initRow + $rowsCount + 1)),
       /**
        * Opciones
        */
@@ -263,10 +283,7 @@ class ExcelHelper extends AppHelper {
   public function getSeriesLabels($columns = array(), $row = 1) {
     $sheetName = $this->_xls->getActiveSheet()->getTitle();
     $dataseriesLabels = array();
-
-    $_begin = is_array($columns) ? $columns[0] : $columns;
-    $_end = is_array($columns) ? $columns[1] : $columns;
-    for ($i = $_begin; $i <= $_end; $i++) {
+    foreach ($columns  as   $j=> $i  ) {
       $index = $i;
       if (is_numeric($index)) {
         $index = PHPExcel_Cell::stringFromColumnIndex($i);
@@ -274,7 +291,6 @@ class ExcelHelper extends AppHelper {
 
       $dataseriesLabels[] = new PHPExcel_Chart_DataSeriesValues('String', $sheetName . '!$' . $index . '$' . $row , NULL, 1);
     }
-
     return $dataseriesLabels;
   }
 
@@ -310,17 +326,12 @@ class ExcelHelper extends AppHelper {
   public function getValues($columns = array(), $rows = array()) {
     $sheetName = $this->_xls->getActiveSheet()->getTitle();
     $dataSeriesValues = array();
-
-    $_begin = is_array($columns) ? $columns[0] : $columns;
-    $_end = is_array($columns) ? $columns[1] : $columns;
-
-    for ($i = $_begin; $i <= $_end; $i++) {
+    foreach ( $columns as $j=> $i)  {
       $index = $i;
       if (is_numeric($i)) {
         $index = PHPExcel_Cell::stringFromColumnIndex($i);
       }
       $ranges = '$'. $index . '$' . $rows[0]. ':$' . $index . '$' . $rows[1];
-
       $dataSeriesValues[] = new PHPExcel_Chart_DataSeriesValues('Number', $sheetName . '!' . $ranges, NULL, 4);
     }
 

@@ -33,7 +33,7 @@ class AccesoComponent extends Component {
     }
 
     if ($only && !preg_match("/.*\.js$|.*\.css$/i", $this->controller->request->url)) {
-      $this->only($this->params['controller']);
+      $this->only($this->params);
     }
   }
 
@@ -131,11 +131,20 @@ class AccesoComponent extends Component {
    * @param  [type] $options [description]
    * @return [type]          [description]
    */
-  public function only($controller) {
-    // Verifica si tiene acceso,
-    $redirect = !Acceso::verifyAccess($controller);
+  public function only($url) {
+    if ($this->isAdmin()) {
+      // Verifica si tiene acceso,
+      $redirect = !Acceso::verifyAdminAccess($url);
+      $redirect
+        && $this->controller->info(__('No tienes acceso a esta área administrativa.'))
+        && $this->controller->redirect('/admin/mi_espacio');
+    } else {
+      // Verifica si tiene acceso,
+      $redirect = !Acceso::verifyAccess($url['controller']);
 
-    $redirect && $this->Auth->user() && $this->redirect();
+      $redirect && $this->Auth->user() && $this->redirect();
+    }
+
   }
 
   /**

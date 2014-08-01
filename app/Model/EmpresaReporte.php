@@ -37,9 +37,14 @@ class EmpresaReporte extends Reporte {
   public $findMethods = array(
     'tipo' => true,
     'zona' => true,
-    'giro' => true
+    'giro' => true,
+    'por_cuenta' => true
 
   );
+    public function __construct($id = false, $table = null, $ds = null) {
+        parent::__construct($id, $table, $ds);
+        $this->UserAlias="Cuenta";
+    }
 
 
     protected function settingDates($dates) {
@@ -163,6 +168,45 @@ class EmpresaReporte extends Reporte {
       $query['conditions'] = $this->conditions($query,array());
       return $query;
     } 
+    return $results;
+  }
+
+  protected function _findPor_cuenta($state, $query, $results = array()) { 
+    if ($state === 'before') {    
+      $query['fields'] =array(
+            "CuentaSup.cu_sesion {$this->alias}__correo",
+            " COUNT(CASE WHEN {$this->alias}.cia_tipo = 1 THEN 1 END) {$this->alias}__comercial",
+            " COUNT(CASE WHEN {$this->alias}.cia_tipo = 0 THEN 1 END) {$this->alias}__convenio",
+            " COUNT ({$this->alias}.cia_cve)  {$this->alias}__total"
+          );
+      $query['joins']=array(
+      array(
+          'alias' => 'Cuenta',
+          'table'=> 'tcuentausuario',
+          'type' => 'INNER',
+          'fields' => array(),
+          'conditions' => array(
+              "$this->alias.cu_cve=Cuenta.cu_cve"
+            )              
+        ),
+      array(
+        'alias' => 'CuentaSup',
+        'table' => 'tcuentausuario',
+        'type' => 'INNER',
+        'fields' =>array(),
+        'conditions' => array(
+            'Cuenta.cu_cvesup=CuentaSup.cu_cve',
+            'CuentaSup.per_cve' => array(1,2,3)
+        )
+      )
+      );
+      $query['group']=array(
+        "CuentaSup.cu_sesion "
+      );
+      $query['conditions'] = $this->conditions($query,array());
+      return $query;
+
+    }
     return $results;
   }
 

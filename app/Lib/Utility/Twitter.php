@@ -1,11 +1,12 @@
 <?php
 
-require_once(ROOT . DS . 'vendor' . DS . 'abraham' . DS .'twitteroauth' .DS .'twitteroauth'.DS.'twitteroauth.php');
+require_once(ROOT . DS . 'vendor' . DS . 'tomi-heiskanen' . DS .'twitteroauth' .DS .'twitteroauth'.DS.'twitteroauth.php');
    
   class Twitter{
 
   	private $temporary_credentials=null;
   	private $connection=null;
+  	private $errors=null;
 
  	public function __construct($url_callback=null){
  		$url_callback= !$url_callback? Router::fullBaseUrl():$url_callback;
@@ -47,24 +48,25 @@ require_once(ROOT . DS . 'vendor' . DS . 'abraham' . DS .'twitteroauth' .DS .'tw
 	}
 
 	public function tweet($options=array()){
-
 		$filename= WWW_ROOT."img/azul1.jpg";
-
 		$name  = basename($filename);
-
 		$options_=array(
-
-				"media[]"=> "@{$filename};type=image/jpeg;filename={$name}",
 				"status" => "mensaje generico para twitter numero 3"
 			);
 		$options=array_merge($options_,$options);
 		if( !$this->getStatus()  ){
 			return -1;
-		}
-		//  statuses/update 
-		$content = $this->connection->post('statuses/update_with_media', $options,true );
-		return $content;
+		}	
+		$multi_file= isset($options['media[]']) ? true :false;   
+		$statuses= $multi_file ? 'statuses/update_with_media' :' statuses/update';
+		$content = $this->connection->post($statuses, $options,$multi_file );	
+		if(isset($content->errors)){
+			$this->errors=$content->errors;
+			debug($content);	
+			return null;
 
+		}
+		return $content;
 	}
 
 	public function getStatus(){

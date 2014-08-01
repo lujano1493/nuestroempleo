@@ -38,8 +38,8 @@ echo $this->element('admin/title');
   $otrosReportes = array(
     'empresas_zona' => 'Empresas por Zona',
     'empresas_giro' => 'Empresas por Giro', 
-    'empresas_tipo' => "Empresas por Tipo"
-    // 'ofertas_postulaciones' => 'Ofertas vs Candidatos Postulados',
+    'empresas_tipo' => "Empresas por Tipo",
+    'empresas_por_cuenta' => 'Empresas Asignadas'
     // 'creditos_ocupados' => 'Créditos Ocupados por Usuario',
   );
 ?>

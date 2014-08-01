@@ -9,8 +9,8 @@ App::uses('Router', 'Routing');
  */
 class Acceso {
 
-  public static function rules($key = null) {
-    $_rules = AccesoConfig::$rules;
+  public static function rules($key = null, $admin = false) {
+    $_rules = $admin ? AccesoConfig::$admin_rules : AccesoConfig::$rules;
 
     return $key === null ? $_rules : (
       !empty($_rules[$key]) ? $_rules[$key] : array()
@@ -129,6 +129,31 @@ class Acceso {
   }
 
   /**
+   * Verifica el rol del administrador (superadmin, admin, ventas)
+   * @param  [type] $role        [description]
+   * @param  [type] $adminPerfil [description]
+   * @return [type]              [description]
+   */
+  public static function checkAdminRole($role = null, $adminPerfil = null) {
+    $_maxAdminProfile = AccesoConfig::$profiles['admin']['max'];
+    $_roles = AccesoConfig::$admin_roles;
+
+    /**
+     * Cuando $adminPerfil es null, se obtendra el rol del usuario actual.
+     * @var [type]
+     */
+    if ($adminPerfil === null) {
+      $adminPerfil = (int)AuthComponent::user('per_cve');
+    }
+
+    if ($adminPerfil < $_maxAdminProfile) {
+      $_role = $_roles[$adminPerfil];
+    }
+
+    return ($role === null) ? $_role : $role === $_role;
+  }
+
+  /**
    * Verifica si el usuario 'guest', 'candidato', 'empresa', o 'admin'.
    * @param  [type]  $type [description]
    * @param  [type]  $user [description]
@@ -180,8 +205,44 @@ class Acceso {
     $profile = self::profile(); //Obtiene el perfil del usuario.
 
     if (array_key_exists($profile, $rules) || array_key_exists('*', $rules)) {
-      $roles = isset($rules['*']) ? (array)$rules['*'] : (array)$rules[$profile];
+      $roles = isset($rules['*']) ? $rules['*'] : $rules[$profile];
+      is_string($roles) && ($roles = explode(' ', $roles));
+
       $hasAccess = (in_array('*', $roles) || in_array(self::checkRole(), $roles));
+    }
+
+    return $hasAccess;
+  }
+
+  public static function verifyAdminAccess($url, $options = array()) {
+    $hasAccess = false;
+
+    if (is_array($url) ) {
+      $controller = !empty($url['controller']) ? $url['controller'] : '*';
+      $action = !empty($url['action']) ? $url['action'] : '*';
+    } elseif (is_string($url)) {
+      $controller = $url;
+      $action = '*';
+    } else {
+      return !$hasAccess;
+    }
+
+    $rules = self::rules($controller, true);
+    if (empty($rules)) {
+      return !$hasAccess; // Si no existe la regla, da acceso.
+    }
+
+    if (array_key_exists($action, $rules) || array_key_exists('*', $rules)) {
+      $roles = isset($rules['*']) ? $rules['*'] : $rules[$action];
+      is_string($roles) && ($roles = explode(' ', $roles));
+
+      $hasAccess = (in_array('*', $roles) || in_array(self::checkAdminRole(), $roles));
+    } else {
+      /**
+       * Por default, se tiene acceso a todas las acciones.
+       * @var boolean
+       */
+      $hasAccess = true;
     }
 
     return $hasAccess;

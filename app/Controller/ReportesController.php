@@ -47,9 +47,8 @@ class ReportesController extends AppController {
 
     $this->set('_dates', $this->dates);
   }
-
-  public function admin_index_internos() {
-    $title_for_layout = 'Reportes';
+  public function admin_internos() {
+    $title_for_layout = 'Reportes de Internos';
     if ($this->request->is('post')) {
       $data = $this->request->data;
       if (!empty($data['type'])) {
@@ -58,24 +57,85 @@ class ReportesController extends AppController {
         $initDate = strtotime(date('m/01/Y 00:00:00', strtotime($data['initDate'])));
         // Este formato obtiene el último día de mes ('t' se refiere a días del mes).
         $finalDate = strtotime(date('m/t/Y 23:59:59', strtotime($data['finalDate'])));
-        $this->redirect(array(
+
+         $params= array(
+            'ini' => $initDate,
+            'end' => $finalDate
+          );
+         if( isset( $data['tipoEmpresa'] ) ){
+            $params['tipo']= $data['tipoEmpresa'];
+         }
+         if( isset ($data['usuario'] ) ){
+          $params['usuario']=$data['usuario'];
+         }
+         $r=array(
           'admin' =>true,
           'controller' => 'reportes',
           'action' => $data['type'],
           'ext' => 'json',
-          '?' => array(
-            'ini' => $initDate,
-            'end' => $finalDate
-          )
-        ), 'request');
+          '?' => $params
+        );
+        $this->redirect($r, 'request');
       } else {
         $this->error(__('Selecciona al menos una opción a graficar.'));
       }
     }
-
-    $this->set(compact('title_for_layout'));
+    $usuarios = ClassRegistry::init('UsuarioAdmin')->getAdmins($this->Auth->user('cu_cve'));
+    $this->set(compact('title_for_layout','usuarios'));
   }
 
+
+  public  function admin_internos_productos(){
+    $title_for_layout = 'Ventas Totales de Producto';
+    $dates = $this->dates;
+    $data=$this->request->query;
+    $tipo = !isset($data['tipo']) ? 't': (  $data['tipo'] === 'convenio' ? 'c' : ($data['tipo']==='comercial' ? 'n' :'t' ) );
+    $productos = ClassRegistry::init('ProductoReporte')->find('productos_adquiridos',array(        
+        'dates' => $this->dates,
+         'tipo' =>  $tipo,
+         'cu_cve' => $this->Auth->user('cu_cve')
+      ));
+      $title_for_layout= $title_for_layout. ($tipo==='c'? ' por Convenio ':(  $tipo==='n' ? ' por Comercio ' :'' ) );
+    $this->set(compact('title_for_layout', 'productos'));
+  }
+
+  public  function admin_internos_productos_cuenta(){
+    $dates = $this->dates;
+    $data=$this->request->query;
+    $title_for_layout = 'Ventas Totales de Producto por Cuenta de Ejecutivo';
+    $tipo = !isset($data['tipo']) ? 't': (  $data['tipo'] === 'convenio' ? 'c' : ($data['tipo']==='comercial' ? 'n' :'t' ) );
+    $productos = ClassRegistry::init('ProductoReporte')->find('productos_adquiridos_cuenta',array(        
+        'dates' => $this->dates,
+         'tipo' =>  $tipo,
+         'cu_cve' => $this->Auth->user('cu_cve')
+      ));
+      $title_for_layout= $title_for_layout. ($tipo==='c'? ' por Convenio ':(  $tipo==='n' ? ' por Comercio ' :'' ) );
+    $this->set(compact('title_for_layout', 'productos'));
+  }
+
+  public  function admin_internos_productos_ventas_usuario(){
+    $title_for_layout = 'Ventas por Ejecutivo';
+    $dates = $this->dates;
+    $data=$this->request->query;    
+    $tipo = !isset($data['tipo']) ? 't': (  $data['tipo'] === 'convenio' ? 'c' : ($data['tipo']==='comercial' ? 'n' :'t' ) );
+    if(!isset($data['usuario']) ){
+      $this->error("Seleccione usuario");
+      return ;
+    }
+    $usuario= $data['usuario'];
+    $reporte=ClassRegistry::init('ProductoReporte');
+    $info_usu= $reporte->getDataUser($usuario);
+    $productos = $reporte->find('productos_usuario',array(        
+        'dates' => $this->dates,
+         'tipo' =>  $tipo,
+         'cu_cve' => $this->Auth->user('cu_cve'),
+         'usuario' => $usuario
+      ));
+      $title_for_layout= $title_for_layout. ($tipo==='c'? ' por Convenio ':(  $tipo==='n' ? ' por Comercio ' :'' ) );
+      $title_for_layout= "$title_for_layout $info_usu";
+    $this->set(compact('title_for_layout', 'productos'));
+
+  }
 
     public function admin_index() {
     $title_for_layout = 'Reportes';
@@ -87,7 +147,7 @@ class ReportesController extends AppController {
         $initDate = strtotime(date('m/01/Y 00:00:00', strtotime($data['initDate'])));
         // Este formato obtiene el último día de mes ('t' se refiere a días del mes).
         $finalDate = strtotime(date('m/t/Y 23:59:59', strtotime($data['finalDate'])));
-        $this->redirect(array(
+        $redi=array(
           'admin' =>true,
           'controller' => 'reportes',
           'action' => $data['type'],
@@ -96,7 +156,8 @@ class ReportesController extends AppController {
             'ini' => $initDate,
             'end' => $finalDate
           )
-        ), 'request');
+        );
+        $this->redirect($redi, 'request');
       } else {
         $this->error(__('Selecciona al menos una opción a graficar.'));
       }
@@ -446,6 +507,18 @@ class ReportesController extends AppController {
     ));
 
     $this->set(compact('title_for_layout', 'empresas'));
+  }
+
+  public function admin_empresas_por_cuenta(){
+    $title_for_layout = __('Empresas por Asignación de Cuenta ');
+
+    $empresas = ClassRegistry::init('EmpresaReporte')->find('por_cuenta', array(     
+      'cu_cve' => $this->Auth->user('cu_cve'), 
+      'dates' => $this->dates
+    ));
+
+    $this->set(compact('title_for_layout', 'empresas'));
+
   }
 
 
