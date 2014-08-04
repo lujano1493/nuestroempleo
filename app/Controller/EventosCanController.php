@@ -41,9 +41,28 @@ class EventosCanController extends BaseCandidatoController {
 
 	}
 
+
+  public function ver($id=null){
+      if ($id == null) {
+      $this->error('No es posible realizar acción.');
+      $this->redirect("index");
+      return;
+    }
+
+    $evento= $this->Evento->find("cercanos",array("idEvento" => $id));
+
+    if(empty($evento)){
+      $this->error('No existe el evento indicado.');
+      $this->redirect("index");
+      return;
+    }
+    $this->set(compact("evento"));
+    
+  }
+
 	public function beforeFilter() {
     	parent::beforeFilter();
-	    $allowActions = array('index');
+	    $allowActions = array('index','ver');
 	    $this->Auth->allow($allowActions);  
 
 

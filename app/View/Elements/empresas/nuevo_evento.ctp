@@ -119,7 +119,7 @@
                     ));
                   ?>
                   <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-4">
                       <?php
                         echo $this->Form->input('start', array(
                           'class' => 'form-control input-sm input-block-level',
@@ -135,7 +135,21 @@
                         ));
                       ?>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-4">
+                      <?php 
+                        echo $this->Form->input('network', array(
+                          'div' => array('class'=> 'block','style' =>"margin-top:25px" ),
+                          'hiddenField' => false,
+                           'data' => array(
+                            'calendar-role' => 'network'
+                          ),
+                          'label' => array('text' =>__('Permitir que este Evento sea compartida en las Redes Sociales (Facebook y Twitter )'),'style'=>'display:inline'),
+                          'type' => 'checkbox'
+                        ));
+
+                      ?>
+                    </div>
+                    <div class="col-xs-4">
                       <?php
                         echo $this->Form->input('end', array(
                           'class' => 'form-control input-sm input-block-level',

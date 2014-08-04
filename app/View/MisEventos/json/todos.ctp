@@ -26,6 +26,10 @@
       'lng' => $ev['longitud'],
       'usuario' => $value['Reclutador']
     );
+    if(isset($ev['evento_redsocial'])){
+      $formattedEvents[$key]['network']= $ev['evento_redsocial'];
+    }
+
   }
   $this->_results = $formattedEvents;
 ?>

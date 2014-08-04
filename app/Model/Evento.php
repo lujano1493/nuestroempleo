@@ -153,6 +153,8 @@ class Evento extends AppModel {
     return $date->add($dateInterval)->format('Y-m-d H:i:s');
   }
 
+
+
   protected function _findAll_info($state, $query, $results = array()) {
     if ($state == 'before') {
       $this->virtualFields = array();
@@ -271,7 +273,7 @@ class Evento extends AppModel {
       return $query;
     }
 
-    return $results;
+    return  isset($query['idEvento']) && !empty($results) ? $results[0] :$results;
   }
 
   public function listaEstados(){
@@ -373,8 +375,8 @@ class Evento extends AppModel {
       'evento_cp' => $ev['cp'],
       'latitud' => $ev['lat'],
       'longitud' => $ev['lng'],
+      'evento_redsocial'=> isset($ev['network']) ? $ev['network']: null
     );
-
     if ($id) {
       $evento[$this->primaryKey] = $id;
     }

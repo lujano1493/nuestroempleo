@@ -129,11 +129,15 @@
       Form._get('dir').val(results.direccion);
     },
     fillForm: function (event) {
-      var _i = ['title', 'desc', 'dir', 'calle', 'cp', 'lat', 'lng'];
+      var _i = ['title', 'desc', 'dir', 'calle', 'cp', 'lat', 'lng','network'];
 
-      for (var i = 0, l = _i.length, item = null; i < l; i++) {
+      for (var i = 0, l = _i.length, item = null, input=null; i < l; i++) {
         item = _i[i];
-        this._get(item).val(event[item]).trigger('change');
+        input=this._get(item);
+        if( event[item]){
+          input.val(event[item]).trigger('change');
+          input.is("[type='checkbox']") && input.prop("checked",true);
+        }
       }
 
       this._get('id').val(event.id);
@@ -240,8 +244,8 @@
     },
     getData: function () {
       var start = this._get('start').data('datetime')
-        , end = this._get('end').data('datetime');
-      return {
+        , end = this._get('end').data('datetime')
+        , data={
         id    : this._get('id').val() || null,
         title : this._get('title').val(),
         start : $.fullCalendar.formatDate(start, 'yyyy-MM-dd HH:mm:ss'),
@@ -254,6 +258,10 @@
         lat   : this._get('lat').val(),
         lng   : this._get('lng').val()
       };
+      if(this._get('network').is(':checked')){
+        data.network=this._get('network').val();
+      } 
+      return data;
     }
   };
 

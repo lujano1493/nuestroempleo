@@ -12,6 +12,12 @@ class MisEventosController extends BaseEmpresasController {
     */
   public $name = 'MisEventos';
 
+  public $components=array(
+       'Shortener' => array(
+          'base' => 'http://www.nuestroempleo.com.mx'
+        )
+    );
+
   /**
     * Indica qué modelos se usarán. Un array vacío, indica que no usará algún modelo.
     */
@@ -67,6 +73,18 @@ class MisEventosController extends BaseEmpresasController {
     if (!$this->request->is('post')) {
       throw new MethodNotAllowedException();
     }
+      /**
+     * Se detecta si hay alguna referencia hacia algun correo electronico o telefono en la descripción
+     */
+    if(preg_match('/([a-zA-Z0-9_.+-]+)@([a-zA-Z_-]+).([a-zA-Z]{2,4})(.[a-zA-Z]{2,3})?/i', $this->request->data['desc']) ||
+      preg_match("/0{0,2}([\+]?[\d]{1,3} ?)?([\(]([\d]{2,3})[)] ?)?[0-9][0-9 \-]{6,}( ?([xX]|([eE]xt[\.]?)) ?([\d]{1,5}))?/i",
+       $this->request->data['desc'] ) ){
+      $this->error("Hemos detectado una dirección de correo electrónico o teléfono en la Descripción del evento.");
+      $this->set('message_time', 10000);
+      $this->set('lastId',null);
+      return;
+    }
+
 
     $evento = $this->Evento->normalizar($this->request->data);
     $evento['cu_cve'] = $this->Auth->user('cu_cve');
@@ -74,7 +92,7 @@ class MisEventosController extends BaseEmpresasController {
     $evento['ciudad_cve'] = ClassRegistry::init('CodigoPostal')->field('ciudad_cve', array(
       'cp_cp' => $this->request->data['cp']
     ));
-
+    $this->Evento->begin();
     $this->Evento->create();
     if ($this->Evento->save($evento) ) {
       // if(($data = $this->Evento->candidatos_cercas($this->Evento->id)) !== false) {
@@ -86,6 +104,13 @@ class MisEventosController extends BaseEmpresasController {
       // }
 
       $lastId = $this->Evento->getLastInsertID();
+      if( $this->generateShortenURL($lastId) ===false){
+        $this->Evento->rollback();
+        $this->error("No fue posible generar url para evento.");
+        $this->set("lastId",null);
+        return;
+      }
+      $this->Evento->commit();
       $this->set(compact('lastId'));
       $this->success(__('Se ha guardado el evento satisfactoriamente.'));
     } else {
@@ -96,6 +121,17 @@ class MisEventosController extends BaseEmpresasController {
 
   public function actualizar($id) {
     if ($this->request->is('put')) {
+           /**
+       * Se detecta si hay alguna referencia hacia algun correo electronico o telefono en la descripción
+       */
+      if(preg_match('/([a-zA-Z0-9_.+-]+)@([a-zA-Z_-]+).([a-zA-Z]{2,4})(.[a-zA-Z]{2,3})?/i', $this->request->data['Evento']['desc']) ||
+        preg_match("/0{0,2}([\+]?[\d]{1,3} ?)?([\(]([\d]{2,3})[)] ?)?[0-9][0-9 \-]{6,}( ?([xX]|([eE]xt[\.]?)) ?([\d]{1,5}))?/i",
+         $this->request->data['Evento']['desc'] ) ){
+        $this->error("Hemos detectado una dirección de correo electrónico o teléfono en la Descripción del evento.");
+        $this->set('message_time', 10000);
+        $this->set("id" ,null);
+        return;
+      }
 
       if ($this->Evento->actualizar($id, $this->request->data)) {
         $evento = $this->request->data;
@@ -126,6 +162,7 @@ class MisEventosController extends BaseEmpresasController {
     }
   }
 
+
   public function eliminar($eventoId = null, $keycode = null) {
     $userId = $this->Auth->user('cu_cve');
     $isKey = $keycode === $this->Auth->user('keycode');
@@ -154,5 +191,30 @@ class MisEventosController extends BaseEmpresasController {
     }
 
     $this->redirect('referer');
+  }
+
+  protected function generateShortenURL($id) {
+    $success = false;
+    $evento = $this->Evento->get($id, array('fields' => array(
+      'evento_cve', 'evento_nombre', 'evento_link'
+    )));
+
+    $shortenUrl = $evento['evento_link'];
+
+    if (empty($shortenUrl)) {
+      $shortenUrl = $this->Shortener->shorten(array(
+        'controller' => 'eventosCan',
+        'id' => $id,
+        'slug' => Inflector::slug($evento['evento_nombre'], '-'),
+        'action' => 'ver'
+      ));
+
+      $this->Evento->id = $id;
+      $success = $this->Evento->saveField('evento_link', $shortenUrl);
+    } else {
+      $success = true;
+    }
+
+    return $success ? $shortenUrl : false;
   }
 }

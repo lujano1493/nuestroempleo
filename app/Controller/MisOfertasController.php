@@ -299,7 +299,7 @@ class MisOfertasController extends BaseEmpresasController {
       /**
        * Se detecta si hay alguna referencia hacia algun correo electronico o telefono en la descripción
        */
-      if(preg_match('/([a-zA-Z_.+-]+)@([a-zA-Z_-]+).([a-zA-Z]{2,4})(.[a-zA-Z]{2,3})?/i', $this->request->data['Oferta']['oferta_descrip']) ||
+      if(preg_match('/([a-zA-Z0-9_.+-]+)@([a-zA-Z_-]+).([a-zA-Z]{2,4})(.[a-zA-Z]{2,3})?/i', $this->request->data['Oferta']['oferta_descrip']) ||
         preg_match("/0{0,2}([\+]?[\d]{1,3} ?)?([\(]([\d]{2,3})[)] ?)?[0-9][0-9 \-]{6,}( ?([xX]|([eE]xt[\.]?)) ?([\d]{1,5}))?/i",
           $this->request->data['Oferta']['oferta_descrip']) ){
         $this->error("Hemos detectado una dirección de correo electrónico o teléfono en la Descripción de la oferta, por favor elimínela para continuar con la publicación y active la casilla  Mostrar datos de contacto en la parte de CONFIGURACIÓN  que se localiza más abajo para mostrar los datos al candidato.");
@@ -474,7 +474,7 @@ class MisOfertasController extends BaseEmpresasController {
         /**
          * Se detecta si hay alguna referencia hacia algun correo electronico o telefono en la descripción
          */
-        if(preg_match('/([a-zA-Z_.+-]+)@([a-zA-Z_-]+).([a-zA-Z]{2,4}(.[a-zA-Z]{2,3})?)/i', $data['Oferta']['oferta_descrip']) ||
+        if(preg_match('/([a-zA-Z0-9_.+-]+)@([a-zA-Z_-]+).([a-zA-Z]{2,4}(.[a-zA-Z]{2,3})?)/i', $data['Oferta']['oferta_descrip']) ||
           preg_match("/0{0,2}([\+]?[\d]{1,3} ?)?([\(]([\d]{2,3})[)] ?)?[0-9][0-9 \-]{6,}( ?([xX]|([eE]xt[\.]?)) ?([\d]{1,5}))?/i", $data['Oferta']['oferta_descrip'])) {
           $this->error("Hemos detectado una dirección de correo electrónico o teléfono en la Descripción de la oferta, por favor elimínela para continuar con la publicación y active la casilla  Mostrar datos de contacto en la parte de CONFIGURACIÓN  que se localiza más abajo para mostrar los datos al candidato.");
           $this->set('message_time', 10000);
