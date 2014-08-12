@@ -458,6 +458,8 @@ public function status($idUser=null){
                           ),
                         false
             );
+
+          $this->logDataBase("Se registro nuevo candidato con id={$this->id} y correo {$this->email}");
           return ClassRegistry::init("EvaCan")->save($data_save);
         }
        

@@ -34,7 +34,10 @@ class Factura extends AppModel {
    * [$findMethods description]
    * @var array
    */
-  public $findMethods = array('all_facturas' => true,);
+  public $findMethods = array(
+    'all_facturas' => true,
+    'datos_timbrado' => true
+  );
 
   /**
    * [$belongsTo description]
@@ -165,6 +168,49 @@ class Factura extends AppModel {
     }
 
     return $folio;
+  }
+
+  public function _findDatos_timbrado($state, $query, $results = array()) {
+    if ($state === 'before') {
+      $this->bindModel(
+        array('belongsTo' => array(
+          'GiroFactEmpresa' => array(
+            'className' => 'Giros',
+            'foreignKey' => false
+          )
+        ))
+      );
+
+      $query['contain'] = array(
+        'FacturacionEmpresa',
+        'GiroFactEmpresa' => array(
+          'conditions' => array(
+            'FacturacionEmpresa.giro_cve = GiroFactEmpresa.giro_cve'
+          ),
+          'fields' => array(
+            'GiroFactEmpresa.giro_nom FacturacionEmpresa__giro'
+          ),
+        ),
+        'FacturaDetalles',
+      );
+
+      return $query;
+    }  elseif ($state === 'after') {
+      foreach ($results as $key => $value) {
+        $ciaRFC = $value['FacturacionEmpresa']['cia_rfc'];
+        $giro = $value['FacturacionEmpresa']['giro'];
+
+        $results[$key] = array_merge($value, $this->FacturacionEmpresa->find('datos_facturacion', array(
+          'conditions' => array(
+            'FacturacionEmpresa.' . $this->FacturacionEmpresa->primaryKey => $ciaRFC
+          )
+        )));
+
+        $results[$key]['FacturacionEmpresa']['giro'] = $giro;
+      }
+    }
+
+    return $this->format('timbrado', $results);
   }
 
   /**
@@ -613,5 +659,74 @@ class Factura extends AppModel {
       ));
     }
     return true;
+  }
+
+  protected function _formatTimbrado($data) {
+    $results = array();
+
+    foreach ($data as $key => $value) {
+      $f = $value[$this->alias];
+      $e = $value['FacturacionEmpresa'];
+      $d = $value['DatosFacturacionEmpresa'];
+      $dir = $value['Direccion'];
+
+      $conceptos = array();
+
+      foreach ($value['FacturaDetalles'] as $_k => $_v) {
+        $conceptos[] = array(
+          'cantidad' => $_v['cantidad'],
+          'descripcion' => $_v['Membresia']['nombre'],
+          'importe' => $_v['cantidad'] * $_v['Membresia']['costo'],
+          'noIdentificacion' => $_v['Membresia']['id'],
+          'unidad' => 'Servicio',
+          'valorUnitario' => $_v['Membresia']['costo'],
+        );
+      }
+
+      $impuestos = array(
+        array(
+          'impuesto' => 'IVA',
+          'tasa' => '16.00',
+          'importe' => $f['factura_subtotal'] * 0.16,
+        )
+      );
+
+      $results[] = array(
+        'total' => $f['factura_total'],
+        'subtotal' => $f['factura_subtotal'],
+        'folio' => $f['factura_folio'],
+        'creada' => $f['created'],
+        'modificada' => $f['modified'],
+        'compania' => array(
+          'nombre' => $e['cia_nombre'],
+          'razon_social' => $e['cia_razonsoc'],
+          'rfc' => $e['cia_rfc'],
+          'giro' => $e['giro'],
+          'domicilio' => array(
+            'calle' => $d['calle'],
+            'num_int' => $d['num_int'],
+            'num_ext' => $d['num_ext'],
+            'colonia' => $dir['colonia'],
+            'ciudad' => $dir['ciudad'],
+            'estado' => $dir['estado'],
+            'pais' => $dir['pais'],
+            'cp' => $dir['cp'],
+          ),
+        ),
+        'conceptos' => $conceptos,
+        'impuestos' => $impuestos,
+      );
+    }
+
+    return $results;
+  }
+
+  public function is($status, $folio) {
+    $status = $this->status[$status]['val'];
+
+    return $this->hasAny(array(
+      $this->alias . '.factura_folio' => $folio,
+      $this->alias . '.factura_status' => $status,
+    ));
   }
 }

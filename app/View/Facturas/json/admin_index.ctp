@@ -6,6 +6,7 @@
     $e = $v['Empresa'];
     $f = $v['FacturacionEmpresa'];
     $a = $v['Administrador'];
+    $ac = $v['AdministradorContacto'];
 
     $rec = array(
       'id' => (int)$r['factura_cve'],
@@ -13,8 +14,10 @@
       'empresa' => array(
         'id' => (int)$e['cia_cve'],
         'nombre' => $e['cia_nombre'],
+        'slug' => Inflector::slug($e['cia_nombre'], '-') . '-' . (int)$e['cia_cve'],
         'admin' => array(
           'email' => $a['cu_sesion'],
+          'nombre' => $ac['con_nombre'] . ' ' . $ac['con_paterno']
         )
       ),
       'facturacion' => array(
@@ -27,10 +30,15 @@
         'value' => (float)$r['factura_total'],
         'text' => $this->Number->currency($r['factura_total']),
       ),
-      'fecha_alta' => array(
+      'fecha_creacion' => array(
         'val' => $r['created'],
         'str' => $this->Time->dt($r['created'])
       ),
+      'status' => array(
+        'val' => (int)$r['factura_status'],
+        'str' => $r['status_str'],
+      ),
+      'is_promo' => $r['is_promo']
     );
 
     $results[] = $rec;

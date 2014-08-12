@@ -277,11 +277,7 @@ class UsuarioAdminEmpresa extends UsuarioBase {
     return parent::afterFind($results, $primary);
   }
 
-  public function format($type, $data) {
-    return $this->{'_format' . ucfirst($type)}($data);
-  }
-
-  private function _formatContact($data) {
+  protected function _formatContact($data) {
     $items = array();
 
     foreach ($data as $key => $value) {
@@ -301,11 +297,11 @@ class UsuarioAdminEmpresa extends UsuarioBase {
     return $items;
   }
 
-  private function _formatList($data) {
+  protected function _formatList($data) {
     return Hash::combine($data, '{n}.' . $this->alias . '.cu_cve', '{n}.' . $this->alias . '.cu_sesion');
   }
 
-  private function _formatCuenta($data) {
+  protected function _formatCuenta($data) {
     return Hash::combine($data, '{n}.' . $this->alias . '.cu_cve', array(
       '%s (%s) - %s', '{n}.Contacto.nombre', '{n}.' . $this->alias . '.cu_sesion', '{n}.Perfil.per_nom'
     ));

@@ -37,18 +37,28 @@ class BusquedaOfertaController extends BaseCandidatoController {
 
     }
 
-    private function ofertas_($status=1){
+    private function ofertas_($status=1,$conditions=array()){
     $datos=array();
-      if($this->request->is("Get") ){      
+    $_conditions=array(
+        "oferta_status" =>  array( $status)
+    );
+    $conditions=array_merge($_conditions,$conditions);
+    if($this->request->is("Get") ){      
               $options_=array(
               'params' => $this->request->query,
               'is_group' => false,
               'search_acum' =>false,
-              'conditions' => array("oferta_status" =>  array( $status))
+              'conditions' => $conditions
             );
              $datos=  $this->OfertaB->realizar($options_);
       }
     $this->set(compact("datos"));
+    } 
+    public function distinguidas_principal(){
+      $this->ofertas_(3,array(
+          'CURRENT_DATE -oferta_fecini <=' => 10
+        ));
+      $this->render("ofertas_");
     }
     public function destacadas(){
       $this->ofertas_(3);

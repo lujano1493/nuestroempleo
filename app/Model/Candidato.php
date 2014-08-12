@@ -129,7 +129,7 @@ class Candidato extends ModelCan {
                                   ) LEFT JOIN tesccararea EscCarArea ON (
                                     EscCarArea.carea_cve = EscCarGene.carea_cve
                                   ) LEFT JOIN tcatalogo Nivel ON (
-                                                  Nivel.opcion_valor = EscCan.ec_nivel and 
+                                                  Nivel.opcion_valor = EscCan.ec_nivel and
                                                   Nivel.ref_opcgpo=\'NIVEL_ESCOLAR\'
                                   )
 
@@ -290,7 +290,7 @@ public $validate = array(
      $this->joins['direccion'] = array_merge(  array($this->joins['direccion']) ,$this->DirCandidato->joins['direccion']  );
 
     if(getenv("NODE_ENV")=='pro'){
-        $this->useDbConfig='production'; 
+        $this->useDbConfig='production';
         foreach ($this->hasMany as $key=>$rel ){
           $this->$key->useDbConfig='production';
         }
@@ -325,8 +325,10 @@ public $validate = array(
     return $results;
   }
 
-
-  private function format($results=array()){
+  // NOTA:
+  // Sólo se agregó la variable $empty para la firma de esta función fuera compatible con
+  // la de AppModel.
+  public function format($results=array(), $empty = null){
     $rs=array();
 
     foreach ($results as $num_row => $row) {
@@ -461,13 +463,13 @@ protected  function _findSearch($state,$query,$results=array()){
       if(!empty($results)){
            $results=$results[0] ;
            if(!empty($results['AreaIntCan'])){
-            $results["$this->alias"]["area_interes"]=$results['AreaIntCan'][0]['AreaInt']['area_nom']; 
-            $results["$this->alias"]["categoria_experiencia"]=$results['AreaIntCan'][0]['categoria_nom']; 
+            $results["$this->alias"]["area_interes"]=$results['AreaIntCan'][0]['AreaInt']['area_nom'];
+            $results["$this->alias"]["categoria_experiencia"]=$results['AreaIntCan'][0]['categoria_nom'];
             unset($results['AreaIntCan']);
            }
             if(!empty($results['AreaExpCan'])){
-            $results["$this->alias"]["area_experiencia"]=$results['AreaExpCan'][0]['AreaInt']['area_nom']; 
-            $results["$this->alias"]["categoria_experiencia"]=$results['AreaExpCan'][0]['categoria_nom']; 
+            $results["$this->alias"]["area_experiencia"]=$results['AreaExpCan'][0]['AreaInt']['area_nom'];
+            $results["$this->alias"]["categoria_experiencia"]=$results['AreaExpCan'][0]['categoria_nom'];
             unset($results['AreaExpCan']);
            }
 
@@ -481,9 +483,9 @@ protected  function _findSearch($state,$query,$results=array()){
             $results["$this->alias"]["nivel_carrera"]=$results['EscCan'][0]['nivel'];
             unset($results['EscCan']);
            }
-           
-           
-    }    
+
+
+    }
     return $results ;
 }
 
@@ -669,9 +671,9 @@ public function  datos_busqueda_oferta($id=null,$extra_info=array()){
   //     $str.=  $extra_info['candidato_perfil'].  ". ";
 
   // }
-  // 
   //
-    
+  //
+
 
   foreach ($extra_info as $key => $value) {
     $str.= $value . ". ";

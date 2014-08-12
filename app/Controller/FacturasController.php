@@ -100,10 +100,29 @@ class FacturasController extends BaseEmpresasController {
     return $this->response;
   }
 
-  public function admin_timbrar() {
-    debug($this->Timbrado->timbrar());
+  public function admin_timbrar($folio) {
+    if (true) {
+      $this
+        ->warning(__('El servicio de timbrado aún no está disponible.'));
+      return ;
+    } elseif (!$this->Factura->is('activado', $folio)) {
+      $this
+        ->error(__('No puedes timbrar una factura inactiva'));
+      return ;
+    }
 
+    $factura = $this->Factura->get('datos_timbrado', array(
+      'conditions' => array(
+        'factura_folio' => $folio,
+        // 'Factura.cia_cve' => $this->Auth->user('Empresa.cia_cve')
+      ),
+      'first' => true
+    ));
+
+    debug($factura);
     die;
+
+    $this->Timbrado->timbrar($factura, 'igenter');
   }
 
   public function admin_comprobante($folio = null, $name = null) {

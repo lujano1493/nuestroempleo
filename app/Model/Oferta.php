@@ -922,7 +922,8 @@ class Oferta extends AppModel {
      * Si la oferta es distinguida el periodo de días es 10.
      * @var [type]
      */
-    $period = $this->is('distinguida', !empty($data) ? $data : $this->data) ? 10 : 30;
+    // $period = $this->is('distinguida', !empty($data) ? $data : $this->data) ? 10 : 30;
+    $period=30;
     $endDate = $date->add(new DateInterval('P' . $period . 'D'))->format('Y-m-d H:i:s');
 
     if (empty($data)) {
@@ -961,6 +962,38 @@ class Oferta extends AppModel {
     $data[$this->alias][$this->primaryKey] = $id;
 
     return $this->saveAll($data/*, array('atomic' => false)*/);
+  }
+
+
+  public function afterSave($created, $options = array()) {
+    if(!$created){
+      if(!isset($this->data['Oferta']['cu_cveaold'])){
+          return;
+      }
+      $old_cu_cve=$this->data['Oferta']['cu_cveaold'] ;
+      $cu_cve=$this->data['Oferta']['cu_cve'];
+      if( $old_cu_cve !=  $cu_cve ){         
+        $oferta_cve=$this->id;
+         ClassRegistry::init('Notificacion')->updateAll(array(
+            'Notificacion.receptor_cve'=>$cu_cve
+            ), array(
+            'Notificacion.receptor_cve' =>$old_cu_cve ,
+            'Notificacion.receptor_tipo' => 0,
+            'Notificacion.notificacion_tipo' =>4,
+            'Notificacion.notificacion_controlador  like \'%postulaciones%\'',
+            "Notificacion.notificacion_id in (select postulacion_cve from tpostulacionxoferta where  oferta_cve=$oferta_cve and cu_cve=$old_cu_cve  )"
+            )  
+          );
+         ClassRegistry::init('Postulacion')->updateAll(array(
+          'Postulacion.cu_cve' =>$cu_cve
+          ), array(
+            'Postulacion.cu_cve' => $old_cu_cve ,
+            'Postulacion.oferta_cve' => $oferta_cve
+            )   
+          );
+
+      }
+    }     
   }
 
   public function beforeSave($options = array()) {

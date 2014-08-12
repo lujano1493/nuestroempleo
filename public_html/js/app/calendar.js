@@ -184,7 +184,7 @@
         }
         $('.alerts-container').alerto('show', data.message);
         self.$instance.trigger('success.update', [data, formData]);
-      });
+      }).fail($.proxy(self.onError,self));
     },
     save: function (formData) {
       var self = this;
@@ -201,8 +201,26 @@
         if ($.isFunction(fn)) {
           fn.call(self, data, 'save');
         }
-      });
+      }).fail( $.proxy(self.onError,self));
     },
+    onError:function(jqXHR,textStatus,errorThrown){
+      var jsonObj = $.parseJSON(jqXHR.responseText)
+      , validationErrors = jsonObj.validationErrors || {}
+      , self=this,$alert=$('.slidemodal-dialog .alerts-container').alerto('show', jsonObj.message, {
+            time: jsonObj.message_time || 2000
+        });      
+      self._get('submit').prop('disabled', false).removeClass('disabled');
+      self.scrollTo($("#info-evento"));
+
+    },
+    scrollTo: function ($item) {   
+    $item.animate({
+      scrollTop: 0
+    }, 'fast').promise().done(function () {
+      // Promise
+    });
+  },
+
     createEvent: function (start, end, allDay) {
       this.$title.text('Nuevo Evento');
       this.$instance.slidemodal('show').data('action', 'save');
@@ -237,6 +255,12 @@
       });
 
       self._get('submit').prop('disabled', true);
+
+      if( data.end <= data.start){        
+        alert("La fecha final debe ser mayor que la fecha inicial");
+        self._get('submit').prop('disabled', false);
+        return;
+      }
 
       if (self.$instance.valid()) {
         self[action](data);

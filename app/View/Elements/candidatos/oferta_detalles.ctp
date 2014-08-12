@@ -180,84 +180,36 @@
  </div>
  <div class="span3">
     <div class="span3_pennant pull-right">
-      <span class="pennant">
-          Comparte esta oferta con un amigo a través de las Redes Sociales.
-        <span >
-          <a  href="<?=$Oferta['oferta_link']?>" target="_blank"> <?=$Oferta['oferta_link'] ?></a>
+          <?php
 
-          <br>
+              echo $this->element("candidatos/redes_sociales",array(
+                  "label" => "esta oferta",
+                  "link" => $Oferta['oferta_link'],
+                  "title" => $Oferta['puesto_nom']
+                )
+              );
 
-          <div >
+             ?>
 
-              <div class="sociales" style="margin-bottom:10px;margin-top:10px">
-              <?=$this->Facebook->like(array(
-              "href"=>$Oferta['oferta_link'],
-              "show_faces" => false,
-              "layout"=>  "button_count"  ,
-              "share" => false,
-              "action" => "like"
-              ) ) ?>
-          </div>
-           <div class="sociales" style="margin-bottom:10px">
-                    <?=$this->Html->tag("div","",array(
-                                    "class" =>"g-plusone",
-                                    "data-size" =>"medium",
-                                    "data-href"=>$Oferta['oferta_link']
+    </div>
+    <div class="row-fluid">
+            <?php
+                $is_premium =ClassRegistry::init('FormularioContactoPremium')->hasAny(array(
+                  "cia_cve" => $Oferta['cia_cve'],
+                  "premium_status" => 1
 
-                    )) ?>
+                   ) );
+            ?>
+            <?php  if( $is_premium):?>
+              <div
+                  class="img-premium"
+                  title="Esta vacante cuenta con la Certificación de Empresa confiable que otorga Nuestro Empleo a través de su proceso de verificación"
+                  data-placement="top"
+                  >
+                <img src="/img/premium_sello.png" style="margin-top: 50px">
               </div>
-         <div class="sociales" style="margin-bottom:10px;margin-left: 20px;">
-
-          <?=$this->Html->link("",$Oferta['oferta_link'],array(
-                      "class" => "twitter-share-button",
-                      "data-url" =>$Oferta['oferta_link'],
-                      "data-text" =>$Oferta['puesto_nom'],
-                      "data-show-count" => "true",
-                      "data-show-screen-name" => "false",
-                      "data-lang" => "es"
-                     ) )?>
-
-            </div>
-
-          </div>
-
-
-          <br>
-          <?=$this->Html->tag("div","",array(
-                                "class" => "social-element",
-                                "data-component"=> "socialelement",
-                                "data-href" => $Oferta['oferta_link'],
-                                "data-template-id" =>"#tmpl-compartir"
-
-          ))?>
-
-
-        </span>
-        <span class="pennant_bottom">
-        </span>
-      </span>
-      </div>
-
-      <div class="row-fluid">
-              <?php
-                  $is_premium =ClassRegistry::init('FormularioContactoPremium')->hasAny(array(
-                    "cia_cve" => $Oferta['cia_cve'],
-                    "premium_status" => 1
-
-                     ) );
-              ?>
-              <?php  if( $is_premium):?>
-                <div
-                    class="img-premium"
-                    title="Esta vacante cuenta con la Certificación de Empresa confiable que otorga Nuestro Empleo a través de su proceso de verificación"
-                    data-placement="top"
-                    >
-                  <img src="/img/premium_sello.png" style="margin-top: 50px">
-                </div>
-              <? endif;?>
-
-
-      </div>
+            <? endif;?>
+    </div>
   </div>
 
 
@@ -332,6 +284,9 @@
         'viewPath' => 'PostulacionesCan'
       ));
 ?>
+</div>
+
+</div>
 
 <?=$this->Template->insert(array(
         'compartir'
@@ -339,7 +294,3 @@
         'viewPath' => 'BusquedaOferta'
       ));
 ?>
-
-</div>
-
-</div>

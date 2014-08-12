@@ -9,12 +9,13 @@
       return this.$items.filter('[data-name=' + itemRole +']');
     },
     init: function (el, callbacks) {
-      this.$instance = $(el);
+      var $el=this.$instance = $(el);
       this.$items = this.$instance.find('[data-name]');
       this.url = this.$instance[0].action;
       this.callbacks = callbacks;
       this._get('submit').on('click.calendar', $.proxy(this.process, this));
       this.$instance.on('shown', callbacks.onModalShow);     
+
       this.initPickers();
     },
     initPickers: function () {
@@ -67,6 +68,13 @@
     showEvent: function (data) {
       this.reset();
       this.addData(data);
+      var $s=$("#sociales-01"),$p=$("#panel-sociales");    
+      $p.hide();
+      $s.empty();
+      if(data.network){
+        $p.show();
+         $s.html($.template( "#tmpl-sociales", { link:data.link,title:data.title,label:' el evento ' }  ) );
+      }
       this.$instance.modal('show');
     },
     processData: function (results) {
@@ -248,11 +256,16 @@
         $("#calendar").fullCalendar("refetchEvents");
     });
     var idEvento=$("#idEvento").val();
-    idEvento.length == 0 && $(".estaditos").val($("#estadopref01").val()).trigger('change');    
+    idEvento && $(".estaditos").val($("#estadopref01").val()).trigger('change');    
     Form.init('#event-form', {
       onModalShow: function (event,data) {
+        // setTimeout(function (){
+        //   $("html, body").animate({
+        //     scrollTop: 500
+        //   });
+        // },1000);
+        Map.refresh(Form.dataLatlng ? Form.dataLatlng :undefined);          
 
-        Map.refresh(Form.dataLatlng ? Form.dataLatlng :undefined);
       },
       onSuccess: function (data) {
         Calendar.$instance.fullCalendar('renderEvent', data, true);
@@ -260,16 +273,16 @@
       }
     });
     Map.init("map-canvas", Form.processData);    
-    if(idEvento.length>0){
+    if(idEvento){
         $.ajax({
         url: "/EventosCan",
         dataType: 'json',
         data: {
                 idEvento:idEvento
         },
-        }).done(function (data) {
-                var event=data.results;
-                event.length ==1&& Form.showEvent(event[0]);
+        }).done(function (data) {             
+          var event=data.results;
+          Form.showEvent(event[0]);
         });
     }
   });

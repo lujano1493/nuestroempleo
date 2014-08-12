@@ -311,6 +311,7 @@ public function registro_rapido(){
         $this->response->statusCode(300);
         return;
       }
+      $this->CandidatoUsuario->logDataBase("Resgistrando nuevo usuario como Candidato");
       if(!$this->CandidatoUsuario->registro_rapido($data)){
         $this->error("Los datos de candidato no fueron guardados.");
         $this->response->statusCode(300);

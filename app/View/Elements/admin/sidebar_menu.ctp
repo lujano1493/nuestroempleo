@@ -44,6 +44,14 @@
         ),
         'icon' => 'group',
       ),
+      __('Facturas') => array(
+        'url' => array(
+          'controller' => 'facturas',
+          'action' => 'index',
+          'admin' => $isAdmin
+        ),
+        'icon' => 'money',
+      ),
       __('Productos') => array(
         'url' => array(
           'controller' => 'productos',
@@ -75,6 +83,7 @@
           'action' => 'ofertas',
           'admin' => $isAdmin
         ),
+        'element' => 'admin/submenus/sociales_evento',
         'icon' => 'fa fa-facebook'
       )
     ), array(

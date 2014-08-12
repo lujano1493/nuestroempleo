@@ -1,6 +1,6 @@
 <?php 
   $formattedEvents = array();
-  
+  $eventos=array_key_exists("Evento", $eventos)? array($eventos):$eventos;
   foreach ($eventos as $key => $value) {
     $ev = reset($value);
       $data= array(
@@ -22,9 +22,10 @@
       'status' => $ev['evento_status'],
       'lat' => $ev['latitud'],
       'lng' => $ev['longitud'],
-      'type' => $ev['evento_tipo'],
+      'network' =>  $ev['evento_redsocial'],    
+      'link' => $ev['evento_link'],
+      'type' => $ev['evento_tipo']
     );
-
     if($isAuthUser) {
         $extra_data=array(
                 'cia' =>  $ev['cia_nombre'],

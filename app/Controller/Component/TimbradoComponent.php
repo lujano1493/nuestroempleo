@@ -2,10 +2,15 @@
 
 require_once(APP . 'Config' . DS . 'timbrado.php');
 
-App::uses('X509Cert', 'Lib/Cert');
+App::uses('X509Cert', 'Lib/CFDI');
+App::uses('CFDI', 'Lib/CFDI');
 App::uses('Xml', 'Utility');
 
 class TimbradoComponent extends Component {
+
+  public $config = array();
+
+  protected $_configName = null;
 
   /**
    * Constructor del Componente.
@@ -14,19 +19,20 @@ class TimbradoComponent extends Component {
    */
   public function __construct(ComponentCollection $collection, $settings = array()) {
     parent::__construct($collection, $settings);
-
-    $this->config = TimbradoConfig::get('igenter');
   }
 
-
   /**
-   * Inicialización del componente.
+   * Inicializacion del componente.
    * @param  Controller $controller [description]
    * @return [type]                 [description]
    */
   public function initialize(Controller $controller) {
     $this->controller = $controller;
     $this->params = $this->controller->params;
+  }
+
+  public function init($config = 'default') {
+    $this->config = TimbradoConfig::get($config);
 
     $this->engine = new X509Cert(
       $this->config['public_key'],
@@ -40,209 +46,52 @@ class TimbradoComponent extends Component {
 
     $this->proc = new XSLTProcessor;
     $this->proc->importStyleSheet($_xsl);
+
+    $this->soapClient = new SoapClient($this->config['wsdl'], array(
+      'encoding' => 'utf-8',
+      'trace' => true,
+      'cache_wsdl' => WSDL_CACHE_NONE
+    ));
+
+    $this->_configName = $config;
   }
 
-  public function generarXML($rfc_emisor){
-    $fecha_actual = substr(date('c'), 0, 19);
+  public function timbrar($data, $config = 'default') {
+    /**
+     * Inicializa la configuración, la comparación se hace para no cargar la configuración cada vez que
+     * se intente timbrar.
+     */
+    if ($this->_configName !== $config || empty($this->config)) {
+      $this->init($config);
+    }
 
-    // $data = array(
-    //   'cfdi:Comprobante' => array(
-    //     'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
-    //     'xmlns:xs' => "http://www.w3.org/2001/XMLSchema",
-    //     'xmlns:cfdi' => "http://www.sat.gob.mx/cfd/3",
-    //     '@xsi:schemaLocation' => 'http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd',
-    //     '@version' => "3.2",
-    //     '@fecha' => $fecha_actual,
-    //     '@tipoDeComprobante' => "ingreso",
-    //     '@noCertificado' => "",
-    //     '@certificado' => "",
-    //     '@sello' => "",
-    //     '@formaDePago' => "Pago en una sola exhibición",
-    //     '@metodoDePago' => "Transferencia Electrónica",
-    //     '@NumCtaPago' => "No identificado",
-    //     '@LugarExpedicion' => "San Pedro Garza García, Mty.",
-    //     '@subTotal' => "10.00",
-    //     '@total' => "11.60",
-    //     'cfdi:Emisor' => array(
-    //       '@nombre'=> "EMPRESA DEMO",
-    //       '@rfc' => $rfc_emisor,
-    //       'cfdi:RegimenFiscal' => array(
-    //         '@Regimen' => "No aplica"
-    //       )
-    //     ),
-    //     'cfdi:Receptor' => array(
-    //       '@nombre' => "PUBLICO EN GENERAL",
-    //       '@rfc' => "XAXX010101000",
-    //       '@' => ''
-    //     ),
-    //     'cfdi:Conceptos' => array(
-    //       'cfdi:Concepto' => array(
-    //         '@cantidad' => '10',
-    //         '@unidad' => 'No aplica',
-    //         '@noIdentificacion' => '00001',
-    //         '@descripcion' => 'Servicio de Timbrado',
-    //         '@valorUnitario' => '1.00',
-    //         '@importe' => '10.00',
-    //         '@' => ''
-    //       )
-    //     ),
-    //     'cfdi:Impuestos' => array(
-    //       '@totalImpuestosTrasladados' => '1.60',
-    //       'cfdi:Traslados' => array(
-    //         'cfdi:Traslado' => array(
-    //           '@impuesto' => 'IVA',
-    //           '@tasa' => '16.00',
-    //           '@importe' => '1.6',
-    //           '@' => ''
-    //         )
-    //       )
-    //     ),
-    //   )
-    // );
+    $numero_certificado = $this->config['no_cert'];
 
-    //* //
-    $data = array(
-      'cfdi:Comprobante' => array(
-        'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-        'xmlns:xs' => 'http://www.w3.org/2001/XMLSchema',
-        'xmlns:n2' => 'http://www.sat.gob.mx/TimbreFiscalDigital',
-        'xmlns:nomina' => 'http://www.sat.gob.mx/nomina',
-        'xmlns:cfdi' => 'http://www.sat.gob.mx/cfd/3',
-        '@xsi:schemaLocation' => 'http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd',
-        '@LugarExpedicion' => "CUAUHTEMOC",
-        '@metodoDePago'=> "DEPOSITO DE CUENTA",
-        '@tipoDeComprobante'=> "egreso",
-        '@total'=> "-786.93",
-        '@Moneda'=> "MXN",
-        '@TipoCambio'=> "1.0",
-        '@subTotal'=> "2003.77",
-        '@certificado'=> "",
-        '@noCertificado'=> "00001000000202605969",
-        '@formaDePago'=> "UNA SOLA EXHIBICION",
-        '@sello'=> "",
-        '@fecha'=> "2014-07-24T10:50:17",
-        '@folio'=> "1",
-        '@version'=> "3.2",
-        'cfdi:Emisor' => array(
-          '@nombre' => 'SERVICIOS DE PROMOCION Y COMERCIALIZACION DE MEXICALI, S.A. DE C.V.',
-          '@rfc' => 'IPB050810VC3',
-          'cfdi:DomicilioFiscal' => array(
-            '@codigoPostal' => '06170',
-            '@pais' => 'MEXICO',
-            '@estado' => 'DISTRITO FEDERAL',
-            '@municipio' => 'CUAUHTEMOC',
-            '@colonia' => 'HIPODROMO DE LA CONDESA',
-            '@calle' => "AV NUEVO LEON 202"
-          ),
-          'cfdi:RegimenFiscal' => array(
-            '@Regimen' => 'Regimen 01'
-          )
-        ),
-        'cfdi:Receptor' => array(
-          '@nombre' => 'YESSICA JULIANA BURROLA RODRIGUEZ',
-          '@rfc' => 'BURY870109638',
-          'cfdi:Domicilio' => array(
-            '@pais' => 'MEXICO'
-          )
-        ),
-        'cfdi:Conceptos' => array(
-          'cfdi:Concepto' => array(
-            '@importe' => '-786.93',
-            '@valorUnitario' => '-786.93',
-            '@descripcion' => 'PAGO DE NOMINA',
-            '@unidad' => 'SERVICIO',
-            '@cantidad' => '1',
-          )
-        ),
-        'cfdi:Impuestos' => array(
-          '@totalImpuestosRetenidos' => '0.00'
-        ),
-        'cfdi:Complemento' => array(
-          'nomina:Nomina' => array(
-            '@SalarioDiarioIntegrado' => '150.82',
-            '@SalarioBaseCotApor' => '150.82',
-            '@PeriodicidadPago' => 'NOMINA QUINCENAL',
-            '@Puesto' => 'MOZO DE AREAS PUBLICAS',
-            '@Antiguedad' => '3',
-            '@FechaInicioRelLaboral' => '2011-01-13',
-            '@Departamento' => 'CONTABILIDAD NOGALES',
-            '@NumDiasPagados' => '15',
-            '@FechaFinalPago' => '2013-03-15',
-            '@FechaInicialPago' => '2013-03-01',
-            '@FechaPago' => '2013-03-15',
-            '@NumSeguridadSocial' => '24058729336',
-            '@TipoRegimen' => '2',
-            '@CURP' => 'BURY870109MSRRDS01',
-            '@NumEmpleado' => 'N:357, E:9',
-            '@Version' => '1.1',
-            'nomina:Percepciones' => array(
-              '@TotalExento' => '78.77',
-              '@TotalGravado' => '1925.00',
-              'nomina:Percepcion' => array(
-                array(
-                  '@ImporteExento' => '0.00',
-                  '@ImporteGravado' => '1925.00',
-                  '@Concepto' => '1 - SUELDOS',
-                  '@Clave' => '001',
-                  '@TipoPercepcion' => '001',
-                ),
-                array(
-                  '@ImporteExento' => '-0.37',
-                  '@ImporteGravado' => '0.00',
-                  '@Concepto' => '43 - REDONDEO A PESOS',
-                  '@Clave' => '043',
-                  '@TipoPercepcion' => '016',
-                ),
-                array(
-                  '@ImporteExento' => '79.14',
-                  '@ImporteGravado' => '0.00',
-                  '@Concepto' => '212 - SUBSIDIO PARA EL EMPLEO',
-                  '@Clave' => '212',
-                  '@TipoPercepcion' => '017',
-                )
-              )
-            ),
-            'nomina:Deducciones' => array(
-              '@TotalExento' => '2790.70',
-              '@TotalGravado' => '0.00',
-              'nomina:Deduccion' => array(
-                array(
-                  '@ImporteExento' => '-0.48',
-                  '@ImporteGravado' => '0.00',
-                  '@Concepto' => '118 - AJUSTE REDONDEO A PESOS',
-                  '@Clave' => '118',
-                  '@TipoDeduccion' => '004'
-                ),
-                array(
-                  '@ImporteExento' => '2594.93',
-                  '@ImporteGravado' => '0.00',
-                  '@Concepto' => '350 - CREDITO INFONAVIT',
-                  '@Clave' => '350',
-                  '@TipoDeduccion' => '005'
-                ),
-                array(
-                  '@ImporteExento' => '3.75',
-                  '@ImporteGravado' => '0.00',
-                  '@Concepto' => '352 - 1% MANTENIMIENTO  INFONAVIT',
-                  '@Clave' => '352',
-                  '@TipoDeduccion' => '010'
-                ),
-                array(
-                  '@ImporteExento' => '192.50',
-                  '@ImporteGravado' => '0.00',
-                  '@Concepto' => '402 - APORT. FONDO DE AHORRO EMPLEAD',
-                  '@Clave' => '402',
-                  '@TipoDeduccion' => '004'
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-    /* */
+    $data = $this->testData();
 
-    $xml = Xml::build($data, array(
+    //generar y sellar un XML con los CSD de pruebas
+    if (empty($data)) {
+      return false;
+    } elseif (is_array($data)) {
+      $cfdi = $this->generarXML($data);
+    } elseif (is_string($data)) {
+      $cfdi = $data;
+    } else {
+      return false;
+    }
+
+    $cfdi = $this->sellarXML($cfdi, $numero_certificado);
+    $result = $this->enviar($cfdi);
+
+    debug($result);
+    debug($cfdi);
+    die;
+  }
+
+  public function generarXML($data) {
+    $factura = CFDI::create('Factura', $data, $this->config['emisorData']);
+
+    $xml = Xml::build($factura->get(), array(
       'return' => 'domdocument',
       'pretty' => true
     ));
@@ -250,21 +99,15 @@ class TimbradoComponent extends Component {
     return $xml->saveXML();
   }
 
-  public function cadenaOriginal($xml) {
-    $this->xdoc->loadXML($xml) or die("XML invalido");
-    $cadena_original = $this->proc->transformToXML($this->xdoc);
-    return $cadena_original;
-  }
+  public function enviar($xml) {
+    $opts = new stdClass;
+    $opts->usuario = $this->config['usuario'];
+    $opts->password = $this->config['password'];
+    $opts->xmlFirmado = trim(preg_replace(array("/\n/", '/>\s+</'), array('', '><'), $xml));
 
-  public function timbrar() {
-    //RFC utilizado para el ambiente de pruebas
-    $rfc = $this->config['rfc']; // 'ESI920427886';
-    $numero_certificado = $this->config['no_cert'];
+    $response = $this->soapClient->getCFDI($opts);
 
-    //generar y sellar un XML con los CSD de pruebas
-    $cfdi = $this->generarXML($rfc);
-    $cfdi = $this->sellarXML($cfdi, $numero_certificado);
-    debug($cfdi); die;
+    return $response;
   }
 
   public function sellarXML($xml, $numero_certificado) {
@@ -276,5 +119,57 @@ class TimbradoComponent extends Component {
     $c->setAttribute('noCertificado', $numero_certificado);
 
     return $this->xdoc->saveXML();
+  }
+
+  public function cadenaOriginal($xml) {
+    if (!$this->xdoc->loadXML($xml)) {
+      return false;
+    }
+
+    $cadena_original = $this->proc->transformToXML($this->xdoc);
+    return $cadena_original;
+  }
+
+  public function testData() {
+    return array(
+      'total' => 1.16,
+      'subtotal' => 1.00,
+      'folio' => '00001014',
+      'creada' => '2014-07-18 12:32:07',
+      'modificada' => '2014-07-18 12:33:09',
+      'compania' => array(
+        'nombre' => 'Power Engineering de Mexico',
+        'razon_social' => 'Power Engineering de Mexico S.A. de C.V.',
+        'rfc' => 'PEM001027NS3',
+        'giro' => 'Servicios',
+        'domicilio' => array(
+          'calle' => 'Calle Ejemplo',
+          'num_int' => '',
+          'num_ext' => '',
+          'colonia' => 'Apodaca Centro',
+          'ciudad' => 'Apodaca',
+          'estado' => 'Nuevo Leon',
+          'pais' => 'Mexico',
+          'cp' => '66600'
+        )
+      ),
+      'conceptos' => array(
+        array(
+          'cantidad' => 1,
+          'descripcion' => '3 Ofertas',
+          'importe' => 1.00,
+          'noIdentificacion' => '13',
+          'unidad' => 'Servicio',
+          'valorUnitario' => 1.00
+        )
+      ),
+      'impuestos' => array(
+        array(
+          'impuesto' => 'IVA',
+          'tasa' => 16.00,
+          'importe' => 0.16
+        )
+      )
+    );
   }
 }

@@ -33,7 +33,6 @@ class SocialesController extends AppController {
 
 
   public function admin_ofertas(){
-
     $this->loadModel("Oferta");
     if($this->isAjax){
       $compartirse=$this->Oferta->find("sociales",array(
@@ -42,42 +41,35 @@ class SocialesController extends AppController {
       );
       $this->set(compact("compartirse"));
     }else{
-          $this->facebook_();
-          $this->twitter_();
+      $url_redirect=Router::fullBaseUrl()."/admin/sociales/ofertas";
+      $this->facebook_();
+      $this->twitter_();
     }
   }
-
-
     public function admin_eventos(){
-    $this->loadModel("Evento");
-    if($this->isAjax){
-      $compartirse=$this->Oferta->find("sociales",array(
+      $this->loadModel("Evento");
+      if($this->isAjax){
+      $compartirse=$this->Evento->find("sociales",array(
           "idUser" =>$this->Auth->user('cu_cve')
         )
       );
       $this->set(compact("compartirse"));
-    }else{
-          $this->facebook_();
-          $this->twitter_();
+      }else{
+          $url_redirect=Router::fullBaseUrl()."/admin/sociales/eventos";
+          $this->facebook_($url_redirect);
+          $this->twitter_($url_redirect);
     }
   }
-
-
-  private function  twitter_(){
-    $url_redirect= Router::fullBaseUrl()."/admin/sociales/ofertas" ;
+  private function  twitter_($url_redirect=null){
     $twitter= new Twitter($url_redirect);
     $status_tw=$twitter->getStatus();
     $login_tw=$twitter->login();
     $logout_tw="/admin/sociales/logout_network";
     $this->Session->write("redirect_network_logout",$url_redirect);
-
-
-     $this->set(compact("status_tw","login_tw","logout_tw"));
+    $this->set(compact("status_tw","login_tw","logout_tw"));
 
   }
-
-  private function facebook_(){
-      $url_redirect=Router::fullBaseUrl()."/admin/sociales/ofertas";
+  private function facebook_($url_redirect=null){
       $facebook= new Facebook( $url_redirect );
       $login_fc= $facebook->login();
       $logout_fc=$facebook->logout(Router::fullBaseUrl()."/admin/sociales/logout_network");
@@ -124,7 +116,8 @@ class SocialesController extends AppController {
 
   private function compartir_red_social($red='facebook',$params=array()){
       if($red==='facebook'){
-        $f=new Facebook(Router::fullBaseUrl()."/admin/sociales/ofertas");
+        //Router::fullBaseUrl()."/admin/sociales/ofertas"
+        $f=new Facebook();
         $sts=$f->postLink($params);       
         return $sts;
       }

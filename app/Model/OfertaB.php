@@ -344,7 +344,7 @@ private function formato_fecha($field){
       }
     }
 
-      $conditions['AND'][]=' SYSDATE  < oferta_fecfin';
+      $conditions['AND'][]=" $this->alias.oferta_fecfin >= CURRENT_DATE ";
       return $conditions;
 
 

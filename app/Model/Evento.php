@@ -80,13 +80,19 @@ class Evento extends AppModel {
     'Contacto' => array(
       'className' => 'UsuarioEmpresaContacto',
       'foreignKey' => 'cu_cve',
-    )
+    ),
+    'Empresa' => array(
+      'className' => 'Empresa',
+      'foreignKey'=>'cia_cve'
+
+      )
   );
 
   public $findMethods = array(
     'cercanos'  => true,
     'all_info' => true,
-    'evento' => true
+    'evento' => true,
+    'sociales' => true
   );
 
   private $joins = array(
@@ -192,6 +198,87 @@ class Evento extends AppModel {
       //     $rs= array_merge($rs,$rs_1);
       // }
       return $rs;
+  }
+
+
+   protected function _findSociales($state, $query, $results = array()) {
+    if ($state === 'before') {
+        $conditions=array(
+          'OR' => array( 'Evento.evento_fecfin >= CURRENT_DATE' , 'Evento.evento_fecini  >= CURRENT_DATE'),
+          'Evento.evento_status' => 1
+        );
+        $conditions[] ="$this->alias.evento_redsocial = 1";
+
+      if(isset($query['id'])){
+        $conditions[ "$this->alias.$this->primaryKey"]= $query['id'];      
+      }
+
+      if(isset($query['idUser'])){
+        $conditions["$this->alias.cu_cve"] = classRegistry::init('UsuarioEmpresa')->getIds('dependents', array(
+          'parent' => $query['idUser']
+        ));
+      }
+      $query['conditions']=$conditions;
+      $query['joins'] = array(
+              array(
+                      'table' => '(select compartir_id,count (compartir_id) veces from tcompartir where compartir_tipo=2 and compartir_redsocial=1 group by compartir_id )',
+                      'alias' => 'Facebook',
+                      'conditions' => array(
+                              "$this->alias.evento_cve= Facebook.compartir_id" 
+                        ),
+                      'fields' => array(
+                          "nvl(Facebook.veces,0)   {$this->alias}__compartido_facebook"
+                      ),
+                      'type' =>'LEFT'
+              ),
+
+              array(
+                      'table' => '(select compartir_id,count (compartir_id) veces from tcompartir where compartir_tipo=2 and compartir_redsocial=2 group by compartir_id )',
+                      'alias' => 'Twitter',
+                      'conditions' => array(
+                              "$this->alias.evento_cve= Twitter.compartir_id" 
+                        ),
+                      'fields' => array(
+                          "nvl(Twitter.veces,0)   {$this->alias}__compartido_twitter"
+                      ),
+                      'type' =>'LEFT'
+              ),
+                 array(
+                      'table' => '(select compartir_id,count (compartir_id) veces from tcompartir where compartir_tipo=2 and compartir_redsocial=3 group by compartir_id )',
+                      'alias' => 'Linkedin',
+                      'conditions' => array(
+                              "$this->alias.evento_cve= Linkedin.compartir_id" 
+                        ),
+                      'fields' => array(
+                          "nvl(Linkedin.veces,0)   {$this->alias}__compartido_linkedin"
+                      ),
+                      'type' =>'LEFT'
+              ),
+                  array(
+                      'table' => '(select compartir_id,count (compartir_id) veces from tcompartir where compartir_tipo=2 group by compartir_id )',
+                      'alias' => 'VecesCompartido',
+                      'conditions' => array(
+                              "$this->alias.evento_cve= VecesCompartido.compartir_id" 
+                        ),
+                      'fields' => array(
+                          " nvl(VecesCompartido.veces,0)   {$this->alias}__compartido"
+                      ),
+                      'type' =>'LEFT'
+              )
+        );
+      $query['joins']= array_merge( $query['joins']  ,$this->joins['cerca']);
+      $query['contain'] = array(
+        'Reclutador' => array(
+          'fields' => array('cu_cve', 'cu_sesion', 'keycode')
+        ),
+        'Empresa' => array(
+                'fields' =>array('cia_nombre') 
+          )
+      );
+      $query['recursive'] = -1;
+      return $query;
+    }
+    return $results;
   }
 
   protected function _findCercanos($state, $query, $results = array()) {
@@ -484,6 +571,27 @@ class Evento extends AppModel {
       }
 
       return $result;
+
+  }
+
+  public function format_to_share($network_s='facebook',$evento){
+    $of= $evento[$this->alias];
+    $imgPath= Usuario::getPhotoPath($of['cia_cve'],'empresa');
+    if($network_s==='twitter'){
+      $file_name= WWW_ROOT. substr($imgPath,1);
+      $name=basename($file_name);     
+    } 
+    $info_share= "$of[tipo_nombre] $of[evento_nombre], $of[ciudad_nom], $of[est_nom], $of[evento_link] ";
+    return    $network_s ==='facebook' ?array(
+        'name' =>   "$of[evento_nombre]" ,
+        'description' =>  $info_share,
+        'picture' => "http://www.nuestroempleo.com.mx/$imgPath",
+        'message' =>"$of[evento_nombre]-$of[tipo_nombre]",
+        'link' => $of['evento_link']
+        ): (  $network_s==='twitter' ?  array(
+          'status' => $info_share,
+          'media[]'=> "@{$file_name};type=image/jpeg;filename={$name}"
+          )   :array() ) ; 
 
   }
 

@@ -85,6 +85,24 @@
           </td>
           
       </tr>
+      <tr>
+         <td class="n_clientes span3 center" style="padding-left:10px;padding-right:10px;">
+             <div class="work center span2" style="margin-left:20%;">
+              <a href="http://www.normal-superior.edu.mx" target="_blank">
+                <img id="img" src="/img/clientes/convenio/normal_sup.jpg" alt="">
+              </a>
+            </div>
+            
+          </td>
+            <td class="n_clientes span3 center" style="padding-left:10px;padding-right:10px;">
+             <div class="work center span2" style="margin-left:20%;">
+              <a href="http://www.unit.edu.mx" target="_blank">
+                <img id="img" src="/img/clientes/convenio/Interamericana.jpg" alt="">
+              </a>
+            </div>
+            
+          </td>
+      </tr>
 
       </tbody>
     </table>     

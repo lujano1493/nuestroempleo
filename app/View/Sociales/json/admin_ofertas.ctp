@@ -10,6 +10,7 @@
     $empresa=$k['Empresa'];
     $results[]=array(
         'id' => $oferta['oferta_cve'],
+        'tipoCompartir' =>  'oferta',
         'codigo' => $oferta['oferta_cvealter'],
         'nombre' => $oferta['puesto_nom'],
         'vigencia' => $oferta['vigencia'],

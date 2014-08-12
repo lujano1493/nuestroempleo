@@ -421,4 +421,23 @@ class AppModel extends Model {
 
     return $result;
   }
+
+  public function logDataBase($log=""){
+          $file_log= APP ."tmp".DS."logs".DS."log_data_base.log";
+          $fp=NULL;
+          $fp=fopen($file_log,'a');
+          $log_= empty($log) ?  json_encode($this):$log;
+          $fecha=date("d-m-Y H:i:s");
+          fwrite($fp, "$log_  $fecha \n");
+          fclose($fp);
+
+  }
+
+  public function format($type, $data) {
+    if (method_exists($this , '_format' . ucfirst($type))) {
+      return $this->{'_format' . ucfirst($type)}($data);
+    }
+
+    return $data;
+  }
 }

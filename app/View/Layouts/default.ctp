@@ -132,11 +132,10 @@
   <?php
   echo $this->AssetCompress->script('jquery.js');
   echo $this->AssetCompress->script('plugins.js');
-  echo $this->AssetCompress->script('tables.js');
-  echo $this->AssetCompress->includeJs();
   echo $this->fetch('script');
   echo $this->fetch('css');
-
+  echo $this->AssetCompress->script('tables.js');  
+  echo $this->AssetCompress->includeJs();
   echo $this->Html->script("plugin.redes.sociales");
   ?>
 

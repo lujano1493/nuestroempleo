@@ -8,6 +8,7 @@ class ReportesController extends AppController {
   public $uses = array();
 
   public $helpers = array('Excel','CandidatoReporte');
+  public $components = array('Upload'); 
 
   protected $dates = array();
 
@@ -82,6 +83,41 @@ class ReportesController extends AppController {
     }
     $usuarios = ClassRegistry::init('UsuarioAdmin')->getAdmins($this->Auth->user('cu_cve'));
     $this->set(compact('title_for_layout','usuarios'));
+  }
+
+  public function admin_masivos(){
+    $title_for_layout = 'Reportes Masivos';
+
+    if ($this->request->is('post')) {
+      $data = $this->request->data;
+      if (!empty($data['type'])) {
+          $params= array(
+            'idProceso' => 0
+          );          
+        $file=$this->Upload->post(false);
+         $r=array(
+          'admin' =>true,
+          'controller' => 'reportes',
+          'action' => $data['type'],
+          'ext' => 'json',
+          '?' => $params
+        );            
+          debug($file);
+          debug($this->request->data);
+          debug($r);
+          die;
+        $this->redirect($r, 'request');
+      } else {
+        $this->error(__('Selecciona al menos una opción a graficar.'));
+      }
+    }
+    $this->set(compact('title_for_layout'));
+
+  }
+
+
+  public function admin_masivos_candidato(){
+    $id= $this->request->query('idProceso');
   }
 
 

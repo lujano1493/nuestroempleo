@@ -47,8 +47,14 @@
             <span class="block" data-name="evento-start"></span>
             <span class="block" data-name="evento-end"></span>
           </div>
+          <div class="preview-pane"  id="panel-sociales" >
+            <h5 class="preview-title">
+              Redes Sociales
+            </h5>
+            <div style="text-align:center; margin-top:20px"  id="sociales-01" >              
 
-       
+            </div>
+          </div>
       </div>
       <div class="span5">
         <div id="map-container">
@@ -57,22 +63,19 @@
 
         <div class="span3_pennant pull-right">
           <span class="info-evento">
-            <div class="content">
-                        Si deseas mayor información del evento, puedes comunicarte con:<br>              
-                  <br>
-                   <strong data-name="contacto"></strong>
-                  <br>    
-                  <a href="#"  data-name="correo" ></a>      
-                  <br>
-                  <a href="#"  data-name="telefono" ></a>     
-                  <br>
-
-            </div>
-         
-    
-          </span>
-         
-         
+            <?php  if($isAuthUser) :?>
+              <div class="content">
+                          Si deseas mayor información del evento, puedes comunicarte con:<br>              
+                    <br>
+                     <strong data-name="contacto"></strong>
+                    <br>    
+                    <a href="#"  data-name="correo" ></a>      
+                    <br>
+                    <a href="#"  data-name="telefono" ></a>     
+                    <br>
+              </div>    
+            <?php  endif;?>                                
+          </span>                
       </div>
 
    
@@ -86,22 +89,4 @@
   </div>
 <?php
   echo $this->Form->end();
-?>
-
-
-<?php
-  $this->Html->script(array(
-    'http://maps.googleapis.com/maps/api/js?key=' . Configure::read('google_api_key') . '&region=MX&sensor=false'
-  ), array(
-    'inline' => false
-  ));
-
-  $this->AssetCompress->addScript(array(
-    'trentrichardson/jQuery-Timepicker-Addon/dist/jquery-ui-timepicker-addon.js',
-    'trentrichardson/jQuery-Timepicker-Addon/dist/i18n/jquery-ui-timepicker-es.js',
-    'vendor/fullcalendar/fullcalendar.min.js',
-    'app/candidatos/calendar.js'
-  ),
-    'calendar_candidato.js'
-  );
 ?>

@@ -4,7 +4,7 @@
             <h3>OFERTAS DISTINGUIDAS</h3>
         </div>
     <div id="ofertas-distinguidas-content" data-component="carrusel"  
-              data-type="flexslider" data-isajax="true" data-url="<?=$this->Html->url(array("controller" => "busquedaOferta","action"=>"destacadas"))?>" 
+              data-type="flexslider" data-isajax="true" data-url="<?=$this->Html->url(array("controller" => "busquedaOferta","action"=>"distinguidas_principal"))?>" 
               data-template-id="#tmpl-oferta-distinguida-inicio" data-content-type="json" data-direction="horizontal" data-loop="true"
               data-num-item-display="6" data-paginate="true" data-limit="200"      >
 

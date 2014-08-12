@@ -281,6 +281,10 @@
                       'label' => __('Asignar a'),
                       'options' => $listas['users'],
                     ));
+                    echo $this->Form->input('Oferta.cu_cve',array(
+                        'type' => 'hidden',
+                        'name' => 'data[Oferta][cu_cveaold]'
+                      ));
                   }
                   echo $this->Form->input('Oferta.oferta_datos', array(
                     'data-target-name' => 'oferta-datos-contacto',

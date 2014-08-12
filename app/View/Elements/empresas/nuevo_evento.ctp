@@ -18,7 +18,7 @@
       <button type="button" class="close" data-dismiss="modal" data-close="slidemodal" aria-hidden="true">×</button>
       <h4 id="modal-title"><?php echo __('Nuevo Evento'); ?></h4>
     </div>
-    <div class="slidemodal-body">
+    <div class="slidemodal-body" id="evento-f">
       <div class="sliding" data-navi-class="false">
         <!-- Wrapper for slides -->
         <!-- <div class="carousel-inner"> -->

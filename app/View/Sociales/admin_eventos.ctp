@@ -58,10 +58,9 @@
           <tr>
           <!--   <th data-table-prop=":input" data-table-order="none" width="5%"><input type="checkbox" class="master"></th> -->
            <!--  <th data-table-prop="codigo"><?php echo __('Codigo'); ?></th> -->
-            <th data-table-prop="#tmpl-nombre" width="20%"><?php echo __('Nombre del Puesto'); ?></th>
-            <th data-table-prop="#tmpl-fecha"  width="5%" ><?php echo __('Fecha de Creación'); ?></th>
-            <th data-table-prop="vigencia"   width="5%"><?php echo __('Vigencia'); ?></th>
-            <th data-table-prop="empresa"   width="20%"><?php echo __('Compañia'); ?></th>                    
+            <th data-table-prop="#tmpl-nombre" width="15%"><?php echo __('Nombre'); ?></th>                  
+            <th data-table-prop="empresa"   width="10%"><?php echo __('Compañia'); ?></th>      
+            <th data-table-prop="#tmpl-fecha"  width="15%" ><?php echo __('Fecha y Hora'); ?></th>
             <th data-table-prop="#tmpl-link"  width="10%"><?php echo __('Link'); ?></th>       
             <th data-table-prop="#tmpl-compartir-sociales" width="15%"><?php echo __('Compartir'); ?></th>
           </tr>
@@ -75,11 +74,11 @@
 
 
 <?php
-  echo $this->Template->insert(array(    
-    'acciones__oferta' => 'acciones-ofertas-sociales',
+  echo $this->Template->insert(array(      
+    'fecha__evento' => 'fecha',
+    'nombre__evento'=>  'nombre',
+    'detalles__evento' => 'detalles-evento',
     'compartir__sociales' => 'compartir-sociales',
-    'fecha',
-    'nombre',
     'link'
   ), null, array(
     'folder' => 'admin'
