@@ -134,13 +134,24 @@
               }
               $perfiles['reclutador'] = __('Reclutador');
 
+            $select=array(
+                  1=> 'coordinador',
+                  2=> 'reclutador'
+              );
+
               echo $this->Form->input('UsuarioEmpresa.per_cve', array(
                 'class' => 'form-control input-sm input-block-level',
+                'value' =>  $select[$this->data['UsuarioEmpresa']['per_cve']] ,
                 'label' => 'Tipo de Cuenta',
                 'placeholder' => 'Perfil',
                 'required' => true,
                 'options' => $perfiles
               ));
+               echo $this->Form->input('UsuarioEmpresa.per_cve',array(
+                'type' => 'hidden',
+                'name' => "data[UsuarioEmpresa][per_cveold]"
+
+                ));
             ?>
           </div>
           <div class="col-xs-8">

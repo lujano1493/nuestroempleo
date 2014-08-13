@@ -41,31 +41,40 @@ echo $this->element('admin/title');
       </div>
       
     </div>  
-    <div class="col-xs-4">     
-      <div class="">
-        <?php
-          echo $this->Form->input('archivo', array(
-            'id' => "masivo",
-            'class' => 'form-control input-sm input-block-level',
-            'label' => false,
-            'type' => 'file',
-            'required' => true,
-            'rule-required' => true,
-            'msg-required' => 'Elige un archivo.'
-          ));    
-        ?>
-      </div>
+    <div class="col-xs-6">     
+
+     
+    <div class="input-append file-upload" data-component="tooltip" data-placement="bottom">
+        <input type="text" class="info" readonly    >
+                  <span class="btn btn-sm btn-primary fileinput-button"   >                 
+                    <i class="icon-plus icon-white"></i>
+                     <span> Examinar </span>              
+                    <!-- The file input field used as target for the file upload widget -->
+                       <?php
+                          echo $this->Form->input('archivo', array(
+                            'id' => "masivo",
+                            'class' => 'filestyle',
+                            'label' => false,
+                            "name" => "files[]",
+                            "div" =>false,
+                            'type' => 'file'
+                          ));    
+                        ?>
+                  </span>     
+
+                </div>
+
+      
+    </div>
+    <div class="col-xs-2">
+       <button type="submit" class="btn btn-sm btn-success" disabled="disabled">
+             <label>Aceptar</label>
+       </button>
     </div>
   </div>
-  <div class="btn-actions">
-    <?php
-      echo $this->Form->submit(__('Aceptar'), array(
-        'class' => 'btn btn-success'      
-      ));
-    ?>
-  </div>
+ 
 <?php
-  echo $this->Form->input("type" ,array(
+  echo $this->Form->input("format" ,array(
     "class" => "type",
     "type" =>"hidden",
     "value" => "txt|xls|xlsx"

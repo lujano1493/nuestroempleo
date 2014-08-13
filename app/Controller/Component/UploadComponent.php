@@ -34,8 +34,8 @@ class UploadComponent extends Component
         'min_height' => 'Image requires a minimum height'
     );
 
-    function __construct() {
-        $this->options = array(
+    function __construct($controller=null,$options=array()) {
+        $options_ = array(
             'script_url' => $this->get_full_url().'/',
             'upload_dir' => dirname($_SERVER['SCRIPT_FILENAME']).'/temporales/',
             'upload_url' => $this->get_full_url().'/temporales/',
@@ -108,7 +108,13 @@ class UploadComponent extends Component
                 )*/
             )
         );
-        
+        if(isset($options['options'])){            
+            $options=$options['options'];
+            $this->options= array_merge($options_,$options);          
+            if(isset($options['error_messages'])){
+                $this->error_messages=array_merge($this->error_messages,$options['error_messages']);
+            }
+        }  
     }
 
    /*protected function initialize() {

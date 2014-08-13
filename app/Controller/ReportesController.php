@@ -8,7 +8,19 @@ class ReportesController extends AppController {
   public $uses = array();
 
   public $helpers = array('Excel','CandidatoReporte');
-  public $components = array('Upload'); 
+  public $components = array('Upload' =>array(
+          'options' => array(            
+            "max_file_size" =>  1048576, //tamaño maximo de un 1MB
+            "accept_file_types" => '/.(txt|xlsx?)/i',
+            "error_messages" =>array(
+              'max_number_of_files' => 'Numero maximo de archivos excedidos.',
+              'max_file_size' => 'El archivo es demasiado grande.',
+              'min_file_size' => 'El archivo es demasiado pequeño.',
+              'accept_file_types' => 'El tipo de archivo no es permitido.'
+              )
+            )
+
+    )  ); 
 
   protected $dates = array();
 
@@ -91,21 +103,31 @@ class ReportesController extends AppController {
     if ($this->request->is('post')) {
       $data = $this->request->data;
       if (!empty($data['type'])) {
+            
+        $upload_=$this->Upload->post(false);
+        if( empty($upload_['files'] )  ){
+          $this->error("No se encontro archivo para subir.");
+          return;
+        }
+        if( isset($upload_['files'][0]->error ) ){
+          $this->error($upload_['files'][0] ->error);
+          return;
+        }
+          if(!$this->file_render($data['type'], $upload_['files'][0] ) ){
+            return ;
+          }
+
           $params= array(
             'idProceso' => 0
-          );          
-        $file=$this->Upload->post(false);
+          );     
+
          $r=array(
           'admin' =>true,
           'controller' => 'reportes',
           'action' => $data['type'],
-          'ext' => 'json',
+          'ext' => 'xls',
           '?' => $params
-        );            
-          debug($file);
-          debug($this->request->data);
-          debug($r);
-          die;
+        );       
         $this->redirect($r, 'request');
       } else {
         $this->error(__('Selecciona al menos una opción a graficar.'));
@@ -115,8 +137,20 @@ class ReportesController extends AppController {
 
   }
 
+  public function file_render($render,$file ){
+      $layout=array(
+            "masivos_candidato" =>array( 
+              "layout" => array(
+                  "/([a-zA-Z0-9_.+-]+)@([a-zA-Z_-]+).([a-zA-Z]{2,4}(.[a-zA-Z]{2,3})?)/i"
+                ) 
+              )
+        );
+      $this->error("en render :P");
+      return false;
+  }
 
   public function admin_masivos_candidato(){
+   
     $id= $this->request->query('idProceso');
   }
 

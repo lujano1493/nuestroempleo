@@ -6,6 +6,8 @@ $(function ($){
 
 	}
   	var $input_file=$("#masivo"),$form=$input_file.closest('form'),$submit=$form.find("[type='submit']");
+
+   
    	$input_file.fileupload({
              dataType: 'json',              
             maxFileSize: 5000000,
@@ -27,35 +29,31 @@ $(function ($){
               $form.find(".progress .bar").css('width',progress + '%');      
             }, 
             send: function (e, data) {
-
+                $submit.append('<i class="icon-spinner icon-spin"></i>')
+                .addClass('disabled spinner')
+                .prop('disabled', 'disabled');
             },
 
-            add: function (e, data) {
-                  var start_p= data.files[0].name.lastIndexOf( "." ), type_data=data.files[0].name.substring(start_p+1).toLowerCase();
-
-                  if(start_p < 0 ){
-                      alert("¡Verifica la extensión del archivo!");
-                      return;
-                  }
-      				data.submit();                      
-                  // if(checarFormato(type_data, data.form.find(".type").val())){
-                  //   data.form.find(".info").val(data.files[0].name);                                      
-                  //   if(!$submit.prop("disabled") ){
-                  //   	$submit.prop("disabled",true);
-                  
-                  //   }                  
-                  
-                  // }                  
-                  // else{
-                  //     alert("¡Formato de archivo no valido!");                    
-                  // }
-                                    
+            add: function (e, data) {              
+              $form.find(".info").val(data.files[0].name); 
+              $submit.prop("disabled",false);             
+              $submit.off('click').on("click",function (){
+                  data.submit();      
+              });      			                                       
             },
 
             done: function (e, data) {                
                var result =data.result;
                console.log(result);  
                $submit.prop("disabled",false);
+          },fail: function (e, data) {
+            var results= $.parseJSON(data.jqXHR.responseText);
+            results.message && $('.alerts-container').alerto('show', results.message,3000);
+
+          },always: function (e,data){
+            $submit.removeClass('disabled spinner')
+            .prop('disabled', false)
+            .find('.icon-spin').remove();
           }
         });
 

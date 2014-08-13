@@ -384,7 +384,7 @@ class MisCuentasController extends BaseEmpresasController {
          * Si el usuario va a ser Coordinador, entonces su superior es el admin de la Empresa
          * @var [type]
          */
-        if ((int)$perfilIndex === 1) {
+        if ( $data['UsuarioEmpresa']['per_cve'] != $data['UsuarioEmpresa']['per_cveold'] && (int)$perfilIndex === 1) {
           $data['UsuarioEmpresa']['cu_cvesup'] = $this->Auth->user('Empresa.cu_cve');
         }
 
