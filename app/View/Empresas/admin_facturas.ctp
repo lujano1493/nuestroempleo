@@ -37,12 +37,21 @@
 <div class="row">
   <div class="col-xs-9">
     <?php
+      // Factura activada
+      if ($facturaStatus >= 2):
+    ?>
+      <div class="lead text-center alert alert-success">
+        <strong><?php echo __('Factura Activada') ?></strong>
+      </div>
+    <?php endif ?>
+    <?php
       /**
        * Si es promocional no se requiren archivos...
        */
       if (!$isPromo) {
         echo $this->element('admin/empresas/archivos', array(
-          'factura' => $factura
+          'factura' => $factura,
+          'onlyList' => $facturaStatus >= 2
         ));
       } else { ?>
         <div class="alert alert-info">
@@ -191,6 +200,14 @@
         ));
       ?>
     <?php endif ?>
+    <?php
+      // Factura activada
+      if ($facturaStatus >= 2):
+    ?>
+      <div class="lead text-center alert alert-success">
+        <strong><?php echo __('Factura Activada') ?></strong>
+      </div>
+    <?php endif ?>
     <div class="btn-actions">
       <?php
         echo $this->Html->back(__('Regresar'), array(
@@ -216,7 +233,7 @@
             'class' => 'btn btn-success',
             // 'disabled' => true
           ));
-        } elseif ($facturaStatus === 2) {
+        } elseif ($facturaStatus >= 2) {
           echo $this->Html->link(__('Créditos Activados'), '#', array(
             'class' => 'btn btn-success disabled',
             'disabled' => true
@@ -249,7 +266,8 @@
 <?php
   $this->Html->scriptBlock('
     (function($, undefined) {
-      $(\'a[data-role=assign-credits]\').on(\'click\', function (e) {
+      $(\'a[data-role=assign-credits]\')
+      .on(\'click\', function (e) {
         e.preventDefault();
         $(this).ajaxlink(\'click\', e, {
           params: {
@@ -257,6 +275,8 @@
           }
         });
         return false;
+      }).on(\'success.ajaxlink\', function (e) {
+        $(this).attr(\'disabled\', true).text(\'Créditos Asignados\');
       });
     })(jQuery);
   ', array(

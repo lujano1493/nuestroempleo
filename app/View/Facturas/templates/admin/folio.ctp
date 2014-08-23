@@ -10,4 +10,6 @@
     </strong>
   </span>
 </h5>
-<a href="#" data-action-role='open-in-table' data-table-prop='#tmpl-acciones-facturas'>Acciones</a>
+{{? it.status.val != -1 }}
+  <a href="#" data-action-role='open-in-table' data-table-prop='#tmpl-acciones-facturas'>Acciones</a>
+{{? }}

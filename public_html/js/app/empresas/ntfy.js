@@ -35,6 +35,22 @@
     });
   });
 
+  socket.on('session-updated', function () {
+    bootbox.dialog({
+      message: 'Se han activado tus servicios, por favor refresca la página.',
+      title: 'Servicios activados',
+      buttons: {
+        main: {
+          label: 'Refrescar',
+          className: 'btn-primary',
+          callback: function() {
+            document.location.reload();
+          }
+        }
+      }
+    });
+  });
+
   socket.on('receiver-ntfy', function (data) {
     $ntfy.ntfy('add', 'notificacion', data);
 

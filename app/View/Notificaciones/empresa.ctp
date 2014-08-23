@@ -15,11 +15,11 @@
     <div class="tab-pane panel active" id="ntfy-history">
       <div class="content" data-limit="10"></div>
       <div class="btn-actions">
-        <a href="/notificaciones/notificacion" data-target="" class="more-ntfy hide">Ver más</a>
+        <a href="/notificaciones" data-target="" class="more-ntfy hide">Ver más</a>
         <?php
           echo $this->Html->link(__('Ver más'), array(
             'controller' => 'notificaciones',
-            'action' => 'notificacion'
+            'action' => 'index'
           ), array(
             'class' => 'btn btn-default more-ntfy',
             'data' => array(

@@ -16,8 +16,8 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:PATH_CAKE
 
 #prueba de tareas programdas
 #* * * * *  cake EnvioCorreo enviar_correo
-#envio de boletion: cada semana el dia sabado a las 10 de la mañana
-0 10 * * 6  cake EnvioCorreo enviar_boletin
+#envio de boletion: cada dia 15 del mes a las 5 de la mañana
+0 5 15 * *  cake EnvioCorreo enviar_boletin
 #envio de correo actualizacion de cv se envia el 14 y  28 del mes  las 00:00 AM
 0 0 14,28 * *  cake EnvioCorreo enviar_aviso_actualizacv
 #envio de correo de eventos: se envia cada dia primero de cada mes a las 10:00 AM el dia primero

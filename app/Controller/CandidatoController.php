@@ -311,9 +311,11 @@ public function registro_rapido(){
         $this->response->statusCode(300);
         return;
       }
-      $this->CandidatoUsuario->logDataBase("Resgistrando nuevo usuario como Candidato");
-      if(!$this->CandidatoUsuario->registro_rapido($data)){
-        $this->error("Los datos de candidato no fueron guardados.");
+      Configure::write('debug',2);
+       $log_data=Debugger::exportVar( $this->request->data ,10);
+      $this->CandidatoUsuario->logDataBase("Resgistrando nuevo usuario \n $log_data \n\n");
+      if( $this->CandidatoUsuario->registro_rapido($data) ===false){
+        $this->error("Los datos de candidato no fueron guardados, intente más tarde.");
         $this->response->statusCode(300);
         return;
       }

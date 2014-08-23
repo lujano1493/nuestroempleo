@@ -41,12 +41,6 @@
 
 		<?php  endforeach;?>
 
-		<?php foreach ($data['semblanzas'] as $key=> $value ) :?>
-
-			<?=$this->element("email/articulo",compact("value") )?>
-
-		<?php  endforeach;?>
-
 	     <p style="color:#2f72cb; font-weight:bold;text-align:center">Síguenos a través de: <br>
 			<div style="text-align:center" >
 					<?=$this->Html->image("email/face.jpg",array("fullBase"=>true ,"url"=> "https://www.facebook.com/NuestroEmpleo",

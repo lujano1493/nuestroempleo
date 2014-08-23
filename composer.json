@@ -34,22 +34,22 @@
     "webtechnick/cakephp-paypal-ipn-plugin": "2.*@dev",
     "phpoffice/phpexcel": "dev-master",
     "facebook/php-sdk-v4" : "4.0.*",
-    "tomi-heiskanen/twitteroauth": "0.9"
+    "tomi-heiskanen/twitteroauth": "0.0.2"
   },
   "minimum-stability" : "dev",
   "repositories": [
-  {
+    {
       "type": "package",
       "package": {
         "name" : "tomi-heiskanen/twitteroauth",
-        "version" : "0.9",
+        "version" : "0.0.2",
         "dist" : {
           "type" : "zip",
           "url" : "https://github.com/tomi-heiskanen/twitteroauth/archive/master.zip"
         },
         "source" : {
           "type" : "git",
-          "url" : "https://github.com/tomi-heiskanen/twitteroauth.git",
+          "url" : "git://github.com/tomi-heiskanen/twitteroauth.git",
           "reference" : "origin/master"
         }
       }

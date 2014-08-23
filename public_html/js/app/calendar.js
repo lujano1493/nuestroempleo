@@ -433,7 +433,10 @@
         , info = this.getAddress(addressComponents);
 
       if (info.country !== 'México') {
-        Form.$instance.find('.alerts-container').alerto('warning', 'No hemos encontrado ese CP en México', 5000);
+        Form.$instance.find('.alerts-container').alerto(
+          'warning', 
+            'El Código Postal  que ingresó no puede ubicarse en el mapa. Por favor indique el lugar de manera manual',
+            5000);
 
         Map.refresh({
           zoom: 6

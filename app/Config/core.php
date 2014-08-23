@@ -40,6 +40,7 @@
   $re = '/^(www\.)?(nuestroempleo).(com|mx|com.mx)\/?$/i';
   if (!empty($_SERVER['HTTP_HOST']) && preg_match($re, $_SERVER['HTTP_HOST']) === 0) {
     Configure::write('debug', 2);
+    Configure::write('debug_email', true);
   }
 
   /**

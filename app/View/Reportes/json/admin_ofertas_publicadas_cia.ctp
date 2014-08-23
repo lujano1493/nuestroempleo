@@ -12,10 +12,12 @@
   }
 
   $color = $this->Grafito->color();
+  $fecini= $formatoCalendario === 2 ? $this->Time->month($_dates['ini']): $this->Time->pretty($_dates['ini'])  ;
+  $fecfin=  $formatoCalendario === 2 ? $this->Time->month($_dates['end']) : $this->Time->pretty($_dates['end']) ;
   $this->_results = $this->Grafito->serial($data, array(
     'title' => array(
       $title_for_layout,
-      __('De %s a %s', $this->Time->month($_dates['ini']), $this->Time->month($_dates['end']))
+      __('De %s a %s', $fecini, $fecfin)
     )
   ), array(
     'categoryField' => 'mes',

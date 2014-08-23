@@ -186,8 +186,33 @@ class Convenio extends AppModel {
         $success = $this->asignarMembresia($id);
 
         if (!empty($empresa) && $success) {
+          /**
+           * Id del Admin de la empresa.
+           * @var [type]
+           */
+          $userId = $empresa['Admin']['cu_cve'];
+
+          /**
+           * Actualizamos su perfil.
+           */
+          $this->Empresa->Administrador->updateProfile($userId);
+
+          $perfil = $this->Empresa->Administrador->Perfil->getProfile(
+            $userId,
+            $id
+            // $this->Auth->user('per_cve')
+          );
+
           $event = new CakeEvent('Model.Productos.servicios_activados', $this, array(
-            'empresa' => $empresa
+            'empresa' => $empresa,
+            'session_data' => array(
+              'perfilId' => $perfil['per_cve'],
+              'perfil' => $perfil,
+              'creditos' => $this->Membresia->Credito->getByUser(
+                $userId,
+                $id
+              )
+            )
           ));
 
           $this->getEventManager()->dispatch($event);

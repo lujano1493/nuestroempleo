@@ -9,9 +9,12 @@
     array('label' => __('Id Usuario'), 'filter' => true),
     array('label' => __('Nombre Completo'), 'filter' => true),
     array('label' => __('Cuenta de Usuario'), 'filter' => true, 'label_axisX' =>true ),
-    array('label' => __('Total'), 'filter' => true, 'data_graph' => true )
+    array('label' => __('Total'), 'filter' => true ,'data_graph' => true ),
+    array('label' => __('Precio Total'), 'filter' => true )
   );
-  $title_for_layout=$title_for_layout.__(' De %s a %s', $this->Time->month($_dates['ini']), $this->Time->month($_dates['end']));
+  $fecini= $formatoCalendario === 2 ? $this->Time->month($_dates['ini']): $this->Time->pretty($_dates['ini'])  ;
+  $fecfin=  $formatoCalendario === 2 ? $this->Time->month($_dates['end']) : $this->Time->pretty($_dates['end']) ;
+  $title_for_layout=$title_for_layout.__(' De %s a %s',$fecini, $fecfin);
   $this->Excel
     ->setTopTitle($title_for_layout)
     ->getActiveSheet()
@@ -25,7 +28,8 @@
       $o['id'],
       $o['nombre'],
        $o['cuenta'] , // Nombre Producto
-      $o['total']                                   // Total
+      $o['total']   ,
+      $o['precio']                                // Total
     );
   }
 

@@ -102,13 +102,10 @@
     var $initMonth = $('#initMonth')
       , $finalMonth = $('#finalMonth')
       , $initDate = $('#initDate')
-      , $finalDate = $('#finalDate');
-
-
-    $initMonth.datepicker({
-      beforeShow: function () {
-        $('#ui-datepicker-div').addClass('no-calendar');
-      },
+      , $finalDate = $('#finalDate')
+      , $dateFormat=$('#date-format')
+      , optionsInitMoth={
+      beforeShow: antesDemostrar,
       changeMonth: true,
       changeYear: true,
       showButtonPanel: true,
@@ -118,7 +115,8 @@
       onClose: function(selectedDate, inst) {
         var month = $('#ui-datepicker-div .ui-datepicker-month :selected').val()
           , year = $('#ui-datepicker-div .ui-datepicker-year :selected').val()
-          , date = new Date(year, month, 1)
+          , format= $dateFormat.val() || 2
+          , date = new Date(year, month, +format===2 ? 1: inst.currentDay )
           , tmpDate = $finalMonth.data('date') || new Date();
 
         $initMonth.data('date', date)
@@ -132,12 +130,9 @@
         $initDate.val($.datepicker.formatDate('yy-mm-dd', date));
         $finalDate.val($.datepicker.formatDate('yy-mm-dd', tmpDate));
       }
-    });
-
-    $finalMonth.datepicker({
-      beforeShow: function () {
-        $('#ui-datepicker-div').addClass('no-calendar');
-      },
+    }, 
+    optionsEndMoth={
+      beforeShow: antesDemostrar,
       changeMonth: true,
       changeYear: true,
       showButtonPanel: true,
@@ -147,7 +142,8 @@
       onClose: function(selectedDate, inst) {
         var month = $('#ui-datepicker-div .ui-datepicker-month :selected').val()
           , year = $('#ui-datepicker-div .ui-datepicker-year :selected').val()
-          , date = new Date(year, month, 1)
+          , format= $dateFormat.val() || 2
+          , date =  new Date(year, month,  +format===2 ? 1: inst.currentDay )
           , tmpDate = $initMonth.data('date') || new Date();
 
         $finalMonth.data('date', date)
@@ -155,41 +151,61 @@
           .datepicker('setDate', date);
 
         $initMonth
-          .datepicker('option', {maxDate: date, maxDateTime: date})
+          .datepicker('option', {maxDate:date})
           .datepicker('setDate', tmpDate);
 
         $initDate.val($.datepicker.formatDate('yy-mm-dd', tmpDate));
         $finalDate.val($.datepicker.formatDate('yy-mm-dd', date));
       }
-    });
+    }; // Si no hay seleccion de formato por default agrega el de meses
+
+
+    $initMonth.datepicker( optionsInitMoth );
+
+    $finalMonth.datepicker(optionsEndMoth);
+
+    function antesDemostrar(){
+        var formatDate=+($dateFormat.val() || 2);        
+        $('#ui-datepicker-div')[formatDate===2 ? 'addClass':'removeClass']('no-calendar');    
+    }
+
+    $dateFormat.change(function (){
+        var formatDate=$(this).val()
+        , dateFormat= +formatDate ===2 ? 'MM yy': 'dd MM yy'
+        , format={dateFormat:dateFormat};
+        /**
+          hola si estas viendo este desmadre es por que se supone que namas con cambiariar el formato a nuestro datapicker actual en teoria 
+          debe funcionar pero no fue asi pinche datepicker, entonces el codigo que sigue, elimina y crea un nuevo datapicker con las mismas opciones solo cambiando el
+          formato a mostrar. 
+        */
+        $initMonth.datepicker('destroy');
+        $finalMonth.datepicker('destroy');
+        $initMonth.datepicker($.extend(optionsInitMoth,format) );
+        $finalMonth.datepicker($.extend(optionsEndMoth,format) );
+        $initMonth.datepicker('setDate',$.datepicker.parseDate( 'yy-mm-dd',$initDate.val()) ); 
+        $finalMonth.datepicker('setDate',$.datepicker.parseDate( 'yy-mm-dd',$finalDate.val()) ); 
+    }).trigger('change');
 
     /**
      * control de input dependiendo de la seleccion de reporte
      * @type {[type]}
      */
-    var group_radios= $chartsitoForm.data("radios-group");
-    if(!group_radios){
+    var groupRadios= $chartsitoForm.data('radios-group');
+    if(!groupRadios){
       return false;
     }
-    group_radios=$(group_radios);
-    var options= group_radios.data();
-    group_radios.find(":radio").click(function(event) {
-      var $check=group_radios.find(":radio:checked");
-      if($check.val()===options.option){
-          $(options.elementName).show(100);
-        }
-      else{
-          $(options.elementName).hide(100);
-      }
-
-
+    groupRadios=$(groupRadios);
+    var options= groupRadios.data();
+    groupRadios.find(':radio').click(function(event) {
+      var $check=groupRadios.find(':radio:checked');
+      $(options.elementName)[$check.val()===options.option? 'show' :'hide'  ](100);
     });
 
   });
 
   function addExcelLink() {
     var $ul = $chartsito.find('ul > li > ul')
-      , name_group= $chartsitoForm.data("radios-group")||''
+      , nameGroup= $chartsitoForm.data('radios-group')||''
       , $li = $('<li />')
       , $link = $('<a />', {
         href: '#',
@@ -198,23 +214,27 @@
       }).appendTo($li.appendTo($ul))
       , _location = [
           ( $chartsitoForm.data('controller') || '/mis_reportes/'),
-        $chartsitoForm.find( name_group+' :radio:checked').val(),
+        $chartsitoForm.find( nameGroup+' :radio:checked').val(),
         '.xls',
         '?finalDate=' + $chartsitoForm.find('#finalDate').val(),
         '&initDate=' + $chartsitoForm.find('#initDate').val()
       ];
+      var fd= +( $('#date-format').val() || 2);
+      if(fd!==2){
+        _location.push('&formatoCalendario='+fd);
+      }
       /**
        *  parametros para reportes de internos administración
        */
              
-      if( $chartsitoForm.find(".tipo :checked")){
-        _location.push("&tipo="+$chartsitoForm.find(".tipo :checked").val());
+      if( $chartsitoForm.find('.tipo :checked').length >0){
+        _location.push('&tipo='+$chartsitoForm.find('.tipo :checked').val());
       }
-      if( name_group.length >0){
-          var group=$(name_group),options=group.data(),$f=$(options.elementName);          
-          if($f.is(":visible")){
-            var val=  $f.find("select").val();
-          _location.push("&usuario="+val);  
+      if( nameGroup.length >0){
+          var group=$(nameGroup),options=group.data(),$f=$(options.elementName);          
+          if($f.is(':visible')){
+            var val=  $f.find('select').val();
+          _location.push('&usuario='+val);  
           }    
       }
 

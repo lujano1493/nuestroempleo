@@ -9,5 +9,14 @@
         ));
       ?>
     </li>
+      <li>
+      <?php
+        echo $this->Menu->link(__('Masivos'), array(
+          'controller' => 'reportes',
+          'action' => 'masivos',
+          'admin' => $isAdmin,
+        ));
+      ?>
+    </li>
   </ul>
 </div>

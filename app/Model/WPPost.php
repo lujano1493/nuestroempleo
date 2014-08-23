@@ -185,7 +185,7 @@ App::import("Vendor",array( "simple_html_dom","funciones" ));
 						"$this->alias.post_status" => 'publish'
     		);
 
-    	if($tipo_articulo!="all"){
+    	if($tipo_articulo!=="all"){
     		$conditions["wpterms.name" ]=$tipo_articulo;
     	}
 

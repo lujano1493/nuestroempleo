@@ -126,8 +126,40 @@ class InfoController extends AppController {
 
 
   public function prueba(){
-    preg_match("/^def/", "abcdef",$match,PREG_OFFSET_CAPTURE,0);
-    debug($match);
+   
+    $models= App::objects('Model');
+    $collection=array();
+    $names=array();
+    $collection=array();
+    foreach ($models as $key => $value) {
+      $model= ClassRegistry::init($value);
+        
+      if( empty($model->primaryKey ) || empty($model->useTable) ||  (!empty($model->useTable) && $model->useTable[0] !=='t'  )   ) {
+        continue;
+      }
+
+      /*select {$model->primaryKey} from  {$model->useTable} where rownum<=1*/
+      $rsul=$model->nextId();
+      if(empty($rsul)){
+        continue;
+      }
+      $collection[$model->useTable]= array("nextval" => $rsul, "model" =>$model );
+    }
+
+    foreach ($collection as $name_model => $info) {
+      $model=$info['model'];
+      $name_s=substr($model->useTable, 1);
+      $create="create  sequence s{$name_s} start with $info[nextval] increment by 1;";
+      echo "$create <br>";
+    }
+    $tablas=array_keys($collection);
+    sort($tablas);
+
+    foreach ($tablas  as $key => $tabla) {
+            echo "$tabla <br>";
+      }  
+    die;
+
 
 }
 

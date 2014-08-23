@@ -1,6 +1,8 @@
-<div class="alert alert-info">
-  Antes de activar el servicio, por favor, verifique que el pago del mismo se haya efectuado.
-</div>
+<?php if (empty($onlyList)): ?>
+  <div class="alert alert-info">
+    Antes de activar el servicio, por favor, verifique que el pago del mismo se haya efectuado.
+  </div>
+<?php endif ?>
 <ul class="list-unstyled" id="list-files">
   <?php foreach ($files as $key => $value): ?>
     <li>
@@ -8,7 +10,7 @@
         echo $this->Html->link($value, array(
           'admin' => $isAdmin,
           'controller' => 'facturas',
-          'action' => 'descargar',
+          'action' => 'descargar_comprobante',
           'id' => $factura['factura_folio'],
           $value
         ), array(
@@ -36,58 +38,60 @@
     </li>
   <?php endforeach ?>
 </ul>
-<div>
-  <?php
-    echo $this->Form->create(false, array(
-      'id' => 'formFacturaUpload',
-      'url' => array(
-        'admin' => $isAdmin,
-        'controller' => 'facturas',
-        'action' => 'comprobante',
-        $factura['factura_folio']
-      ),
-      'class' => 'row',
-    ));
-  ?>
-    <div class="col-xs-12">
-      <div class="form-group">
-        <div class="input-group">
-          <?php
-            echo $this->Form->input('Empresa.cia_cve', array(
-              'value' => $empresa['Empresa']['cia_cve'],
-              'type' => 'hidden',
-            ));
+<?php if (empty($onlyList)): ?>
+  <div>
+    <?php
+      echo $this->Form->create(false, array(
+        'id' => 'formFacturaUpload',
+        'url' => array(
+          'admin' => $isAdmin,
+          'controller' => 'facturas',
+          'action' => 'comprobante',
+          $factura['factura_folio']
+        ),
+        'class' => 'row',
+      ));
+    ?>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <div class="input-group">
+            <?php
+              echo $this->Form->input('Empresa.cia_cve', array(
+                'value' => $empresa['Empresa']['cia_cve'],
+                'type' => 'hidden',
+              ));
 
-            echo $this->Form->input('facturainfo', array(
-              'label' => false,
-              'class' => 'form-control input-sm',
-              'div' => false,
-              'readonly' => true,
-            ));
-          ?>
-          <div class="input-group-btn">
-            <span class="btn btn-sm btn-info fileinput-button">
-              <i class="icon-plus icon-white"></i>
-              <span><?php echo __('Agregar Archivo'); ?></span>
-              <input  id='fileupload' type="file" name="files[]" multiple="" data-related-img='img-logo'>
-            </span>
-            <button type="button" class="btn btn-sm btn-success" data-role="save" disabled>
-              <i class="icon-upload icon-white"></i>
-              <span><?php echo __('Guardar Archivo'); ?></span>
-            </button>
+              echo $this->Form->input('facturainfo', array(
+                'label' => false,
+                'class' => 'form-control input-sm',
+                'div' => false,
+                'readonly' => true,
+              ));
+            ?>
+            <div class="input-group-btn">
+              <span class="btn btn-sm btn-info fileinput-button">
+                <i class="icon-plus icon-white"></i>
+                <span><?php echo __('Agregar Archivo'); ?></span>
+                <input  id='fileupload' type="file" name="files[]" multiple="" data-related-img='img-logo'>
+              </span>
+              <button type="button" class="btn btn-sm btn-success" data-role="save" disabled>
+                <i class="icon-upload icon-white"></i>
+                <span><?php echo __('Guardar Archivo'); ?></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id='progress-file-upload' class='col-xs-12' style="display:none;">
+          <div class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped" style="width: 0%;"></div>
           </div>
         </div>
       </div>
-      <div id='progress-file-upload' class='col-xs-12' style="display:none;">
-        <div class="progress">
-          <div class="progress-bar progress-bar-info progress-bar-striped" style="width: 0%;"></div>
-        </div>
-      </div>
-    </div>
-  <?php
-    echo $this->Form->end();
-  ?>
-</div>
+    <?php
+      echo $this->Form->end();
+    ?>
+  </div>
+<?php endif ?>
 <?php
   $this->AssetCompress->addScript(array(
       'vendor/image_upload/vendor/jquery.ui.widget.js',

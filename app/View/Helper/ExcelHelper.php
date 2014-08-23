@@ -242,35 +242,38 @@ class ExcelHelper extends AppHelper {
     if(empty($label_axisX)){
       $label_axisX[]=array($initRow + 1, $initRow + $rowsCount + 1);
     }
-    // Genera el gráfico en base a los datos.
-    $this->createChart(
-      /**
-       * Etiquetas: Siempre la primera columna representa el eje X, por ese las etiquetas
-       * de cada gráfica comienzan a partir de la siguiente columna hasta el número total de
-       * columnas menos 1; $initRow siempre será la fila del encabezado.
-       */
-      $this->getSeriesLabels( $range, $initRow),
 
-      /**
-       * Los valores del eje X son la primer columna; las filas comienzan a partir de la fila
-       * inicial más uno (enseguida del encabezado) hasta el total de filas deplazadas por la fila inicial.
-       */
-      
-       $this->getXAxisValues($label_axisX),
+    if (!isset($options['chart']) || !empty($options['chart'])) {
+      // Genera el gráfico en base a los datos.
+      $this->createChart(
+        /**
+         * Etiquetas: Siempre la primera columna representa el eje X, por ese las etiquetas
+         * de cada gráfica comienzan a partir de la siguiente columna hasta el número total de
+         * columnas menos 1; $initRow siempre será la fila del encabezado.
+         */
+        $this->getSeriesLabels( $range, $initRow),
 
-      /**
-       * Los valores de las gráficas (se dibujará un tipo de barra por cada columna).
-       * Columna inicial hasta el total de columnas.
-       * Fila inicial más uno (enseguida del encabezado) hasta el total de filas deplazadas por la fila inicial.
-       *
-       * array($initColumn + 1, $columnsCount - 1)
-       */
-      $this->getValues($range, array($initRow + 1, $initRow + $rowsCount + 1)),
-      /**
-       * Opciones
-       */
-      $options
-    );
+        /**
+         * Los valores del eje X son la primer columna; las filas comienzan a partir de la fila
+         * inicial más uno (enseguida del encabezado) hasta el total de filas deplazadas por la fila inicial.
+         */
+        
+         $this->getXAxisValues($label_axisX),
+
+        /**
+         * Los valores de las gráficas (se dibujará un tipo de barra por cada columna).
+         * Columna inicial hasta el total de columnas.
+         * Fila inicial más uno (enseguida del encabezado) hasta el total de filas deplazadas por la fila inicial.
+         *
+         * array($initColumn + 1, $columnsCount - 1)
+         */
+        $this->getValues($range, array($initRow + 1, $initRow + $rowsCount + 1)),
+        /**
+         * Opciones
+         */
+        $options
+      );
+    }
   }
 
   /**

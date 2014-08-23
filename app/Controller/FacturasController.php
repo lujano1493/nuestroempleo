@@ -3,6 +3,7 @@
 App::uses('BaseEmpresasController', 'Controller');
 App::uses('Folder', 'Utility');
 App::uses('File', 'Utility');
+App::uses('Xml', 'Utility');
 
 /**
  * Controlador general de la aplicación.
@@ -38,12 +39,44 @@ class FacturasController extends BaseEmpresasController {
 
     // $facturas = $this->paginate();
     $facturas = $this->Factura->find('all_facturas', array(
+      'conditions' => array(
+        'Factura.factura_folio NOT LIKE' => '%PROMO%',
+      ),
       'order' => array(
         'Factura.created' => 'DESC NULLS LAST'
       )
     ));
 
     $this->set(compact('facturas'));
+  }
+
+  public function admin_ver($folio) {
+    $factura = $this->Factura->find('first', array(
+      'conditions' => array(
+        'factura_folio' => $folio
+      ),
+      'contain' => array(
+        'Timbrado' => array(
+          'fields' => array('xml', 'uuid', 'created', 'cadorig_sat')
+        )
+      ),
+      'recursive' => -1
+    ));
+
+    $xml = trim($factura['Timbrado']['xml']);
+
+    if ($this->request->params['ext'] === 'pdf') {
+      $cadenaOriginal = $factura['Timbrado']['cadorig_sat'];
+
+      $this->set('factura', Xml::toArray(Xml::build($xml)));
+      $this->set('cadenaOriginal', $cadenaOriginal);
+      $this->render('factura');
+    } elseif($this->request->params['ext'] === 'xml') {
+      $this->autoRender = false;
+      echo $xml;
+    }
+
+    $this->response->download(__('Factura_%s.%s', $folio, $this->request->params['ext']));
   }
 
   public function admin_empresas() {
@@ -72,57 +105,105 @@ class FacturasController extends BaseEmpresasController {
     $this->render('admin_index');
   }
 
-  public function admin_descargar($folio = null, $name = null) {
-    $match = preg_match("/^(\d{5})(\d{3})$/", $folio, $output_array);
-    $empresaId = !empty($output_array) && isset($output_array[1]) ? (int)$output_array[1] : false;
-
-    if (!(bool)$match || !(bool)$empresaId) {
-      $this
-        ->error(__('Ocurrió un error al buscar el folio.'))
-        ->redirect('referer');
-    }
-
-    $filePath = ROOT . DS . 'documentos' . DS . 'empresas' . DS . $empresaId . DS . 'facturas' . DS . $folio;
-    $ext = $this->request->param('ext');
-    $name .= ($ext ? '.' . $ext: '');
-    $file = new File($filePath . DS . $name);
-
-    if (!$file->exists()) {
-      $this
-        ->error(__('El archivo %s no existe.', $name))
-        ->redirect('referer');
-    }
-
-    $this->response->file($file->pwd(), array(
-      'download' => true,
-      'name' => $file->name
-    ));
-    return $this->response;
-  }
-
   public function admin_timbrar($folio) {
-    if (true) {
+    if (!isset($this->request->query['test'])) {
       $this
-        ->warning(__('El servicio de timbrado aún no está disponible.'));
+        ->warning(__('El servicio de timbrado aún no está disponible o está deshabilitado.'));
       return ;
     } elseif (!$this->Factura->is('activado', $folio)) {
       $this
-        ->error(__('No puedes timbrar una factura inactiva'));
+        ->error(__('No puedes timbrar una factura que no está activada.'));
       return ;
     }
 
-    $factura = $this->Factura->get('datos_timbrado', array(
-      'conditions' => array(
-        'factura_folio' => $folio,
-        // 'Factura.cia_cve' => $this->Auth->user('Empresa.cia_cve')
-      ),
-      'first' => true
-    ));
+    if ($this->Timbrado->timbrar($folio, 'igenter')) {
+      $factura = $this->Factura->find('all_facturas', array(
+        'conditions' => array(
+          'Factura.factura_folio' => $folio
+        )
+      ));
 
-    debug($factura);
-    die;
+      $this
+        ->callback('reloadData')
+        ->success(__('El timbrado de la factura con folio %s fue exitoso.', $folio))
+        ->set(compact('factura'));
+    } else {
+      $this
+        ->modal('modals/admin/timbrado', array(
+          'folio' => $folio,
+          'errors' => $this->Timbrado->errors()
+        ));
+    }
+  }
 
-    $this->Timbrado->timbrar($factura, 'igenter');
+  public function admin_cancelar($folio) {
+    if (!$this->Factura->is('timbrado', $folio)) {
+      $this
+        ->error(__('No puedes cancelar una factura que no está timbrada.'));
+      return ;
+    }
+
+    if ((bool)($factura = $this->Timbrado->cancelar($folio, 'igenter'))) {
+      $facturaId = $factura['Factura']['factura_cve'];
+
+      $this->Factura->begin();
+      $this->Factura->Timbrado->begin();
+      if ($this->Factura->Timbrado->delete($facturaId) && $this->Factura->changeStatus($facturaId, 2)) {
+        $this->Factura->commit();
+        $this->Factura->Timbrado->commit();
+
+        $factura = $this->Factura->find('all_facturas', array(
+          'conditions' => array(
+            'Factura.factura_folio' => $folio
+          )
+        ));
+
+        $this
+          ->callback('reloadData')
+          ->success(__('La factura se canceló correctamente.', $folio))
+          ->set(compact('factura'));
+      } else {
+        $this->Factura->rollback();
+        $this->error(__('Ocurrió un error al intentar cancelar la factura.'));
+      }
+    } else {
+      $this->error($this->Timbrado->errors()[0]);
+    }
+  }
+
+  public function admin_devolucion($folio) {
+    if (!$this->Factura->is('timbrado', $folio)) {
+      $this
+        ->error(__('No puedes cancelar una factura que no está timbrada.'));
+      return ;
+    }
+
+    if ((bool)($factura = $this->Timbrado->cancelar($folio, 'igenter'))) {
+      $facturaId = $factura['Factura']['factura_cve'];
+
+      $this->Factura->begin();
+      $this->Factura->Timbrado->begin();
+      if ($this->Factura->Timbrado->delete($facturaId) && $this->Factura->cancelar($facturaId)) {
+        $this->Factura->commit();
+        $this->Factura->Timbrado->commit();
+
+        $factura = $this->Factura->find('all_facturas', array(
+          'conditions' => array(
+            'Factura.factura_folio' => $folio
+          )
+        ));
+
+        $this
+          ->callback('reloadData')
+          ->success(__('El proceso de devolución se realizó correctamente.', $folio))
+          ->set(compact('factura'));
+      } else {
+        $this->Factura->rollback();
+        $this->error(__('Ocurrió un error al intentar cancelar la factura.'));
+      }
+    } else {
+      $this->error($this->Timbrado->errors()[0]);
+    }
   }
 
   public function admin_comprobante($folio = null, $name = null) {
@@ -176,5 +257,33 @@ class FacturasController extends BaseEmpresasController {
     } else {
       $this->error(__('Ocurrió un error al mover el archivo.'));
     }
+  }
+
+  public function admin_descargar_comprobante($folio = null, $name = null) {
+    $match = preg_match("/^(\d{5})(\d{3})$/", $folio, $output_array);
+    $empresaId = !empty($output_array) && isset($output_array[1]) ? (int)$output_array[1] : false;
+
+    if (!(bool)$match || !(bool)$empresaId) {
+      $this
+        ->error(__('Ocurrió un error al buscar el folio.'))
+        ->redirect('referer');
+    }
+
+    $filePath = ROOT . DS . 'documentos' . DS . 'empresas' . DS . $empresaId . DS . 'facturas' . DS . $folio;
+    $ext = $this->request->param('ext');
+    $name .= ($ext ? '.' . $ext: '');
+    $file = new File($filePath . DS . $name);
+
+    if (!$file->exists()) {
+      $this
+        ->error(__('El archivo %s no existe.', $name))
+        ->redirect('referer');
+    }
+
+    $this->response->file($file->pwd(), array(
+      'download' => true,
+      'name' => $file->name
+    ));
+    return $this->response;
   }
 }

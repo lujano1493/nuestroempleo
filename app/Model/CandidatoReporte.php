@@ -152,6 +152,8 @@ class CandidatoReporte extends Reporte {
         "COUNT(*) {$this->alias}__totales"
       );
       $query['conditions'] = $this->conditions($query);
+      $query['conditions']['CandidatoReporte.cc_status'] = 1;
+      $query['conditions']['CandidatoReporte.cc_completo'] = 'S';  
       $query['joins'] = array(       
         $this->joins['candidato'],
         array(
@@ -178,6 +180,8 @@ class CandidatoReporte extends Reporte {
   protected function _findEstado($state,$query,$results=array()){
      if ($state === 'before') {    
       $query['conditions'] = $this->conditions($query);
+      $query['conditions']['CandidatoReporte.cc_status'] = 1;
+      $query['conditions']['CandidatoReporte.cc_completo'] = 'S';  
       $joins=array();
       $joins=ClassRegistry::init("Candidato")->joins['direccion'];      
       $joins=array_merge(array($this->joins['candidato'] ),$joins);            
@@ -222,7 +226,8 @@ class CandidatoReporte extends Reporte {
       );
 
       $query['conditions'] = $this->conditions($query);
-
+      $query['conditions']['CandidatoReporte.cc_status'] = 1;
+      $query['conditions']['CandidatoReporte.cc_completo'] = 'S';  
       $query['joins'] = array(
         array(
           'alias' => 'Candidato',

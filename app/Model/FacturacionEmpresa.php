@@ -131,11 +131,13 @@ class FacturacionEmpresa extends AppModel {
       'recursive' => -1
     ));
 
-    if (!empty($datoFacturacion)) {
-      if ($datoFacturacion[$this->alias]['cia_cve'] === $empresaId) {
-        // Actualizar...
-      } else {
+    if (!$this->validateRFC($rfc)) {
+      return $this->error(__('El RFC proporcionado no está bien formado.'));
+    } elseif (!empty($datoFacturacion)) {
+      if ($datoFacturacion[$this->alias]['cia_cve'] != $empresaId) {
         return $this->error(__('Parece que este RFC pertenece a otra compañia.')); // Existe el RFC pero es de otra compañia....
+      } else {
+        // Actualizar...
       }
     } else {
       // No existe, por lo tanto se va a crear un nuevo RFC.
@@ -192,5 +194,14 @@ class FacturacionEmpresa extends AppModel {
       '{n}.FacturacionEmpresa.cia_rfc', array(
       '%s - %s', '{n}.FacturacionEmpresa.cia_rfc', '{n}.FacturacionEmpresa.cia_razonsoc'
     ));
+  }
+
+  public function validateRFC($rfc) {
+    $validateRFC = "/^(([A-ZÑ&]{3,4})([0-9]{2})([0][13578]|[1][02])(([0][1-9]|[12][\d])|[3][01])([A-Z0-9]{3}))"
+    . "|(([A-ZÑ&]{3,4})([0-9]{2})([0][13456789]|[1][012])(([0][1-9]|[12][\d])|[3][0])([A-Z0-9]{3}))"
+    . "|(([A-ZÑ&]{3,4})([02468][048]|[13579][26])[0][2]([0][1-9]|[12][\d])([A-Z0-9]{3}))"
+    . "|(([A-ZÑ&]{3,4})([0-9]{2})[0][2]([01][1-9]|[2][0-8])([A-Z0-9]{3}))$/";
+
+    return (bool)preg_match($validateRFC, $rfc);
   }
 }

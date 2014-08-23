@@ -115,6 +115,9 @@ class UploadComponent extends Component
                 $this->error_messages=array_merge($this->error_messages,$options['error_messages']);
             }
         }  
+        else{
+            $this->options=$options_;
+        }
     }
 
    /*protected function initialize() {

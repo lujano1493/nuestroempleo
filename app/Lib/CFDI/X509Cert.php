@@ -39,20 +39,28 @@ class X509Cert {
    */
   public function sello($string, $privateKey = null, $password = null) {
     $signature = '';
-    if (!$privateKey) {
-      $privateKey = $this->privateKey;
-    }
 
     if (!$password) {
       $password = $this->password;
     }
 
-    $private = openssl_pkey_get_private(file_get_contents($privateKey), $password);
+    $private = openssl_pkey_get_private($this->getPrivateKey($privateKey, true), $password);
 
     openssl_sign($string, $signature, $private);
     $sello = base64_encode($signature);
 
     return $sello;
+  }
+
+  public function getPrivateKey($privateKey = null, $complete = false) {
+    if (!$privateKey) {
+      $privateKey = $this->privateKey;
+    }
+
+    $content = file_get_contents($privateKey);
+
+    return $complete ? $content :
+      trim(preg_replace(array("/\n/", '/-----(END|BEGIN) PRIVATE KEY-----/'), array('', ''), $content));
   }
 
   private function hex2str($hex) {

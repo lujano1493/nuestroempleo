@@ -15,13 +15,14 @@
       'value' => (int)$o['publicadas'],
     )
   );
-
+  $fecini= $formatoCalendario === 2 ? $this->Time->month($_dates['ini']): $this->Time->pretty($_dates['ini'])  ;
+  $fecfin=  $formatoCalendario === 2 ? $this->Time->month($_dates['end']) : $this->Time->pretty($_dates['end']) ;
   $this->_results = $this->Grafito->pie($data, array(
     'ballon' => "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
     'legend' => 'right',
     'title' => array(
       $title_for_layout,
-      __('De %s a %s', $this->Time->month($_dates['ini']), $this->Time->month($_dates['end']))
+      __('De %s a %s', $fecini,$fecfin)
     ),
   ), array(
     'titleField' => 'type',

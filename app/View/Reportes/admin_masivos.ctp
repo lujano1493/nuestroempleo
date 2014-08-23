@@ -12,7 +12,7 @@ echo $this->element('admin/title');
 
 <div class="alert alert-info">
   Por favor, selecciones el reporte que desea consultar, una vez realizado
-  seleccione el archivo a subir.
+  sube un archivo de texto ó de excel para procesarlo.
 </div>
 
 <?php
@@ -24,8 +24,9 @@ echo $this->element('admin/title');
 ?>
   <h5 class="subtitle">
     <i class="icon-list"></i>
-    <?php echo __('Reportes de Productos'); ?>
+    <?php echo __('Reportes Masivos'); ?> 
   </h5>
+  <?=$this->element("admin/ayuda/reporte_masivo" )?>
   <div class="row">
     <div class="col-xs-4">
       <div id="tipo-reportes"  >

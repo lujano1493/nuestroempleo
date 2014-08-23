@@ -39,6 +39,13 @@ class Factura extends AppModel {
     'datos_timbrado' => true
   );
 
+  public $hasOne = array(
+    'Timbrado' => array(
+      'className' => 'FacturaTimbrado',
+      'foreignKey' => 'factura_cve'
+    )
+  );
+
   /**
    * [$belongsTo description]
    * @var array
@@ -111,8 +118,16 @@ class Factura extends AppModel {
       'val' => 2,
       'text' => 'Activado',
     ),
-    'vencido' => array(
+    'timbrado' => array(
+      'val' => 3,
+      'text' => 'Timbrado'
+    ),
+    'cancelado' => array(
       'val' => -1,
+      'text' => 'Cancelado',
+    ),
+    'vencido' => array(
+      'val' => -2,
       'text' => 'Vencido',
     )
   );
@@ -279,6 +294,11 @@ class Factura extends AppModel {
           ),
         ),
         'FacturaDetalles',
+        'Timbrado' => array(
+          'fields' => array(
+            'Timbrado.uuid', 'Timbrado.url_pdf', 'Timbrado.url_xml', 'Timbrado.created'
+          )
+        ),
       );
       if (!isset($query['order'])) {
         $query['order'] = array(
@@ -371,9 +391,40 @@ class Factura extends AppModel {
      * $status = 2 que quiere decir que el factura o factura ha sido asignada.
      */
     if ($successAssigment && $facturaId && $this->changeStatus($facturaId, 2)) {
+      /**
+       * Obtenemos la empresa.
+       * @var [type]
+       */
+      $empresa = $this->Empresa->get($empresaId, 'basic_info');
+
+      /**
+       * Id del Admin de la empresa.
+       * @var [type]
+       */
+      $userId = $empresa['Admin']['cu_cve'];
+
+      /**
+       * Actualizamos su perfil.
+       */
+      $this->Empresa->Administrador->updateProfile($userId);
+
+      $perfil = $this->Empresa->Administrador->Perfil->getProfile(
+        $userId,
+        $empresaId
+        // $this->Auth->user('per_cve')
+      );
+
       $event = new CakeEvent('Model.Productos.servicios_activados', $this, array(
         'factura_folio' => $folio,
-        'empresa' => $this->Empresa->get($empresaId, 'basic_info')
+        'empresa' => $empresa,
+        'session_data' => array(
+          'perfilId' => $perfil['per_cve'],
+          'perfil' => $perfil,
+          'creditos' => $this->Membresia->Credito->getByUser(
+            $userId,
+            $empresaId
+          )
+        )
       ));
 
       $this->getEventManager()->dispatch($event);
@@ -405,12 +456,21 @@ class Factura extends AppModel {
 
     if (!empty($factura) && !empty($factura[$this->alias][$this->primaryKey])) {
       return $this->changeStatus($factura[$this->alias][$this->primaryKey], 1);
+      /**
+       * Liberar servicios
+       * Y Timbrar
+       */
     }
 
     return false;
   }
 
-  public function cancelar($folio) {
+  /**
+   * Borra la factura de la BD.
+   * @param  [type] $folio [description]
+   * @return [type]        [description]
+   */
+  public function borrar($folio) {
     $factura = $this->find('first', array(
       'fields' => array(
         'Factura.factura_cve', 'Factura.factura_folio', 'Factura.cia_cve', 'Factura.factura_status'
@@ -435,6 +495,48 @@ class Factura extends AppModel {
     }
 
     return $success;
+  }
+
+  public function cancelar($facturaId) {
+    $success = false;
+    $this->id = $facturaId;
+    $ciaId = $this->field('cia_cve');
+
+    if ((bool)$ciaId) {
+      $perfiles = $this->Membresia->PerfilMembresia->find('all', array(
+        'conditions' => array(
+          'factura_cve' => $facturaId,
+          'cia_cve' => $ciaId
+        ),
+        'fields' => array(
+          $this->Membresia->PerfilMembresia->primaryKey, 'fec_fin'
+        )
+      ));
+
+      !empty($perfiles) && ($perfilesDates = Hash::extract($perfiles, '{n}.PerfilMembresia.fec_fin'));
+
+      if (!empty($perfiles)) {
+        $this->Membresia->Credito->begin();
+        $this->Membresia->PerfilMembresia->begin();
+
+        $success = $this->Membresia->Credito->deleteAll(array(
+          'cia_cve' => $ciaId,
+          'fec_fin' => $perfilesDates
+        )) && $this->Membresia->PerfilMembresia->deleteAll(array(
+          'cia_cve' => $ciaId,
+          'fec_fin' => $perfilesDates
+        ));
+
+        if ($success) {
+          $this->Membresia->Credito->commit();
+          $this->Membresia->PerfilMembresia->commit();
+        }
+      } else {
+        $success = true;
+      }
+    }
+
+    return $success && $this->saveField('factura_status', -1);
   }
 
   /**
@@ -530,6 +632,10 @@ class Factura extends AppModel {
       if (isset($value['Membresia'])) {
         $ini = $results[$key][$this->alias]['created'];
         $results[$key][$this->alias]['fin'] = (new Datetime($ini))->format('Y-m-d');
+      }
+
+      if (isset($value['Timbrado'])) {
+        (empty($value['Timbrado']['uuid']) && empty($value['Timbrado']['created'])) && ($results[$key]['Timbrado'] = null);
       }
 
       if (isset($value[$this->alias]['factura_status'])) {
@@ -653,7 +759,7 @@ class Factura extends AppModel {
 
     if (!empty($ids)) {
       return $this->updateAll(array(
-        $this->alias . '.factura_status' => -1 // Status de vencido
+        $this->alias . '.factura_status' => -2 // Status de vencido
       ), array(
         $this->alias . '.' . $this->primaryKey => $ids
       ));
@@ -692,12 +798,14 @@ class Factura extends AppModel {
       );
 
       $results[] = array(
+        'id' => $f['factura_cve'],
         'total' => $f['factura_total'],
         'subtotal' => $f['factura_subtotal'],
         'folio' => $f['factura_folio'],
         'creada' => $f['created'],
         'modificada' => $f['modified'],
         'compania' => array(
+          'id' => $e['cia_cve'],
           'nombre' => $e['cia_nombre'],
           'razon_social' => $e['cia_razonsoc'],
           'rfc' => $e['cia_rfc'],

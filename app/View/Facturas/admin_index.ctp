@@ -19,7 +19,7 @@
           <th data-table-prop="facturacion.rfc">RFC</th>
           <th data-table-prop="empresa.admin.email">Cuenta</th>
           <th data-table-prop="#tmpl-fecha-creacion" data-order='desc'>Fecha de Alta</th>
-          <th data-table-prop="status.str">Status</th>
+          <th data-table-prop="#tmpl-status">Status</th>
           <!-- <th data-table-prop="">Registrado por</th> -->
         </tr>
       </thead>
@@ -32,7 +32,9 @@
 echo $this->Template->insert(array(
   'folio',
   'fecha-creacion',
-  'acciones' => 'acciones-facturas'
+  'acciones' => 'acciones-facturas',
+  'datos-timbrado',
+  'status'
 ), null, array(
   'folder' => 'admin'
 ));

@@ -27,7 +27,7 @@ class TimbradoConfig {
       /**
        * URL del servicio Web.
        */
-      'wsdl' => 'http://65.50.243.178:8080/CFDI/WsEmisionTimbrado?wsdl', // Proveedor actual
+      'wsdl' => 'http://66.225.192.223:8080/CFDI/WsEmisionTimbrado?wsdl', // Proveedor actual
       /**
        * Usuario del servicio.
        */
@@ -42,15 +42,15 @@ class TimbradoConfig {
       /**
        * URL del servicio Web.
        */
-      'wsdl' => 'http://200.34.168.109/WSCFDBuilderTurbo/WSCFDBuilderPlus.asmx?WSDL', // Proveedor anterior
+      // 'wsdl' => 'http://200.34.168.109/WSCFDBuilderTurbo/WSCFDBuilderPlus.asmx?WSDL', // Proveedor anterior
       /**
        * Usuario del servicio.
        */
-      'usuario' => 'CFDIHIT1213',
+      // 'usuario' => 'CFDIHIT1213',
       /**
        * Password del servicio.
        */
-      'password' => '@CFDIHIT1213',
+      // 'password' => '@CFDIHIT1213',
       /**
        * Datos del emisor.
        */

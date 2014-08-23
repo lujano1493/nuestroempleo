@@ -68,4 +68,16 @@ class CFDIFactura extends CFDIBase {
 
     return $this;
   }
+
+  public function validate() {
+    if (!$this->validateRFC($this->get('cfdi:Receptor.@rfc'))) {
+      $this->_errors[] = 'El RFC del receptor no tiene el formato correcto';
+    }
+
+    if ($this->exists('cfdi:Receptor.cfdi:Domicilio.@calle', '')) {
+      $this->_errors[] = 'La calle del receptor es necesaria';
+    }
+
+    return empty($this->_errors);
+  }
 }

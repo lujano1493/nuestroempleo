@@ -289,7 +289,12 @@ class Empresa extends AppModel {
       'minAndMaxLength' => array(
         'rule' => array('between', 12, 13),
         'message' => 'El RFC debe ser de 13 caracteres.'
-      )
+      ),
+      'validateRFC' => array(
+        'rule' => array('validateRFC'),
+        'allowEmpty' => false,
+        'message' => 'El RFC proporcionado no está bien formado.'
+      ),
     ),
     'cia_nombre' => array(
       'required' => array(
@@ -826,4 +831,15 @@ class Empresa extends AppModel {
     return false;
   }
 
+  /**
+   * Verfica si el id alterno es único.
+   * @param  [type] $check [description]
+   * @return [type]        [description]
+   */
+  public function validateRFC($check) {
+    $rfcKey = 'cia_rfc';
+    $rfc = $check[$rfcKey];
+
+    return $this->FacturacionEmpresa->validateRFC($rfc);
+  }
 }

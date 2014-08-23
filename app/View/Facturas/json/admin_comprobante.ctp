@@ -9,7 +9,7 @@
       'url' => $this->Html->url(array(
         'admin' => $isAdmin,
         'controller' => 'facturas',
-        'action' => 'descargar',
+        'action' => 'descargar_comprobante',
         'id' => $folio,
         $fileName
       )),

@@ -757,6 +757,12 @@ class MisOfertasController extends BaseEmpresasController {
     $this->redirect('referer');
   }
 
+  public function mantenimiento_link($id=null){
+    $this->autoRender=false;
+    $sucess=$this->generateShortenURL($id);
+    echo $sucess===false ? 'fallo' : $sucess;
+  }
+
   public function compartir($id, $keycode = null) {
     $isOwnedBy = $this->Oferta->isOwnedBy($this->Oferta->UsuarioEmpresa->getIds('dependents', array(
       'parent' => $this->Auth->user('cu_cve'),

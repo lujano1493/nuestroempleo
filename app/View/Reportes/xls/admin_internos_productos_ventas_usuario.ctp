@@ -7,10 +7,14 @@
   // Create new PHPExcel object
   $this->Excel->createWorksheet();
   $table = array(
-    array('label' => __('Nombre de Producto'), 'filter' => true),
-    array('label' => __('Total'), 'filter' => true)
+    array('label' => __('Nombre de Producto'), 'filter' => true,'label_axisX' =>true ),
+    array('label' => __('Total'), 'filter' => true,'data_graph' => true),
+    array('label' => __('Precio Unitario'), 'filter' => true),
+    array('label' => __('Precio Total'), 'filter' => true)
   );
-  $title_for_layout=$title_for_layout.__(' De %s a %s', $this->Time->month($_dates['ini']), $this->Time->month($_dates['end']));
+  $fecini= $formatoCalendario === 2 ? $this->Time->month($_dates['ini']): $this->Time->pretty($_dates['ini'])  ;
+  $fecfin=  $formatoCalendario === 2 ? $this->Time->month($_dates['end']) : $this->Time->pretty($_dates['end']) ;
+  $title_for_layout=$title_for_layout.__(' De %s a %s', $fecini, $fecfin);
   $this->Excel
     ->setTopTitle($title_for_layout)
     ->getActiveSheet()
@@ -20,9 +24,12 @@
   $data = array();
   foreach ($productos as $d) {
     $o = $d['ProductoReporte'];
+    $unitario = $o['total'] == 0 ? 0 :  $o['precio'] / $o['total'];
     $data[] = array(
-       $o['membresia'] , // Nombre Producto
-      $o['total']                                   // Total
+        "$o[tipo] $o[membresia]" ,  // Nombre Producto
+      $o['total']  ,                                 // Total
+      $unitario,
+      $o['precio']
     );
   }
 

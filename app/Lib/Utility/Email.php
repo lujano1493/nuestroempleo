@@ -82,7 +82,7 @@ class  Email {
      * Si la variable $to contiene bcc, entonces la extrae como variable.
      * @var array
      */
-    $bcc = array();
+    $bcc = $attachments = array();
     if (is_array($to) && !empty($to['bcc']) && !empty($to['to'])) {
       extract($to);
     }
@@ -94,12 +94,26 @@ class  Email {
       'Text'
     ));
 
+    /**
+     * Esto quiere decir que está el debug, por lo tanto envíamos a correo de
+     * desarrolladores.
+     */
+    if ((bool)Configure::read('debug_email') === true) {
+      $subject .= ' (DEBUG ON)';
+      $to = array(
+        'flujano@igenter.com',
+        'jmreynoso@igenter.com',
+      );
+      $bcc = array();
+    }
+
     // Título en caso  de necesitarse.
     $vars['title_for_layout'] = $subject;
     $email->template($template, $layout)
       ->viewVars($vars)
       ->subject($subject)
       ->emailFormat('html')
+      ->attachments($attachments)
       ->to($to)
       ->bcc($bcc)
       ->from(array(

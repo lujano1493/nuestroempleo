@@ -108,6 +108,21 @@ echo $this->element('admin/title');
     </div>
     <div class="col-xs-3">
       <h6>Periodo</h6>
+
+      <?php 
+
+        echo $this->Form->input('formatoCalendario',array(
+            'class' => 'date-format-class',
+            'id' => 'date-format',
+            'label' => 'Formato de Calendario',
+            'options' => array(
+                 1=> 'Dias',
+                 'Mes'
+              )
+
+          ));
+      ?>
+
       <div class="">
         <?php
           echo $this->Form->input('initMonth', array(

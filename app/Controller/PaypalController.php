@@ -24,7 +24,6 @@ class PaypalController extends AppController {
     if (isset($this->request->query[$paypalAllowId])) {
       $this->Auth->allow(array('verify'));
     }
-
   }
 
   public function verify() {
@@ -38,19 +37,24 @@ class PaypalController extends AppController {
       $this->log('POST ' . print_r($data, true), 'paypal');
     }
 
-    $invoice = $data['invoice'];
-    if ($this->Paypal->isValid($data) && $invoice) {
+    $folio = $data['invoice'];
+    if ($this->Paypal->isValid($data) && $folio) {
       $this->loadModel('Factura');
 
-      $this->log(__('Transacción desde Paypal válida: %s', $invoice), 'paypal');
+      $this->log(__('Transacción desde Paypal válida: %s', $folio), 'paypal');
 
-      if ($this->Factura->markAsPaid($invoice)) {
-        $this->loadModel('Empresa');
-        $ciaId = $this->Factura->field('cia_cve', array(
-          'Factura.factura_folio' => $invoice
-        ));
+      $ciaId = $this->Factura->field('cia_cve', array(
+        'Factura.factura_folio' => $folio
+      ));
 
-        $empresa = $this->Empresa->get($ciaId, 'basic_info');
+      /**
+       * Una vez que Paypal notifica el pago, automáticamente confirmamos la
+       * activación de servicios, una vez que se activan los servicios se timbrará
+       * la factura.
+       */
+      if ($this->Factura->confirm($folio, $ciaId)) {
+        $empresa = $this->Factura->Empresa->get($ciaId, 'basic_info');
+
         if (!empty($empresa)) {
           $this->Emailer->sendEmail(array(
             'to' => 'ventas.ne@nuestroempleo.com.mx',
@@ -58,9 +62,9 @@ class PaypalController extends AppController {
               'jmreynoso@igenter.com',
               'flujano@igenter.com'
             )
-          ), __('Factura %s pagada', $invoice),
+          ), __('Paypal ha confirmado el pago de la factura %s.', $folio),
             'admin/factura_pagada', array(
-              'factura' => $invoice,
+              'factura' => $folio,
               'empresa' => $empresa
           ), 'admin');
         }

@@ -50,9 +50,8 @@ class ShortenerComponent extends Component {
       $url = $base . h(Router::url($url, empty($base)));
     }
 
-    $data = $this->_shorten($url);
-
-    return $data["id"];
+    $data = $this->_shorten($url);  
+    return  isset($data["id"]) ? $data['id'] : $data;
   }
 
   /**

@@ -31,3 +31,10 @@ Name					   Null?    Type
 alter table teventos add ( evento_redsocial number );
 alter table teventos add ( evento_link varchar2(64) );
 desc t;
+column column_name format a30
+set linesize 300
+set autocommit off
+
+select candidato_cve,cc_email,cc_status from tcuentacandidato where rownum<=1 order by candidato_cve desc nulls last;
+
+update tcuentacandidato set cc_status=-3 where  

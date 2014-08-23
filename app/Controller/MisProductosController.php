@@ -266,7 +266,11 @@ class MisProductosController extends BaseEmpresasController {
     $factura = array();
     if ($isOwnedBy) {
       if ($subaction === 'cancelar') {
-        if ($this->Factura->cancelar($folio)) {
+        if ((int)$this->Factura->field('factura_status', array(
+          'factura_folio' => $folio
+        )) != 0) {
+          $this->error(__('No puedes cancelar una factura que no tiene status pendiente.'));
+        } elseif ($this->Factura->borrar($folio)) {
           $this->success(__('Se ha cancelado el factura con éxito'));
 
           if (!empty($this->request->data['redirect'])) {

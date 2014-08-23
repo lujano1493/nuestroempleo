@@ -14,6 +14,7 @@ class CandidatoReporteHelper extends Helper {
 
   	$title_for_layout=$this->_View->viewVars['title_for_layout'];
   	$_dates=$this->_View->viewVars['_dates'];
+    $formatoCalendario= $this->_View->viewVars['formatoCalendario'];
   	$data = array();
   	foreach ($candidatosCount as $key => $value) {
   		$o = $value['CandidatoReporte'];
@@ -25,10 +26,12 @@ class CandidatoReporteHelper extends Helper {
   	}
 
   	$color = $this->Grafito->color();
+    $fecini= $formatoCalendario === 2 ? $this->Time->month($_dates['ini']): $this->Time->pretty($_dates['ini'])  ;
+    $fecfin=  $formatoCalendario === 2 ? $this->Time->month($_dates['end']) : $this->Time->pretty($_dates['end']) ;
   	$_results = $this->Grafito->serial($data, array(
   		'title' => array(
   			$title_for_layout,
-  			__('De %s a %s', $this->Time->month($_dates['ini']), $this->Time->month($_dates['end']))
+  			__('De %s a %s', $fecini , $fecfin )
   			)
   		), array(
   		'categoryField' => 'mes',
@@ -101,8 +104,13 @@ return $_results;
 	);
 
 	$options= array_merge($_options,$options);	
-  	$title_for_layout=$this->_View->viewVars['title_for_layout'];
-  	$_dates=$this->_View->viewVars['_dates'];
+  $title_for_layout=$this->_View->viewVars['title_for_layout'];
+  $_dates=$this->_View->viewVars['_dates'];
+  $formatoCalendario= $this->_View->viewVars['formatoCalendario'];
+  $fecini= $formatoCalendario === 2 ? $this->Time->month($_dates['ini']): $this->Time->pretty($_dates['ini'])  ;
+  $fecfin=  $formatoCalendario === 2 ? $this->Time->month($_dates['end']) : $this->Time->pretty($_dates['end']) ;
+
+  $title_for_layout= "$title_for_layout  \n  del $fecini al $fecfin";
 	$table = array(
 	  array('label' => __('Fecha'), 'filter' => true),
 	  array('label' => __('Candidatos'), 'filter' => true)

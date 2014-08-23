@@ -19,8 +19,7 @@ class ReportesController extends AppController {
               'accept_file_types' => 'El tipo de archivo no es permitido.'
               )
             )
-
-    )  ); 
+    ), 'Proceso' => array('className' => 'ProcesoMasivo')  ); 
 
   protected $dates = array();
 
@@ -35,15 +34,23 @@ class ReportesController extends AppController {
       // $this->response->type(array('xls' => 'application/vnd.ms-excel'));
       // $this->response->type('xls');
     }
-
+    $iniDateFormat='m/01/Y 00:00:00';
+    $endDateFormat='m/t/Y 23:59:59';
+    $formatoCalendario=2;
+    if( isset($query['formatoCalendario']) && $query['formatoCalendario'] == 1  ){
+      $iniDateFormat='m/d/Y 00:00:00';
+      $endDateFormat='m/d/Y 23:59:59';
+      $formatoCalendario=1;
+    }
+    $this->set(compact("formatoCalendario"));
     /**
      * Busca los parámetros en el query de las fechas de inicio y fin.
      */
     if (!empty($query['initDate']) && !empty($query['finalDate'])) {
       //debug($this->request->query);die;
       $this->dates = array(
-        'ini' => strtotime(date('m/01/Y 00:00:00', strtotime($query['initDate']))),
-        'end' => strtotime(date('m/t/Y 23:59:59', strtotime($query['finalDate'])))
+        'ini' => strtotime(date($iniDateFormat , strtotime($query['initDate']))),
+        'end' => strtotime(date($endDateFormat, strtotime($query['finalDate'])))
       );
     }
 
@@ -66,14 +73,21 @@ class ReportesController extends AppController {
       $data = $this->request->data;
       if (!empty($data['type'])) {
         date_default_timezone_set('UTC');
+        $iniDateFormat='m/01/Y 00:00:00';
+        $endDateFormat='m/t/Y 23:59:59';
+        if( isset($data['formatoCalendario']) && $data['formatoCalendario'] == 1  ){
+          $iniDateFormat='m/d/Y 00:00:00';
+          $endDateFormat='m/d/Y 23:59:59';
+        }
         // Primer día del mes.
-        $initDate = strtotime(date('m/01/Y 00:00:00', strtotime($data['initDate'])));
+        $initDate = strtotime(date($iniDateFormat, strtotime($data['initDate'])));
         // Este formato obtiene el último día de mes ('t' se refiere a días del mes).
-        $finalDate = strtotime(date('m/t/Y 23:59:59', strtotime($data['finalDate'])));
+        $finalDate = strtotime(date($endDateFormat, strtotime($data['finalDate'])));
 
          $params= array(
             'ini' => $initDate,
-            'end' => $finalDate
+            'end' => $finalDate,
+            'formatoCalendario' => $data['formatoCalendario']
           );
          if( isset( $data['tipoEmpresa'] ) ){
             $params['tipo']= $data['tipoEmpresa'];
@@ -102,6 +116,7 @@ class ReportesController extends AppController {
 
     if ($this->request->is('post')) {
       $data = $this->request->data;
+      $this->set("r",false);
       if (!empty($data['type'])) {
             
         $upload_=$this->Upload->post(false);
@@ -110,48 +125,37 @@ class ReportesController extends AppController {
           return;
         }
         if( isset($upload_['files'][0]->error ) ){
-          $this->error($upload_['files'][0] ->error);
+          $this->error($upload_['files'][0] ->error);          
           return;
         }
-          if(!$this->file_render($data['type'], $upload_['files'][0] ) ){
+        $idProceso=$this->Proceso->file_render($data['type'], $upload_['files'][0] ) ;
+          if($idProceso ===false ){
             return ;
           }
-
-          $params= array(
-            'idProceso' => 0
-          );     
-
-         $r=array(
+        $this->success(__("procesado ..."));
+        $r=array(
           'admin' =>true,
           'controller' => 'reportes',
           'action' => $data['type'],
           'ext' => 'xls',
-          '?' => $params
+          '?' => array(
+                "id" => $idProceso
+            )
         );       
-        $this->redirect($r, 'request');
+        $this->set(compact("r"));
       } else {
-        $this->error(__('Selecciona al menos una opción a graficar.'));
+        $this->error(__('Selecciona al menos una opción.'));
       }
     }
     $this->set(compact('title_for_layout'));
 
   }
 
-  public function file_render($render,$file ){
-      $layout=array(
-            "masivos_candidato" =>array( 
-              "layout" => array(
-                  "/([a-zA-Z0-9_.+-]+)@([a-zA-Z_-]+).([a-zA-Z]{2,4}(.[a-zA-Z]{2,3})?)/i"
-                ) 
-              )
-        );
-      $this->error("en render :P");
-      return false;
-  }
-
-  public function admin_masivos_candidato(){
-   
-    $id= $this->request->query('idProceso');
+  public function admin_masivos_candidato(){   
+    $idProceso= $this->request->query('id');
+    $title_for_layout = 'Estado Completo del Candidato';
+    $results=ClassRegistry::init('CorreoReporte')->find("estado_completo",compact("idProceso") );
+    $this->set(compact("title_for_layout","results"));
   }
 
 
@@ -213,10 +217,16 @@ class ReportesController extends AppController {
       $data = $this->request->data;
       if (!empty($data['type'])) {
         date_default_timezone_set('UTC');
+        $iniDateFormat='m/01/Y 00:00:00';
+        $endDateFormat='m/t/Y 23:59:59';
+        if( isset($data['formatoCalendario']) && $data['formatoCalendario'] == 1  ){
+          $iniDateFormat='m/d/Y 00:00:00';
+          $endDateFormat='m/d/Y 23:59:59';
+        }
         // Primer día del mes.
-        $initDate = strtotime(date('m/01/Y 00:00:00', strtotime($data['initDate'])));
+        $initDate = strtotime(date( $iniDateFormat, strtotime($data['initDate'])));
         // Este formato obtiene el último día de mes ('t' se refiere a días del mes).
-        $finalDate = strtotime(date('m/t/Y 23:59:59', strtotime($data['finalDate'])));
+        $finalDate = strtotime(date($endDateFormat, strtotime($data['finalDate'])));
         $redi=array(
           'admin' =>true,
           'controller' => 'reportes',
@@ -224,7 +234,8 @@ class ReportesController extends AppController {
           'ext' => 'json',
           '?' => array(
             'ini' => $initDate,
-            'end' => $finalDate
+            'end' => $finalDate,
+            'formatoCalendario' => $data['formatoCalendario']
           )
         );
         $this->redirect($redi, 'request');

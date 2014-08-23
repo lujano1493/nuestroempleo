@@ -27,9 +27,10 @@ $table = array(
   array('label' => __('Comerciales'), 'filter' => true,'data_graph' => true),
   array('label' => __('Total'), 'filter' => true)
 );
-
+$fecini= $formatoCalendario === 2 ? $this->Time->month($_dates['ini']): $this->Time->pretty($_dates['ini'])  ;
+$fecfin=  $formatoCalendario === 2 ? $this->Time->month($_dates['end']) : $this->Time->pretty($_dates['end']) ;
 $this->Excel
-  ->setTopTitle($title_for_layout)
+  ->setTopTitle("$title_for_layout \n $fecini a $fecfin" )
   ->getActiveSheet()
   ->setTitle('EmpresasPublicadas');
 

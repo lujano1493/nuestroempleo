@@ -192,15 +192,21 @@ class MisEventosController extends BaseEmpresasController {
 
     $this->redirect('referer');
   }
+  public function mantenimiento_link($id=null){
+    $this->autoRender=false;
+    $sucess=$this->generateShortenURL($id);
+    echo $sucess===false ? 'fallo' : $sucess;
+  }
 
   protected function generateShortenURL($id) {
     $success = false;
     $evento = $this->Evento->get($id, array('fields' => array(
       'evento_cve', 'evento_nombre', 'evento_link'
     )));
-
+    if(empty($evento)){
+      return false;
+    }
     $shortenUrl = $evento['evento_link'];
-
     if (empty($shortenUrl)) {
       $shortenUrl = $this->Shortener->shorten(array(
         'controller' => 'eventosCan',
@@ -208,7 +214,9 @@ class MisEventosController extends BaseEmpresasController {
         'slug' => Inflector::slug($evento['evento_nombre'], '-'),
         'action' => 'ver'
       ));
-
+      if( isset($shortenUrl['error']) ){
+        return $shortenUrl;
+      }
       $this->Evento->id = $id;
       $success = $this->Evento->saveField('evento_link', $shortenUrl);
     } else {

@@ -142,14 +142,16 @@ class EnvioCorreoShell extends AppShell {
 
 
   public function enviar_boletin(){
-      $t_semana=( 60*60*24 * 7 );
-      $semana= date( "Y-m-d",time() - $t_semana ) ;
-      $primer= mktime(0,0,0,5,10,2014);
+      /*
+            boletin 15
+      */
+      $t_mes=(  30*60*60*24  );
+      $mes= date( "Y-m-d",time() - $t_mes ) ;
+      $primer= mktime(0,0,0,9,15,2014);
       $act=time();
-      $no_boletin = round(abs($act -$primer) / $t_semana ) + 1;
+      $no_boletin = round(abs($act -$primer) / $t_mes ) + 16;
       $this->idetifica_entorno();
-      $articulos= $this->WPPost->articulos_liga(null,'Candidatos',$semana);
-      $semblanzas= $this->WPPost->articulos_liga(2,'Semblanzas',$semana);
+      $articulos= $this->WPPost->articulos_liga(5, array('Candidatos','Semblanzas'),$mes);      
       if(empty($articulos) && empty($semblanzas) ){
         return;
       }
@@ -159,12 +161,11 @@ class EnvioCorreoShell extends AppShell {
       }
         foreach ($candidatos as $v) {
             $this->enviar_email($v['CandidatoUsuario']['correo'],
-                      'Boletín semanal No. '.$no_boletin,
+                      'Boletín Mensual No. '.$no_boletin,
                       'boletin',
                     array(
                       "data" => array(
-                              "articulos" =>$articulos,
-                              "semblanzas" => $semblanzas
+                              "articulos" =>$articulos
                         )
                       ),
 

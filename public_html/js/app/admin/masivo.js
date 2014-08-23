@@ -43,12 +43,13 @@ $(function ($){
             },
 
             done: function (e, data) {                
-               var result =data.result;
-               console.log(result);  
+               var results =data.result.results;
+               console.log(results);  
+               window.location =results.url;
                $submit.prop("disabled",false);
           },fail: function (e, data) {
             var results= $.parseJSON(data.jqXHR.responseText);
-            results.message && $('.alerts-container').alerto('show', results.message,3000);
+            results.message && $('.alerts-container').alerto('show', results.message,5000);
 
           },always: function (e,data){
             $submit.removeClass('disabled spinner')

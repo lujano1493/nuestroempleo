@@ -7,6 +7,7 @@
     $f = $v['FacturacionEmpresa'];
     $a = $v['Administrador'];
     $ac = $v['AdministradorContacto'];
+    $t = $v['Timbrado'];
 
     $rec = array(
       'id' => (int)$r['factura_cve'],
@@ -40,6 +41,19 @@
       ),
       'is_promo' => $r['is_promo']
     );
+
+    if (!empty($t['created'])) {
+      $rec['datos_timbrado'] = array(
+        'uuid' => $t['uuid'],
+        'url_pdf' => $t['url_pdf'],
+        'url_xml' => $t['url_xml'],
+      );
+
+      $rec['fecha_timbrado'] = array(
+        'val' => $t['created'],
+        'str' => $this->Time->dt($t['created'])
+      );
+    }
 
     $results[] = $rec;
   }

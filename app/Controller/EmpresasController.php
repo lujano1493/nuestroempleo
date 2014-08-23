@@ -719,16 +719,41 @@ class EmpresasController extends BaseEmpresasController {
       $this->Empresa->id = $empresaId;
       if ($this->Empresa->field('cia_tipo') === 1 /* Es convenio */) {
         $this->error(__('No puedes activar una factura de una empresa que es convenio.'));
-      } elseif ($action === 'asignar' && $this->Empresa->Facturas->confirm($facturaId, $empresaId)) {
-        $this
-          ->success(__('El factura se asignó correctamente.'))
-          ->reirect('referer');
-      } else {
-        $this->error(__('Ocurrió un error al procesar el factura.'));
+      } elseif ($action === 'asignar') {
+        /**
+         * Verificamos que la factura no esté activada.
+         */
+        $status = $this->Empresa->Facturas->field('factura_status', array(
+          'factura_folio' => $facturaId
+        ));
+
+        if ((int)$status >= 2) {
+          $this->warning(__('Esta Factura ya ha sido activada.'));
+        } elseif ($this->Empresa->Facturas->confirm($facturaId, $empresaId)) {
+          $this
+            ->success(__('El factura se asignó correctamente.'))
+            ->redirect('referer');
+        } else {
+          $this->error(__('Ocurrió un error al procesar el factura.'));
+        }
       }
 
       $this->render("admin_facturas_$action");
     } else {
+      /**
+       * Verifica que factura exista.
+       */
+      $exists = $this->Empresa->Facturas->hasAny(array(
+        'factura_folio' => $facturaId,
+        'cia_cve' => $empresaId
+      ));
+
+      if (!$exists) {
+        $this
+          ->warning(__('Factura no existe'))
+          ->redirect('referer');
+      }
+
       $empresa = $this->Empresa->get($empresaId, 'facturas', array(
         'promos' => true,
         'factura' => $facturaId,

@@ -111,8 +111,11 @@ public $validate = array(
                                       'message'    => 'Ingresa contraseña.'
                                     ))
   );
-
-
+  // protected function getNextId() {
+  //   $secuencia=substr($this->useTable, 1);
+  //   $results = $this->query( "select  s{$secuencia}.nextval from dual clave"   );
+  //   return $results[0][0]['clave'];
+  // }
 
 public function registrar($data, $perfil = null) {
     /**
@@ -409,10 +412,7 @@ public function status($idUser=null){
 
   }
   public function registro_rapido($data=array()){
-
-    /**
-      * Reinica los valores por default del Usuario y limpia el id.
-      */
+    $this->begin();
     $this->create();
     /*parametros a enviar al correo*/
     $this->name_full=$data['Candidato']['candidato_nom'] ." ".
@@ -427,46 +427,43 @@ public function status($idUser=null){
         $db->showLog();
       */
     $data['CandidatoUsuario']['cc_password']=$this->password;
-    $data['CandidatoUsuario']['per_cve']="10";
-    $data['CandidatoUsuario']['cc_status']="-1";
+    $data['CandidatoUsuario']['per_cve']=10;
+    $data['CandidatoUsuario']['cc_status']=-1;
+    $data['Candidato']['candidato_fecnac'] = null;
+    $data['Candidato']['candidato_movil'] = null;
+    $data['Candidato']['edo_civil'] = null;      
+    $data['Candidato']['candidato_sex']=null;
+    $sucess=false;
+     if ($this->save($data['CandidatoUsuario'] ) ) 
+     {  
+          $this->Candidato->begin();
+          $this->Candidato->create();
+          $data['Candidato']['candidato_cve'] =$this->id;
+          if( $this->Candidato->save($data['Candidato'],false ) ){              
+            $is_save_test = ClassRegistry::init("EvaCan")->save(array(
+                "candidato_cve"=>$this->id,
+                "evaluacion_cve"=>2,
+                "cu_cve" => 1,
+                "evaluacion_status" =>0,
+                "evaluacion_fec" =>  date("Y-m-d ")
+                ) );
+            $sucess =  $is_save_test !==false;
+            $this->commit();
+            $this->Candidato->commit();
+     
+          }
+          else{
+              $this->rollback();
+              $this->Candidato->rollback();
 
-    $data['Candidato']['candidato_fecnac'] = "07/05/1985";
-    $data['Candidato']['candidato_movil'] = "0";
-    $data['Candidato']['edo_civil'] = 1;      
-    $data['Candidato']['candidato_sex']='M';
-
-   if ($this->save($data ) ) 
-   {
-        $this->Candidato->create();
-        $data['Candidato']['candidato_cve'] =$this->id;
-        if( $this->Candidato->save($data) ){
-           $data_save=array(
-            "EvaCan" =>array(
-              "candidato_cve"=>$this->id,
-              "evaluacion_cve"=>2,
-              "cu_cve" => 1,
-              "evaluacion_status" =>0,
-              "evaluacion_fec" =>  date("Y-m-d ")
-              ));
-          $this->Candidato->id=$this->id;
-          $this->Candidato->save(
-                        array(
-                          "candidato_sex"=>null,
-                          "candidato_movil" =>null,
-                          "edo_civil" =>null,
-                          "candidato_sex" =>null
-                          ),
-                        false
-            );
-
-          $this->logDataBase("Se registro nuevo candidato con id={$this->id} y correo {$this->email}");
-          return ClassRegistry::init("EvaCan")->save($data_save);
-        }
-       
-
-   }
-  
-   return false;
+          }        
+     }
+     else{
+        $this->rollback();  
+     }
+     $log_data=Debugger::exportVar( $this->getLog('return') ,10);
+     $this->logDataBase("Se registro nuevo candidato con id={$this->id} y correo {$this->email} \n  $log_data \n\n");    
+   return $sucess;
   }
 
 }

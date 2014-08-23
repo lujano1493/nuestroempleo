@@ -91,12 +91,15 @@ class ProductoReporte extends Reporte {
       "total" =>array(        
         'Membresia.membresia_cve ProductoReporte__id',
         'Membresia.membresia_nom ProductoReporte__membresia',
-        'COUNT(Membresia.membresia_cve) ProductoReporte__total'
+        'DECODE(Membresia.membresia_tipo,\'P\',\'Promoción\',\'\') ProductoReporte__tipo',
+        'COUNT(Membresia.membresia_cve) ProductoReporte__total',
+        'SUM(Membresia.costo) ProductoReporte__precio'
         ),
       "cuenta" =>  array(
           "CuentaSup.cu_cve  {$this->alias}__id",       
           "CuentaSup.cu_sesion  {$this->alias}__cuenta",
           "Contacto.con_nombre || ' '|| Contacto.con_paterno || ' '|| Contacto.con_materno {$this->alias}__nombre",
+          'SUM(Membresia.costo) ProductoReporte__precio',
           "count( Membresia.membresia_cve ) {$this->alias}__total"
         )
       );
@@ -104,7 +107,8 @@ class ProductoReporte extends Reporte {
     $this->groups=array(
       "total" => array(
         'Membresia.membresia_cve',
-        'Membresia.membresia_nom'
+        'Membresia.membresia_nom',
+        'DECODE(Membresia.membresia_tipo,\'P\',\'Promoción\',\'\')'
       ),
       'cuenta' =>array(
           "CuentaSup.cu_cve ",

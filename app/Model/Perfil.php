@@ -17,7 +17,17 @@ class Perfil extends AppModel {
 	 	*/
 	public $useTable = 'tperfil';
 
-  public function getProfile($userId, $ciaId, $perfilId) {
+  public $knows = array(
+    'UsuarioEmpresa'
+  );
+
+  public function getProfile($userId, $ciaId, $perfilId = null) {
+    if (!$perfilId) {
+      $perfilId = $this->UsuarioEmpresa->field('per_cve', array(
+        'UsuarioEmpresa.cu_cve' => $userId
+      ));
+    }
+
     $perfil = $this->find('first', array(
       'recursive' => -1,
       'fields' => array(

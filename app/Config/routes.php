@@ -23,7 +23,7 @@
  */
   App::uses('MicrositioRoute', 'Routing/Route');
 
-  Router::parseExtensions('json','pdf', 'xls');
+  Router::parseExtensions('json','pdf', 'xls', 'xml');
 
 /**
  * Here, we are connecting '/' (base path) to controller called 'Pages',
