@@ -19,39 +19,11 @@
       <?php echo __('Datos'); ?>
     </legend>
     <div class="row">
-      <div class="col-xs-6">
-        <?php
-          echo $this->Form->input('Soporte.usuario', array(
-            'class' => 'form-control input-sm input-block-level',
-            'label' => __('Nombre del Usuario'),
-          ));
-        ?>
-      </div>
-      <div class="col-xs-6">
-        <?php
-          echo $this->Form->input('Soporte.fecha', array(
-            'class' => 'form-control input-sm input-block-level',
-            'label' => __('Nombre del Puesto'),
-          ));
-        ?>
-      </div>
-    </div>
-    <div class="row">
       <div class="col-xs-12">
         <?php
-          echo $this->Form->input('Soporte.perfil', array(
+          echo $this->Form->input('Soporte.asunto', array(
             'class' => 'form-control input-sm input-block-level',
-            'label' => __('Perfil'),
-          ));
-        ?>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <?php
-          echo $this->Form->input('Soporte.ubicacion', array(
-            'class' => 'form-control input-sm input-block-level',
-            'label' => __('Ubicación'),
+            'label' => __('Asunto'),
           ));
         ?>
       </div>
@@ -64,7 +36,7 @@
     <div class="row">
       <div class="col-xs-12">
         <?php
-          echo $this->Form->input('Soporte.usuario', array(
+          echo $this->Form->input('Soporte.descripcion', array(
             'class' => 'form-control input-sm input-block-level',
             'label' => __('Descripción del Problema'),
             'type' => 'textarea'

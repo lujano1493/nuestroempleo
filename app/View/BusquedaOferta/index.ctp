@@ -1,5 +1,5 @@
 
-<?  
+<?php  
     $data_conditions= array();
 
     foreach ($param_query as $key => $value) {

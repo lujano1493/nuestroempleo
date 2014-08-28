@@ -206,3 +206,9 @@ CakeLog::config('paypal', array(
   'scopes' => array('paypal'),
   'file' => 'paypal',
 ));
+CakeLog::config('events', array(
+  'engine' => 'FileLog',
+  'types' => array('notice', 'info', 'debug', 'warning', 'error'),
+  'scopes' => array('events'),
+  'file' => 'events',
+));

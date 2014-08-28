@@ -233,10 +233,16 @@ class Acceso {
     }
 
     if (array_key_exists($action, $rules) || array_key_exists('*', $rules)) {
-      $roles = isset($rules['*']) ? $rules['*'] : $rules[$action];
-      is_string($roles) && ($roles = explode(' ', $roles));
+      /**
+       * Primero cargará las reglas de la acción, en caso contrario las reglas globales '*'.
+       */
+      $rolesInAction = isset($rules[$action]) ? $rules[$action] : (
+        isset($rules['*']) ? $rules['*'] : array()
+      );
 
-      $hasAccess = (in_array('*', $roles) || in_array(self::checkAdminRole(), $roles));
+      is_string($rolesInAction) && ($rolesInAction = explode(' ', $rolesInAction));
+
+      $hasAccess = (in_array('*', $rolesInAction) || in_array(self::checkAdminRole(), $rolesInAction));
     } else {
       /**
        * Por default, se tiene acceso a todas las acciones.

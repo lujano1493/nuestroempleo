@@ -12,6 +12,8 @@ class Timbrado {
 
   public $config = array();
 
+  protected $_proveedor = null;
+
   protected $_errors = array();
 
   protected $_configName = null;
@@ -25,7 +27,7 @@ class Timbrado {
     $this->Factura = ClassRegistry::init('Factura');
   }
 
-  public function init($config = 'default') {
+  public function initConfig($config = 'default') {
     $this->config = TimbradoConfig::get($config);
 
     $this->engine = new X509Cert(
@@ -41,13 +43,32 @@ class Timbrado {
     $this->proc = new XSLTProcessor;
     $this->proc->importStyleSheet($_xsl);
 
-    $this->soapClient = new SoapClient($this->config['wsdl'], array(
-      'encoding' => 'utf-8',
-      'trace' => true,
-      'cache_wsdl' => WSDL_CACHE_NONE
-    ));
+    if ($this->testService()) {
+      $this->soapClient = new SoapClient($this->config['wsdl'], array(
+        'encoding' => 'utf-8',
+        'trace' => true,
+        'cache_wsdl' => WSDL_CACHE_NONE
+      ));
+    } else {
+      $this->soapClient = false;
+    }
 
     $this->_configName = $config;
+  }
+
+  public function testService() {
+    $handle = curl_init($this->config['wsdl']);
+    curl_setopt($handle,  CURLOPT_RETURNTRANSFER, TRUE);
+    $response = curl_exec($handle);
+    $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+
+    if($httpCode == 404) {
+      /* You don't have a WSDL Service is down. exit the function */
+    }
+
+    curl_close($handle);
+
+    return (int)$httpCode === 200;
   }
 
   public function procesar($data, $config = 'default') {
@@ -56,7 +77,7 @@ class Timbrado {
      * se intente timbrar.
      */
     if ($this->_configName !== $config || empty($this->config)) {
-      $this->init($config);
+      $this->initConfig($config);
     }
 
     $numero_certificado = $this->config['no_cert'];
@@ -183,29 +204,33 @@ class Timbrado {
     $opts->idServicio = 5906390; //5652422; //5652500;
     $opts->xml = trim(preg_replace(array("/\n/", '/>\s+</'), array('', '><'), $xml));
 
-    $response = $this->soapClient->EmitirTimbrar($opts);
-    if (isset($response->return->isError) && (bool)$response->return->isError) {
-      // debug($opts->xml);die;
-      /**
-       * Ocurrió un error
-       */
-      $this->_errors[] = $response->return->message;
-    } elseif(isset($response->return->XML) && !empty($response->return->XML)) {
-      // $r = new stdClass;
-      // $r->uuid = $response->return->folioUDDI;
-      // $r->cadenaOriginalSAT = $response->return->cadenaOriginal;
-      // // $r->sello = $response->return->selloDigitalEmisor;
-      // $r->selloSAT = $response->return->selloDigitalTimbreSAT;
-      // $r->urlPDF = $response->return->rutaDescargaPDF;
-      // $r->urlXML = $response->return->rutaDescargaXML;
-      // $r->XML = $response->return->XML;
-      // $r->fechaTimbrado = $response->return->fechaHoraTimbrado;
+    if (!(bool)$this->soapClient) {
+      $this->_errors[] = __('El servidor SOAP no está disponible.');
+    } else {
+      $response = $this->soapClient->EmitirTimbrar($opts);
+      if (isset($response->return->isError) && (bool)$response->return->isError) {
+        // debug($opts->xml);die;
+        /**
+         * Ocurrió un error
+         */
+        $this->_errors[] = $response->return->message;
+      } elseif(isset($response->return->XML) && !empty($response->return->XML)) {
+        // $r = new stdClass;
+        // $r->uuid = $response->return->folioUDDI;
+        // $r->cadenaOriginalSAT = $response->return->cadenaOriginal;
+        // // $r->sello = $response->return->selloDigitalEmisor;
+        // $r->selloSAT = $response->return->selloDigitalTimbreSAT;
+        // $r->urlPDF = $response->return->rutaDescargaPDF;
+        // $r->urlXML = $response->return->rutaDescargaXML;
+        // $r->XML = $response->return->XML;
+        // $r->fechaTimbrado = $response->return->fechaHoraTimbrado;
 
-      $response->return->XML = trim(preg_replace(array("/\n/", '/>\s+</'), array('', '><'), $response->return->XML));
-      /**
-       * Respuesta exitosa
-       */
-      return $response->return;
+        $response->return->XML = trim(preg_replace(array("/\n/", '/>\s+</'), array('', '><'), $response->return->XML));
+        /**
+         * Respuesta exitosa
+         */
+        return $response->return;
+      }
     }
 
     return false;
@@ -213,7 +238,7 @@ class Timbrado {
 
   public function cancelar($folio, $config = 'default') {
     if ($this->_configName !== $config || empty($this->config)) {
-      $this->init($config);
+      $this->initConfig($config);
     }
 
     $factura = $this->Factura->find('first', array(
@@ -233,16 +258,21 @@ class Timbrado {
     $opts->contrasenia = $this->config['password'];
     $opts->UUID = $factura['Timbrado']['uuid'];
     $opts->keyEncode = $this->engine->getPrivateKey();
-    $response = $this->soapClient->Cancelar($opts);
-    if (isset($response->return->isError) && (bool)$response->return->isError) {
-      /**
-       * Ocurrió un error
-       */
-      $this->_errors[] = $response->return->message;
-    } elseif(isset($response->return->arrayFolios->arreglo) && !empty($response->return->arrayFolios->arreglo)) {
-      $obj = $response->return->arrayFolios->arreglo;
 
-      return $factura;
+    if (!(bool)$this->soapClient) {
+      $this->_errors[] = __('El servidor SOAP no está disponible.');
+    } else {
+      $response = $this->soapClient->Cancelar($opts);
+      if (isset($response->return->isError) && (bool)$response->return->isError) {
+        /**
+         * Ocurrió un error
+         */
+        $this->_errors[] = $response->return->message;
+      } elseif(isset($response->return->arrayFolios->arreglo) && !empty($response->return->arrayFolios->arreglo)) {
+        $obj = $response->return->arrayFolios->arreglo;
+
+        return $factura;
+      }
     }
 
     return false;
@@ -314,5 +344,16 @@ class Timbrado {
         )
       )
     );
+  }
+
+  public static function init() {
+    $className = Configure::read('p_timbrado') . 'Timbrado';
+
+    App::uses($className, 'Lib/CFDI');
+    if (!class_exists($className)) {
+      throw new CakeException(__d('cake_dev', 'CFDI class "%s" was not found.', $className));
+    }
+
+    return (new $className());
   }
 }

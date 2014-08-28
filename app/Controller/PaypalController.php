@@ -44,8 +44,24 @@ class PaypalController extends AppController {
       $this->log(__('Transacción desde Paypal válida: %s', $folio), 'paypal');
 
       $ciaId = $this->Factura->field('cia_cve', array(
-        'Factura.factura_folio' => $folio
+        'factura_folio' => $folio
       ));
+
+      $empresa = $this->Factura->Empresa->get($ciaId, 'basic_info');
+
+      if (!empty($empresa)) {
+        $this->Emailer->sendEmail(array(
+          'to' => 'ventas.ne@nuestroempleo.com.mx',
+          'bcc' => array(
+            'jmreynoso@igenter.com',
+            'flujano@igenter.com'
+          )
+        ), __('Paypal ha confirmado el pago de la factura %s.', $folio),
+          'admin/factura_pagada', array(
+            'factura' => $folio,
+            'empresa' => $empresa
+        ), 'admin');
+      }
 
       /**
        * Una vez que Paypal notifica el pago, automáticamente confirmamos la
@@ -53,21 +69,7 @@ class PaypalController extends AppController {
        * la factura.
        */
       if ($this->Factura->confirm($folio, $ciaId)) {
-        $empresa = $this->Factura->Empresa->get($ciaId, 'basic_info');
 
-        if (!empty($empresa)) {
-          $this->Emailer->sendEmail(array(
-            'to' => 'ventas.ne@nuestroempleo.com.mx',
-            'bbc' => array(
-              'jmreynoso@igenter.com',
-              'flujano@igenter.com'
-            )
-          ), __('Paypal ha confirmado el pago de la factura %s.', $folio),
-            'admin/factura_pagada', array(
-              'factura' => $folio,
-              'empresa' => $empresa
-          ), 'admin');
-        }
       }
 
       $this->log('QUERY ' . print_r($this->Factura->getLog('return'), true), 'paypal');

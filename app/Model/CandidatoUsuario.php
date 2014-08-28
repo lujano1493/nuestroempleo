@@ -240,7 +240,7 @@ public function registrar($data, $perfil = null) {
                   }
 
                   if($first[$this->name]['cc_status']==-2  ){
-                    return array("error","Cuenta bloqueada.");
+                    return array("error","Favor de verficar terminos y condiciones de Nuestro Empleo, si tienes dudas favor de contactarnos.");
                   }
                   else if($first[$this->name]['cc_status']=="-1") {
                      return array("warning","Tu cuenta no ha sido activada verifica tu correo.");

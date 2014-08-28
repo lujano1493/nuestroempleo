@@ -118,7 +118,7 @@
       <p>+ Género:                <?=$oferta['Catalogo']['genero']?> </p>
       <p>+ Estado Civil:          <?=$oferta['Catalogo']['edocivil']?>     </p>
 
-      <? if ( $Oferta['oferta_privada'] == "1" ) : ?>
+      <?php if ( $Oferta['oferta_privada'] == "1" ) : ?>
         <p>+ Oferta Privada</p>
       <?php  endif;?>
       <?php
@@ -135,11 +135,11 @@
       <p>+ Edad: <?=$rango_edad?></p>
       <p>+ Disponibilidad:    <?=$oferta['Catalogo']['disponibilidad']?>  </p>
 
-     <? if ( $Oferta['oferta_viajar'] ) : ?>
+     <?php if ( $Oferta['oferta_viajar'] ) : ?>
 
         <p>+ Disponibilidad para viajar</p>
       <?php  endif;?>
-     <? if ( $Oferta['oferta_residencia'] ) : ?>
+     <?php if ( $Oferta['oferta_residencia'] ) : ?>
         <p>+ Disponibilidad para cambiar de residencia</p>
       <?php  endif;?>
 
@@ -208,7 +208,7 @@
                   >
                 <img src="/img/premium_sello.png" style="margin-top: 50px">
               </div>
-            <? endif;?>
+            <?php endif;?>
     </div>
   </div>
 

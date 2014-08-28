@@ -72,9 +72,8 @@ class Perfil extends AppModel {
   }
 
 	public function lista($min = 1, $max = 100) {
-
     return $this->get(null, 'list', array(
-      'fields' => array('Perfil.per_cve', 'Perfil.per_nom'),
+      'fields' => array('Perfil.per_cve', 'Perfil.per_descrip'),
       'conditions' => array(
         'Perfil.per_cve <' => $max,
         'Perfil.per_cve >' => $min

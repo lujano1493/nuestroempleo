@@ -162,7 +162,7 @@
                 <?php echo $v['funciones']; ?>
               </p>
             </div>
-          <? } ?>
+          <?php } ?>
         <?php
           } else {
             echo __('Información no capturada');
@@ -222,7 +222,7 @@
           <ul class="list-unstyled">
             <?php foreach ($candidato['Habilidades'] as $k => $v) { ?>
               <li><?php echo $v['habilidad']; ?></li>
-            <? } ?>
+            <?php } ?>
           </ul>
         <?php
           } else {
@@ -252,7 +252,7 @@
               <li><strong><?php echo $v['instituto']; ?></strong></li>
               <li><?php echo $v['nivel_escolar']; ?></li>
             </ul>
-          <? } ?>
+          <?php } ?>
         <?php
           } else {
             echo __('Sin datos');

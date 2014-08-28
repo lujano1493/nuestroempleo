@@ -1,7 +1,6 @@
 <?php
-
-App::uses('AppModel', 'Model');
 App::uses('CakeEvent', 'Event');
+App::uses('CakeSession', 'Model/Datasource');
 App::uses('DenunciaListener', 'Event');
 
 class Denuncia extends AppModel {
@@ -210,32 +209,42 @@ class Denuncia extends AppModel {
       "$this->alias.$this->statusKey !=3" 
       ));
   }
-
    private function actualiza_status(){
-      if( !empty($this->data[$this->alias][$this->secondKey])){
-          $status=$this->find("all", array(
-          "conditions" => array(
-            "$this->alias.$this->secondKey" => $this->data[$this->alias][$this->secondKey],
-            "$this->alias.$this->statusKey != 3" 
-            ),
-            "fields" => array(
-              "$this->alias.$this->statusKey"
-            ),
-            "order" => array(              
-                  "$this->alias.$this->primaryKey asc"
-              )
-             ));        
-          if(!empty($status) && count($status) > 1){
-            $status_cve=$status[0][$this->alias][$this->statusKey];
-            $this->updateAll(array(
-                  $this->statusKey=> $status_cve
-                ),array(
-                  "$this->alias.$this->secondKey" => $this->data[$this->alias][$this->secondKey],
-                  "$this->alias.$this->statusKey != 3" 
-                ));        
-        }
+      $rs= $this->read()[$this->alias];
+      $status=$rs[$this->statusKey];
+      $second=$rs[$this->secondKey];
+      $this->updateAll(array(
+            $this->statusKey=> $status
+          ),array(
+            "$this->alias.$this->secondKey" =>$second
+        )
+      );    
 
-    }
+
+
+    //   if( !empty($this->data[$this->alias][$this->secondKey])){
+    //       $status=$this->find("all", array(
+    //       "conditions" => array(
+    //         "$this->alias.$this->secondKey" => $this->data[$this->alias][$this->secondKey],
+    //         "$this->alias.$this->statusKey != 3" 
+    //         ),
+    //         "fields" => array(
+    //           "$this->alias.$this->statusKey"
+    //         ),
+    //         "order" => array(              
+    //               "$this->alias.$this->primaryKey desc"
+    //           )
+    //          ));        
+    //       if(!empty($status) && count($status) > 1){
+    //         $status_cve=$status[0][$this->alias][$this->statusKey];
+    //         $this->updateAll(array(
+    //               $this->statusKey=> $status_cve
+    //             ),array(
+    //               "$this->alias.$this->secondKey" => $this->data[$this->alias][$this->secondKey]
+    //             ));        
+    //     }
+
+    // }
   }
   
 /**
@@ -277,8 +286,10 @@ class Denuncia extends AppModel {
    * @return [type]         [description]
    */
   public function change_status($status, $id = null) {  
+      $user = CakeSession::read('Auth.User');
       $this->updateAll(array(
-      "$this->alias.$this->statusKey" => $status
+      "$this->alias.$this->statusKey" => $status,
+      "$this->alias.cu_cve_rev" => $user['cu_cve'] 
       ), array(
             $this->secondKey=> $id
       ));   
@@ -315,11 +326,23 @@ class Denuncia extends AppModel {
         
       }
       
-
-
-
     }  else if($status== self::REVISION){
-        /*generamos notificacion*/
+
+          $data= $this->Candidato->find('first',array(
+                'conditions' => array(
+                "candidato_cve" => $id                
+                ),
+                'recursive' => -1,
+                'fields' => array(
+                      "Candidato.candidato_perfil Candidato__nombre"
+                  )
+                ) )['Candidato'];
+           $event = new CakeEvent('Model.Denuncia.revision',$this,array(
+              'tipo' => 'candidato',
+              'nombre' => $data['nombre'],
+              'id' => $id
+            ));
+          $this->getEventManager()->dispatch($event);
 
     }
 

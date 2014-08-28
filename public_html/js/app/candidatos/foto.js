@@ -18,7 +18,7 @@ $(document).on("click",".regresar",function (event){
 
 $("#actualizar_foto").on("hidden",function (){
   cargarFoto();
-   remove_file({async:true});
+   // remove_file({async:true});
 });
 
 
@@ -65,7 +65,7 @@ $("#actualizar_foto").on("hidden",function (){
                                                var $panel_foto=template_img(data.file_img);
                                                 $("#panel-foto").hide("fade",500,function (){       
                                                         destroy_jcrop();
-                                                        $(".delete_picture").prop("disabled",true);
+                                                        $(".delete_picture").prop("disabled",false);
                                                         $(this).append($panel_foto).find(".preview-pane").css("display","none");
                                                         $(this).show("fade",500);
                                                         $(".regresar").trigger("click");
@@ -169,7 +169,7 @@ function remove_file(callback){
      }
     callback.done=(callback.done==undefined)?function (){}:callback.done;
 
-     var  delete_url=$(".delete_picture").data("data").delete_url;
+     var  info=$(".delete_picture").data("data") ||{delete_url:'/Uploads/delete'} ,delete_url=info.delete_url;
 
     destroy_jcrop();
     $(".guardar_foto").prop("disabled",true);

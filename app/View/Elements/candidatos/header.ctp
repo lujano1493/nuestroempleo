@@ -96,7 +96,7 @@ if(!empty($page_corrent)){
     <div class="nav-collapse collapse">
 
 
-      <? foreach ($arr_menu_bar as  $value)  :?>
+      <?php foreach ($arr_menu_bar as  $value)  :?>
 
       <div class="span_header_2">
         <ul class="nav margen_menu">
@@ -110,7 +110,7 @@ if(!empty($page_corrent)){
         </ul>
         <div class="tabular menu_letra center">  <?=$value['text'] ?>   </div>
       </div>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 
 
   </div>

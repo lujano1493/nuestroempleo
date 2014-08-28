@@ -213,10 +213,47 @@ class MiEspacioController extends BaseEmpresasController {
     }*/
   }
 
+  public function admin_cambiar_contrasena($keycode) {
+    $this->loadModel('UsuarioAdmin');
+
+    if (!$this->UsuarioAdmin->verifyPassword($this->request->data['UsuarioAdmin']['old_password'], $this->Auth->user('cu_cve'))) {
+      $this->error(__('Tu contraseña actual es incorrecta.'));
+    } else if ($this->request->data['UsuarioAdmin']['new_password'] != $this->request->data['UsuarioAdmin']['confirm_password']) {
+      $this->error(__('Verifica que las contraseñas sean iguales.'));
+    } else {
+      if ($this->UsuarioAdmin->changePassword(
+        $this->request->data['UsuarioAdmin']['confirm_password'],
+        $this->Auth->user('cu_cve')
+      )) {
+        $this->success(__('Se ha cambiado tu contraseña con éxito.'));
+      }
+    }
+  }
+
   public function admin_mi_cuenta() {
     $title_for_layout = __('Mi Cuenta');
+    $this->loadModel('UsuarioAdmin');
+
+    if ($this->request->is('post') || $this->request->is('put')) {
+      if (array_key_exists('Usuario', $this->request->data)) {
+        $id = $this->Auth->user('cu_cve');
+        $this->request->data['Contacto'] = $this->request->data['Usuario'];
+        $this->request->data['Contacto']['cu_cve'] = $id;
+
+        if ($this->UsuarioAdmin->Contacto->save($this->request->data['Contacto'])) {
+          $this->Session->write('Auth.User.Datos', $this->request->data['Contacto']);
+          $this->success(__('Se han cambiado tus datos satisfactoriamente.'));
+        } else {
+          $this->error(__('Ha ocurrido un error al intentar guardar los datos.'));
+        }
+
+      }
+    }
+
+    $this->request->data['Usuario'] = $this->Auth->user('Datos');
 
     $this->set(compact('title_for_layout'));
+
   }
 
   public function micrositio() {

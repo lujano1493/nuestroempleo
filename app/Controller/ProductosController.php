@@ -28,6 +28,7 @@ class ProductosController extends AppController {
       $this->loadModel('Membresia');
       $data = $this->request->data;
       $data['Membresia']['per_cve'] = 100;
+      $data['Membresia']['membresia_tipo'] = 'N';
 
       if ($this->Membresia->saveAll($data)) {
         $this
@@ -66,7 +67,11 @@ class ProductosController extends AppController {
       if ($this->Membresia->editar($data, $id)) {
         $this
           ->success(__('Se cambió la membresía'))
-          ->redirect('referer');
+          ->redirect(array(
+            'controller' => 'productos',
+            'action' => 'index',
+            'admin' => true
+          ));
         return true;
       }
     }
@@ -84,5 +89,4 @@ class ProductosController extends AppController {
 
     $this->set(compact('title_for_layout', 'catalogos'));
   }
-
 }

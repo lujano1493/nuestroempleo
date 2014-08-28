@@ -11,7 +11,7 @@
       window.open("http://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(opt.url)+"&t="+opt.text+"", "", "toolbar=0, status=0, width=900, height=500");
     },
     twitter: function(opt){
-      window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(opt.text)+"&url="+encodeURIComponent( opt.url)+(opt.via !== '' ? '&via='+opt.via : ''), "", "toolbar=0, status=0, width=650, height=360");
+      window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(opt.text)+"&url="+encodeURIComponent( opt.url)+(opt.via ? '&via='+opt.via : ''), "", "toolbar=0, status=0, width=650, height=360");
     },
     linkedin: function(opt){
       window.open('https://www.linkedin.com/cws/share?url='+encodeURIComponent(opt.url)+'&token=&isFramed=true', 'linkedin', 'toolbar=no,width=550,height=550');

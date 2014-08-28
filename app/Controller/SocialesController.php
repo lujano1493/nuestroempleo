@@ -32,6 +32,11 @@ class SocialesController extends AppController {
   }
 
 
+  public function admin_index(){
+
+  }
+
+
   public function admin_ofertas(){
     $this->loadModel("Oferta");
     if($this->isAjax){

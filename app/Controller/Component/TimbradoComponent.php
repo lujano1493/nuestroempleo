@@ -16,7 +16,7 @@ class TimbradoComponent extends Component {
   public function __construct(ComponentCollection $collection, $settings = array()) {
     parent::__construct($collection, $settings);
 
-    $this->_timbrado = new Timbrado();
+    $this->_timbrado = Timbrado::init();
   }
 
   /**

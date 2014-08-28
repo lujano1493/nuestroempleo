@@ -6,6 +6,7 @@ App::uses('AuthComponent', 'Controller/Component');
 App::uses('Usuario', 'Utility');
 App::uses('Tiempito', 'Utility');
 App::uses('Notificacion', 'Model');
+App::uses('CakeLog', 'Log');
 
 abstract class BaseEventListener implements CakeEventListener {
 
@@ -77,7 +78,12 @@ abstract class BaseEventListener implements CakeEventListener {
       $notifier = Inflector::pluralize(Acceso::is());
     }
 
-    return $this->get($notifier)->send($event, $data);
+    $response = $this->get($notifier)->send($event, $data);
+
+    CakeLog::write(LOG_DEBUG, 'EVENT [' . $event . ']  NOTIFIER [' . $notifier . ']', 'events');
+    CakeLog::write(LOG_DEBUG, 'DATA [' . $response . '] ' . print_r($data, true), 'events');
+
+    return $response;
   }
 
   /**

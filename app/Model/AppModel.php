@@ -58,13 +58,13 @@ class AppModel extends Model {
    * @return [type] [description]
    */
   protected function getNextId() {
-
     $secuencia=substr($this->useTable, 1);
-    $results = $this->query( "select  s{$secuencia}.nextval from dual clave"   );
-
-    if(!empty($results)){
-      return $results[0][0]['clave'];
-    }
+    $db = ConnectionManager::getDataSource( $this->useDbConfig);
+    $status=$db->execute( "select  s{$secuencia}.nextval from dual clave" );
+    $result = $db->fetchRow();    
+    if( $status !==false  ){
+    return  $result[0]['clave'] ;  
+    }  
     $results = $this->find('first', array(
       'fields'=> 'nvl(max(' . $this->alias . '.' . $this->primaryKey . '),0) + 1 as clave',
       'recursive' => -1,

@@ -52,6 +52,8 @@
 
   Configure::write('paypal_allow_id', 'eGhjiYuererZ');
 
+  Configure::write('p_timbrado', 'FactureHoy'); // Valores disponibles ['Ekomercio', 'FactureHoy']
+
   Configure::write('dev_companies', array(
     'obey' => 54, // Obey
     'nuestroempleo' => 55, // Nuestro Empleo

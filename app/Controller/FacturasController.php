@@ -106,7 +106,7 @@ class FacturasController extends BaseEmpresasController {
   }
 
   public function admin_timbrar($folio) {
-    if (!isset($this->request->query['test'])) {
+    if (/*!isset($this->request->query['test'])*/ false) {
       $this
         ->warning(__('El servicio de timbrado aún no está disponible o está deshabilitado.'));
       return ;
@@ -116,7 +116,7 @@ class FacturasController extends BaseEmpresasController {
       return ;
     }
 
-    if ($this->Timbrado->timbrar($folio, 'igenter')) {
+    if ($this->Timbrado->timbrar($folio, 'test')) {
       $factura = $this->Factura->find('all_facturas', array(
         'conditions' => array(
           'Factura.factura_folio' => $folio
@@ -137,7 +137,11 @@ class FacturasController extends BaseEmpresasController {
   }
 
   public function admin_cancelar($folio) {
-    if (!$this->Factura->is('timbrado', $folio)) {
+    if (true) {
+      $this
+        ->warning(__('El servicio de cancelado aún no está disponible o está deshabilitado.'));
+      return ;
+    } elseif (!$this->Factura->is('timbrado', $folio)) {
       $this
         ->error(__('No puedes cancelar una factura que no está timbrada.'));
       return ;
@@ -172,7 +176,11 @@ class FacturasController extends BaseEmpresasController {
   }
 
   public function admin_devolucion($folio) {
-    if (!$this->Factura->is('timbrado', $folio)) {
+    if (true) {
+      $this
+        ->warning(__('El servicio de cancelado aún no está disponible o está deshabilitado.'));
+      return ;
+    } elseif (!$this->Factura->is('timbrado', $folio)) {
       $this
         ->error(__('No puedes cancelar una factura que no está timbrada.'));
       return ;

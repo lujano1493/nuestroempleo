@@ -111,8 +111,10 @@ class ProcesoMasivoComponent extends Component {
         $p_model->create();
         $p_model->save( $array_save );  
       }
+      else{
+          break;
+      }
       
-
     }
     if($flag_error){
       $p_model->rollback();
@@ -136,16 +138,16 @@ class ProcesoMasivoComponent extends Component {
       $this->controller->error(__("Error al procesar el archivo excel, intentelo más tarde."));
         return false;
     }
-
     //  Get worksheet dimensions
     $sheet = $objPHPExcel->getSheet(0); 
     $highestRow = $sheet->getHighestRow(); 
-    $highestColumn = $sheet->getHighestColumn();
+    $highestColumn =   PHPExcel_Cell::stringFromColumnIndex($layout['num_columns'] -1);   //$sheet->getHighestColumn();
     $txt_error="";
     $flag_error=false;
     $process=$layout['process'];
     $p_model=ClassRegistry::init($process['name_model']);
     $idProceso=$p_model->getIdProceso();
+    $p_model->begin();
     //  Loop through each row of the worksheet in turn
     for ($row = 1; $row <= $highestRow; $row++){ 
         //  Read a row of data into an array
@@ -153,15 +155,51 @@ class ProcesoMasivoComponent extends Component {
                                         NULL,
                                         TRUE,
                                         FALSE);
-        debug($rowData);
-        //  Insert row data array into your database of choice here
+        
+        if( empty($rowData ) || empty( $rowData[0] ) ){
+            $this->controller->error(__("Error en la linea [$row]"));
+            return false;
+        }
+        $rowData=$rowData[0]; 
+        $num=count( $rowData );
+        $flag_error=false;
+        $array_save=array("proceso_cve" => $idProceso);
+        $msg_error='';
+        foreach (  $rowData as $j => $value   ) {    
+          if(empty($value)){
+            $column=  PHPExcel_Cell::stringFromColumnIndex($j); 
+            $txt_error=__("Error en el renglon [{$row}{$column}] : Esta vacío." );
+            $flag_error=true;
+            break;
+          }
+
+          if( preg_match($layout['exp'][$j ],$value ) ){
+            $array_save[  $process['fields'][$j]  ]=$value;
+          }
+          else{
+            $column=  PHPExcel_Cell::stringFromColumnIndex($j); 
+            $txt_error=__("Error en el renglon [{$row}{$column}] :". $layout['msg_error'][ $j] ." ($value) " );
+            $flag_error=true;
+            break;
+          }
+        }            
+        if(!$flag_error){
+          $p_model->create();
+          $p_model->save( $array_save );  
+        }
+        else{
+          break;
+        }
     }
-
     unlink($path);
-
-    return false;
-
-
+    if($flag_error){
+      $p_model->rollback();
+      $this->controller->error($txt_error);
+    }
+    else{
+      $p_model->commit();
+    }
+    return $flag_error ? false: $idProceso;    
   }
   
 

@@ -23,10 +23,7 @@
               'label' => 'Tipo de Cuenta',
               'placeholder' => 'Perfil',
               'required' => true,
-              'options' => array(
-                2 => 'Administrador',
-                'Ventas'
-              )
+              'options' => $perfiles
             ));
           ?>
         </div>

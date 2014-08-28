@@ -26,9 +26,11 @@ class AccesoConfig {
   );
 
   public static $admin_roles = array(
-    'superadmin',
+    1 => 'superadmin',
     'admin',
-    'ventas'
+    'contenidos',
+    'tesoreria',
+    'ventas',
   );
 
   /**
@@ -79,11 +81,29 @@ class AccesoConfig {
 
   public static $admin_rules = array(
     'empresas' => array(
-      'admin_index' => '*',
-      'admin_convenios' => '*'
+      '*' => '*',
+      'admin_convenios' => 'superadmin admin contenidos ventas',
+    ),
+    'convenios' => array(
+      '*' => 'superadmin admin contenidos ventas',
+    ),
+    'cuentas' => array(
+      '*' => 'superadmin admin',
+    ),
+    'productos' => array(
+      '*' => 'superadmin admin',
+    ),
+    'facturas' => array(
+      '*' => 'superadmin admin tesoreria',
     ),
     'reportes' => array(
-      '*' => 'superadmin admin'
+      '*' => 'superadmin admin',
+    ),
+    'denuncias' => array(
+      '*' => 'superadmin admin contenidos ventas',
+    ),
+    'sociales' => array(
+      '*' => 'superadmin admin contenidos',
     )
   );
 }

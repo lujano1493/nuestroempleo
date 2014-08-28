@@ -1,6 +1,7 @@
 <?php
 App::uses('CakeEvent', 'Event');
 App::uses('DenunciaListener', 'Event');
+App::uses('CakeSession', 'Model/Datasource');
 class Reportar extends AppModel {
 
     /*
@@ -101,7 +102,8 @@ class Reportar extends AppModel {
   public function afterSave($created, $options = array()) {
     if ($created) {    
         $data= $this->find("reporte");
-        $event = new CakeEvent('Model.Reportar.created', $this,compact("data"));
+        $id=$this->id;
+        $event = new CakeEvent('Model.Reportar.created', $this,compact("data","id"));
         $this->getEventManager()->dispatch($event);      
         $this->actualiza_status();
         $idSecond=$this->data[$this->alias][$this->secondKey];
@@ -134,30 +136,39 @@ class Reportar extends AppModel {
       ));
   }
   private function actualiza_status(){
-      if( !empty($this->data[$this->alias][$this->secondKey])){
-          $status=$this->find("all", array(
-          "conditions" => array(
-            "$this->alias.$this->secondKey" => $this->data[$this->alias][$this->secondKey],
-            "$this->alias.$this->statusKey != 3" 
-            ),
-            "fields" => array(
-              "$this->alias.$this->statusKey"
-            ),
-            "order" => array(              
-                  "$this->alias.$this->primaryKey asc"
-              )
-             ));        
-          if(!empty($status) && count($status) > 1){
-            $status_cve=$status[0][$this->alias][$this->statusKey];
-            $this->updateAll(array(
-                  $this->statusKey=> $status_cve
-                ),array(              
-                  "$this->alias.$this->secondKey" => $this->data[$this->alias][$this->secondKey],
-                  "$this->alias.$this->statusKey != 3" 
-                ));        
-        }
 
-    }
+          $rs= $this->read()[$this->alias];
+          $status=$rs[$this->statusKey];
+          $second=$rs[$this->secondKey];
+          $this->updateAll(array(
+          $this->statusKey=> $status
+          ),array(
+          "$this->alias.$this->secondKey" =>$second
+          )
+          );   
+    //   if( !empty($this->data[$this->alias][$this->secondKey])){
+    //       $status=$this->find("all", array(
+    //       "conditions" => array(
+    //         "$this->alias.$this->secondKey" => $this->data[$this->alias][$this->secondKey],
+    //         "$this->alias.$this->statusKey != 3" 
+    //         ),
+    //         "fields" => array(
+    //           "$this->alias.$this->statusKey"
+    //         ),
+    //         "order" => array(              
+    //               "$this->alias.$this->primaryKey desc"
+    //           )
+    //          ));        
+    //       if(!empty($status) && count($status) > 1){
+    //         $status_cve=$status[0][$this->alias][$this->statusKey];
+    //         $this->updateAll(array(
+    //               $this->statusKey=> $status_cve
+    //             ),array(              
+    //               "$this->alias.$this->secondKey" => $this->data[$this->alias][$this->secondKey]
+    //             ));        
+    //     }
+
+    // }
   }
 
 
@@ -323,8 +334,10 @@ class Reportar extends AppModel {
    * @return [type]         [description]
    */
   public function change_status($status, $id = null) {  
+      $user = CakeSession::read('Auth.User');
      $this->updateAll(array(
-      "$this->alias.$this->statusKey" => $status
+      "$this->alias.$this->statusKey" => $status,
+      "$this->alias.cu_cve_rev" => $user['cu_cve'] 
       ), array(
             $this->secondKey=> $id
       ));   
@@ -372,8 +385,24 @@ class Reportar extends AppModel {
         $this->getEventManager()->dispatch($event);
         
       }
-    }  else if($status== self::REVISION){
-        /*generamos notificación para verificar*/
+    }  else if($status== self::REVISION){     
+     
+          $data= $this->Oferta->find('first',array(
+            'conditions' => array(
+                "oferta_cve" => $id,            
+            ),
+            'recursive' => -1,
+            'fields' => array(
+                  "Oferta.puesto_nom Oferta__nombre"
+              )
+          )
+             )['Oferta'];
+           $event = new CakeEvent('Model.Denuncia.revision',$this,array(
+              'tipo' => 'oferta',
+              'nombre' => $data['nombre'],
+              'id' => $id
+            ));
+          $this->getEventManager()->dispatch($event);
 
     }
 

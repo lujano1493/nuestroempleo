@@ -67,8 +67,9 @@ class CuentasController extends BaseEmpresasController {
     );
 
     $usuarios = $this->paginate('UsuarioAdmin');
+    $perfiles = ClassRegistry::init('Perfil')->lista($this->Auth->user('per_cve'));
 
-    $this->set(compact('title_for_layout' ,'usuarios'));
+    $this->set(compact('title_for_layout' ,'usuarios', 'perfiles'));
   }
 
   /**
@@ -164,7 +165,7 @@ class CuentasController extends BaseEmpresasController {
       }
     }
 
-    $perfiles = ClassRegistry::init('Perfil')->lista($this->Auth->user('per_cve'));
+    // $perfiles = ClassRegistry::init('Perfil')->lista($this->Auth->user('per_cve'));
 
     $this->set(compact('title_for_layout', 'perfiles'));
   }
@@ -190,8 +191,6 @@ class CuentasController extends BaseEmpresasController {
         $this->request->data = $usuario;
 
         $title_for_layout = __('Editar Cuenta');
-        $usuarios = $this->UsuarioAdmin->getAdmins($this->Auth->user('cu_cve'));
-        unset($usuarios[$id]);
         $new_password = $this->UsuarioAdmin->newPassword();
       } else {
         $data = $this->request->data;
@@ -225,7 +224,8 @@ class CuentasController extends BaseEmpresasController {
       $this->redirect('referer');
     }
 
-    $this->set(compact('title_for_layout', 'usuarios', 'new_password', 'userContent'));
+    $perfiles = ClassRegistry::init('Perfil')->lista($this->Auth->user('per_cve'));
+    $this->set(compact('title_for_layout', 'new_password', 'perfiles'));
   }
 
   public function admin_cambiar_contrasena($keycode) {

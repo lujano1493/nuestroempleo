@@ -106,7 +106,7 @@ class ProductosListener extends BaseEventListener {
   }
 
   protected function timbrar($folio) {
-    $_timbrado = new Timbrado();
+    $_timbrado = Timbrado::init();
 
     if ($_timbrado->timbrar($folio, 'igenter')) {
       // Éxito

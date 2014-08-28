@@ -19,7 +19,7 @@
                         <input id="fileupload" type="file" name="files[]" multiple="">
                     </span>
                   <button class="btn guardar_foto" disabled><i class="icon-thumbs-up-alt guardar_foto"  ></i>&nbsp;<span>Guardar</span></button>
-                  <button class="btn delete_picture" data-url="" disabled ><i class="icon-remove"  ></i>&nbsp;<span>Eliminar</span></button>
+                  <button class="btn delete_picture" data-url=""  ><i class="icon-remove"  ></i>&nbsp;<span>Eliminar</span></button>
                   <button class="btn regresar"><i class="icon-arrow-left" ></i>&nbsp;<span>Salir</span></button>
                  </div>       
                 <br>

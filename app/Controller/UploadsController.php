@@ -32,8 +32,19 @@ class UploadsController extends AppController {
   }
 
 	public function delete() {
-    $this->autoRender = false;
-    $this->Upload->upload();
+    $this->autoRender = false;    
+    if($this->request->query('file')){
+      $this->Upload->upload();
+    }
+    if( isset($this->user['candidato_cve'] )){
+       $id=$this->user['candidato_cve'];
+        $path=WWW_ROOT . "/documentos/candidatos/$id/foto.jpg";
+        if(file_exists(  $path )){
+          unlink($path);
+        }
+    }
+   
+
   }
 
   public function imageSave() {

@@ -213,6 +213,10 @@ class MisProductosController extends BaseEmpresasController {
       'membresia_tipo' => 'N'
     );
 
+    if (!$this->Acceso->isDevCompany()) {
+      $conditions['costo >'] = 100;
+    }
+
     /**
      * Si la compañia es convenio sólo se muestran las membresías.
      */

@@ -332,6 +332,14 @@ class Factura extends AppModel {
   public function confirm($folio, $empresaId, $userId = null) {
     $successAssigment = false;
 
+    $status = $this->field('factura_status', array(
+      'factura_folio' => $folio
+    ));
+
+    if ((int)$status >= 2) {
+      return false;
+    }
+
     /**
      * Si $userId es null, obtendrá el administrador de la compañia.
      */
@@ -414,6 +422,8 @@ class Factura extends AppModel {
         // $this->Auth->user('per_cve')
       );
 
+      $this->commit();
+
       $event = new CakeEvent('Model.Productos.servicios_activados', $this, array(
         'factura_folio' => $folio,
         'empresa' => $empresa,
@@ -429,7 +439,6 @@ class Factura extends AppModel {
 
       $this->getEventManager()->dispatch($event);
 
-      $this->commit();
       return true;
     } else {
       $this->rollback();

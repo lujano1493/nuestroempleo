@@ -49,7 +49,7 @@ class VerificaCuentaController extends AppController {
 						 	$idUser=$user['CandidatoUsuario']['candidato_cve'];
 
 						 	if($status == -2){
-						 			$this->error("Cuenta bloqueda.");
+						 			$this->error("Favor de verficar terminos y condiciones de Nuestro Empleo, si tienes dudas favor de contactarnos.");
 						 			$this->redirect("/");
 						 			return;
 						 	}

@@ -27,15 +27,18 @@ class TimbradoConfig {
       /**
        * URL del servicio Web.
        */
-      'wsdl' => 'http://66.225.192.223:8080/CFDI/WsEmisionTimbrado?wsdl', // Proveedor actual
+      // 'wsdl' => 'http://66.225.192.223:8080/CFDI/WsEmisionTimbrado?wsdl', // Proveedor actual
+      'wsdl' => 'http://wsprod1.facturehoy.com/CFDI/WsEmisionTimbrado?wsdl', // Proveedor actual
       /**
        * Usuario del servicio.
        */
-      'usuario' => 'AAA010101AAA.Test.User',
+      // 'usuario' => 'AAA010101AAA.Test.User',
+      'usuario' => 'AAA010101AAA.Certus.Facturehoy.Sistemas',
       /**
        * Password del servicio.
        */
-      'password' => 'Prueba$1',
+      // 'password' => 'Prueba$1',
+      'password' => 'Acceso$23',
     );
 
     $this->igenter = array(
@@ -93,7 +96,7 @@ class TimbradoConfig {
        */
       'emisorData' => array(
         '@nombre'         => 'EMPRESA DE PRUEBA',
-        '@rfc'            => 'AAAA010101AAA',
+        '@rfc'            => 'AAA010101AAA',
         'cfdi:DomicilioFiscal' => array(
           '@codigoPostal' => '37OO0',
           '@pais'         => 'MEXICO',
@@ -111,7 +114,7 @@ class TimbradoConfig {
       /**
        * Número de certificado.
        */
-      'no_cert' => '30001000000100000800',
+      'no_cert' => '20001000000100005867',
       /**
        * Ruta para la llave pública (CER)
        */

@@ -165,8 +165,10 @@ class PostulacionesCanController extends BaseCandidatoController {
         $oferta=$this->Oferta->find("oferta",array(
             "idOferta"=>$id
         ));       
-        $title_layout=$oferta['Oferta']['puesto_nom'];
-        $description_layout=$oferta['Oferta']['oferta_resumen'];
+        if(!empty($oferta)){
+            $title_layout=$oferta['Oferta']['puesto_nom'];
+            $description_layout=$oferta['Oferta']['oferta_resumen'];
+        }
         $this->set(compact("oferta","title_layout","description_layout","denuncia_previa"));
 
     }

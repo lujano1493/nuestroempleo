@@ -25,20 +25,20 @@
     ?>
 
 
-    <?  if($modulo != 'Portafolio' )  : ?>
+    <?php  if($modulo != 'Portafolio' )  : ?>
       <?=$this->element("candidatos/editar_foto") ?>
-    <? endif; ?>
+    <?php endif; ?>
    <div class="span3 datos_candidato" style="margin-left:10px;margin-right:10px">
 
             
            
        <div class="tabular center">
           <img class="foto-candidato" src="/img/candidatos/default.jpg" width="100" height="130">
-           <?  if($modulo != 'Portafolio' )  : ?>
+           <?php  if($modulo != 'Portafolio' )  : ?>
              <p><a  id="subefoto01" href="#" title="Tu fotografía debe  mostrar el rostro de frente, vestimenta apropiada para el puesto, una apariencia seria y responsable. Evita im&aacute;genes en reuniones sociales, desenfocadas y con exceso de maquillaje." data-component="tooltip" data-placement="bottom" class=" subir-foto">
               <span  >Subir fotograf&iacute;a</span>
             </a></p>
-          <? endif; ?> 
+          <?php endif; ?> 
         </div>
        <h3><?=$candidato['Candidato']['nombre_'] ?> </h3>
        <h3>  <?=$estado?>, <?=$ciudad ?> </h3>
